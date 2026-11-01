@@ -113,6 +113,12 @@ export function giaiThichKeHoach(hs: HoSoTinhToan, k: KeHoach): BuocGiaiThich[] 
     : ` Con số của bạn cao hơn mức sàn nên giữ nguyên: ${so(k.caloMucTieu)} kcal.`;
   buoc.push({ tieuDe: "5. Calo mục tiêu mỗi ngày", noiDung: noiDungMucTieu });
 
+  // Bệnh thận: không đưa con số đạm/béo/carb — lượng đạm cần bác sĩ chỉ định riêng
+  if (k.an_toan.anGoiYMacro) {
+    buoc.push({ tieuDe: "6. Chia theo nhóm chất", noiDung: LOI_DAM_BENH_THAN });
+    return buoc;
+  }
+
   // 6. Protein
   const coTheThao = hs.theThao !== null && hs.theThao.soBuoiMoiTuan > 0;
   const proteinGoc = PROTEIN_G_PER_KG[k.mucTieuApDung];
@@ -164,6 +170,9 @@ const LOI_TANG_1: Record<LyDoTang1, string> = {
 
 export const LOI_KHUYEN_CHUYEN_GIA =
   "Bạn nên trò chuyện thêm với bác sĩ hoặc chuyên gia dinh dưỡng để có lời khuyên phù hợp nhất với mình nhé.";
+
+export const LOI_DAM_BENH_THAN =
+  "Với bệnh thận, lượng đạm phù hợp nên do bác sĩ chỉ định riêng cho bạn, nên mình không đưa ra con số chia theo nhóm chất.";
 
 export const LOI_BMI_THAP_AN_GIAM_MO =
   "Cân nặng hiện tại của bạn đã ở mức thấp so với chiều cao, nên mình chưa gợi ý giảm mỡ.";

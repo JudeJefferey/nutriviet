@@ -36,6 +36,8 @@ export interface SafetyResult {
   tagLoai: string[]; // món có tag này sẽ bị loại
   tagUuTien: string[]; // món có tag này được ưu tiên
   canGhiChuBacSi: boolean;
+  /** Bệnh thận: lượng đạm cần bác sĩ chỉ định → app KHÔNG hiện gợi ý protein/macro */
+  anGoiYMacro: boolean;
 }
 
 const TAT_CA_MUC_TIEU: MucTieu[] = ["giam_mo", "tang_co", "duy_tri", "an_lanh_manh"];
@@ -88,6 +90,7 @@ export function getSafetyTier(input: SafetyInput, mucTieu?: MucTieu): SafetyResu
     tagUuTien,
     // Có bệnh nền (kể cả bệnh thận ở tầng 1) → luôn hiện ghi chú bác sĩ
     canGhiChuBacSi: tang2 || input.benhNen.length > 0,
+    anGoiYMacro: input.benhNen.includes("benh_than"),
   };
 }
 

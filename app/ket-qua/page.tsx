@@ -9,6 +9,7 @@ import { GhiChuDiUngAnNgoai } from "@/components/onboarding/CacBuoc";
 import { DangTai, HopGhiChu, KhungTrang, NutLienKet, ThanhTienDo } from "@/components/ui";
 import { DIEU_CHINH_CALO, GHI_CHU_BAC_SI } from "@/lib/config";
 import {
+  LOI_DAM_BENH_THAN,
   LOI_KHUYEN_CHUYEN_GIA,
   giaiThichKeHoach,
   giaiThichMucTieuCan,
@@ -99,13 +100,17 @@ function KetQua({ hoSo }: { hoSo: HoSo }) {
         <TheSo nhan="TDEE" moTa="Tổng năng lượng mỗi ngày" giaTri={k.tdee} />
       </section>
 
-      {/* Macro */}
-      <section className="rounded-2xl border border-gray-200 bg-white p-4">
-        <h2 className="mb-3 font-semibold text-gray-900">Chia theo nhóm chất</h2>
-        <DongMacro ten="Chất đạm (protein)" gam={k.macro.proteinG} kcal={k.macro.proteinKcal} tong={k.caloMucTieu} />
-        <DongMacro ten="Chất béo" gam={k.macro.fatG} kcal={k.macro.fatKcal} tong={k.caloMucTieu} />
-        <DongMacro ten="Tinh bột (carb)" gam={k.macro.carbG} kcal={k.macro.carbKcal} tong={k.caloMucTieu} />
-      </section>
+      {/* Macro — ẩn với bệnh thận (lượng đạm do bác sĩ chỉ định) */}
+      {k.an_toan.anGoiYMacro ? (
+        <HopGhiChu tieuDe="Chia theo nhóm chất">{LOI_DAM_BENH_THAN}</HopGhiChu>
+      ) : (
+        <section className="rounded-2xl border border-gray-200 bg-white p-4">
+          <h2 className="mb-3 font-semibold text-gray-900">Chia theo nhóm chất</h2>
+          <DongMacro ten="Chất đạm (protein)" gam={k.macro.proteinG} kcal={k.macro.proteinKcal} tong={k.caloMucTieu} />
+          <DongMacro ten="Chất béo" gam={k.macro.fatG} kcal={k.macro.fatKcal} tong={k.caloMucTieu} />
+          <DongMacro ten="Tinh bột (carb)" gam={k.macro.carbG} kcal={k.macro.carbKcal} tong={k.caloMucTieu} />
+        </section>
+      )}
 
       {gioiHan && (
         <section className="rounded-2xl border border-gray-200 bg-white p-4">

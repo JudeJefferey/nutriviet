@@ -68,6 +68,17 @@ describe("giaiThichKeHoach", () => {
   });
 });
 
+describe("giaiThichKeHoach — bệnh thận", () => {
+  it("không đưa con số protein/béo/carb, thay bằng lời nhắn bác sĩ chỉ định", () => {
+    const hs = { ...caA, benhNen: ["benh_than" as const] };
+    const buoc = giaiThichKeHoach(hs, tinhKeHoach(hs));
+    expect(buoc).toHaveLength(6);
+    const text = buoc.map((b) => b.noiDung).join("\n");
+    expect(text).toContain("lượng đạm phù hợp nên do bác sĩ chỉ định");
+    expect(text).not.toMatch(/g\/kg/);
+  });
+});
+
 describe("giaiThichTang1", () => {
   it("mỗi lý do có một câu giải thích", () => {
     const cau = giaiThichTang1(["duoi_18_tuoi", "benh_than"]);

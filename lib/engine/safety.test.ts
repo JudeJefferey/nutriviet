@@ -40,6 +40,12 @@ describe("getSafetyTier — tầng 1", () => {
     expect(r.tang1).toBe(true);
     expect(r.lyDoTang1).toContain("benh_than");
     expect(r.canGhiChuBacSi).toBe(true);
+    expect(r.anGoiYMacro).toBe(true); // không hiện gợi ý đạm
+  });
+
+  it("không có bệnh thận → vẫn hiện gợi ý macro", () => {
+    expect(getSafetyTier({ ...binhThuong, benhNen: ["tieu_duong"] }).anGoiYMacro).toBe(false);
+    expect(getSafetyTier(binhThuong).anGoiYMacro).toBe(false);
   });
 
   it("trả lời 'có' về vấn đề ăn uống → tầng 1", () => {
