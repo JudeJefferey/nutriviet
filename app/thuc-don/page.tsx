@@ -65,7 +65,7 @@ function ThucDon({ hoSo }: { hoSo: HoSo }) {
     .sort((a, b) => b[1] - a[1])[0]?.[0];
 
   return (
-    <KhungTrang>
+    <KhungTrang rong>
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Thực đơn 7 ngày</h1>
         <p className="mt-1 text-sm text-gray-600">
@@ -163,7 +163,7 @@ function ThucDon({ hoSo }: { hoSo: HoSo }) {
         </HopGhiChu>
       ) : (
         <>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-3 md:grid md:grid-cols-2">
             {ngay.bua.map((b, i) => {
               const mon = timMon(b.monId)!;
               return (

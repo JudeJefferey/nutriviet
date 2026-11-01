@@ -72,7 +72,7 @@ function KetQua({ hoSo }: { hoSo: HoSo }) {
         : null;
 
   return (
-    <KhungTrang>
+    <KhungTrang rong>
       <ThanhTienDo buoc={SO_BUOC_NHAP + 1} tong={SO_BUOC_NHAP + 1} />
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Kết quả của bạn</h1>
@@ -93,126 +93,141 @@ function KetQua({ hoSo }: { hoSo: HoSo }) {
         <HopGhiChu kieu="luu_y">{GHI_CHU_BAC_SI}</HopGhiChu>
       )}
 
-      {/* Calo mục tiêu */}
-      <section className="rounded-2xl bg-emerald-600 p-5 text-white">
-        <p className="text-sm opacity-90">Calo mục tiêu mỗi ngày</p>
-        <p className="text-4xl font-bold">
-          {so(k.caloMucTieu)} <span className="text-lg font-medium">kcal</span>
-        </p>
-        {k.daNangLenMucSan && (
-          <p className="mt-2 text-sm opacity-90">
-            Đã giữ ở mức sàn an toàn {so(k.mucSan)} kcal để cơ thể đủ năng
-            lượng.
-          </p>
-        )}
-      </section>
-
-      <section className="grid grid-cols-2 gap-3">
-        <TheSo nhan="BMR" moTa="Năng lượng lúc nghỉ" giaTri={k.bmr} />
-        <TheSo nhan="TDEE" moTa="Tổng năng lượng mỗi ngày" giaTri={k.tdee} />
-      </section>
-
-      {/* Macro — ẩn với bệnh thận (lượng đạm do bác sĩ chỉ định) */}
-      {k.an_toan.anGoiYMacro ? (
-        <HopGhiChu tieuDe="Chia theo nhóm chất">{LOI_DAM_BENH_THAN}</HopGhiChu>
-      ) : (
-        <section className="rounded-2xl border border-gray-200 bg-white p-4">
-          <h2 className="mb-3 font-semibold text-gray-900">
-            Chia theo nhóm chất
-          </h2>
-          <DongMacro
-            ten="Chất đạm (protein)"
-            gam={k.macro.proteinG}
-            kcal={k.macro.proteinKcal}
-            tong={k.caloMucTieu}
-          />
-          <DongMacro
-            ten="Chất béo"
-            gam={k.macro.fatG}
-            kcal={k.macro.fatKcal}
-            tong={k.caloMucTieu}
-          />
-          <DongMacro
-            ten="Tinh bột (carb)"
-            gam={k.macro.carbG}
-            kcal={k.macro.carbKcal}
-            tong={k.caloMucTieu}
-          />
-        </section>
-      )}
-
-      {gioiHan && (
-        <section className="rounded-2xl border border-gray-200 bg-white p-4">
-          <label htmlFor="tiLe" className="font-semibold text-gray-900">
-            {k.mucTieuApDung === "giam_mo" ? "Mức bớt calo" : "Mức thêm calo"}:{" "}
-            {so(Math.abs(k.tiLeDieuChinh) * 100, 1)}%
-          </label>
-          <input
-            id="tiLe"
-            type="range"
-            min={gioiHan.toiThieu}
-            max={gioiHan.toiDa}
-            step={0.01}
-            value={Math.abs(k.tiLeDieuChinh)}
-            onChange={(e) =>
-              luuHoSo({ ...hoSo, tiLeDieuChinh: Number(e.target.value) })
-            }
-            className="mt-2 w-full accent-emerald-600"
-          />
-          <div className="flex justify-between text-xs text-gray-500">
-            <span>{so(gioiHan.toiThieu * 100)}%</span>
-            <span>{so(gioiHan.toiDa * 100)}%</span>
-          </div>
-          <p className="mt-1 text-xs text-gray-500">
-            Bạn có thể chỉnh trong khoảng an toàn. Calo không bao giờ xuống dưới
-            mức sàn.
-          </p>
-        </section>
-      )}
-
-      {loiCanNang && kq?.soTuanDeXuat && (
-        <HopGhiChu kieu="luu_y" tieuDe="Về thời hạn của bạn">
-          <p>{loiCanNang}</p>
-          <button
-            type="button"
-            onClick={() => luuHoSo({ ...hoSo, soTuan: kq.soTuanDeXuat })}
-            className="mt-3 rounded-lg bg-white px-3 py-2 font-semibold text-amber-900 shadow-sm"
-          >
-            Dùng thời hạn {kq.soTuanDeXuat} tuần
-          </button>
-        </HopGhiChu>
-      )}
-
-      {hoSo.noiAn === "an_ngoai" && hoSo.diUng.length > 0 && (
-        <GhiChuDiUngAnNgoai />
-      )}
-
-      {/* Giải thích từng bước */}
-      <details className="rounded-2xl border border-gray-200 bg-white p-4">
-        <summary className="cursor-pointer font-semibold text-emerald-700">
-          Vì sao ra con số này?
-        </summary>
-        <ol className="mt-3 flex flex-col gap-3">
-          {buocGiaiThich.map((b) => (
-            <li key={b.tieuDe}>
-              <p className="font-medium text-gray-900">{b.tieuDe}</p>
-              <p className="text-sm leading-relaxed text-gray-700">
-                {b.noiDung}
+      {/* Máy tính: 2 cột — số liệu bên trái, giải thích bên phải */}
+      <div className="flex flex-col gap-5 md:grid md:grid-cols-2 md:items-start md:gap-6">
+        <div className="flex flex-col gap-5">
+          {/* Calo mục tiêu */}
+          <section className="rounded-2xl bg-emerald-600 p-5 text-white">
+            <p className="text-sm opacity-90">Calo mục tiêu mỗi ngày</p>
+            <p className="text-4xl font-bold">
+              {so(k.caloMucTieu)}{" "}
+              <span className="text-lg font-medium">kcal</span>
+            </p>
+            {k.daNangLenMucSan && (
+              <p className="mt-2 text-sm opacity-90">
+                Đã giữ ở mức sàn an toàn {so(k.mucSan)} kcal để cơ thể đủ năng
+                lượng.
               </p>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-3 text-xs text-gray-500">
-          Đây là ước lượng theo công thức phổ biến, mỗi người có thể chênh lệch
-          một chút.
-        </p>
-      </details>
+            )}
+          </section>
 
-      <div className="flex flex-col gap-2">
-        <NutLienKet href="/thuc-don">Xem thực đơn 7 ngày</NutLienKet>
-        <NutLienKet href="/onboarding" chinh={false}>
-          Sửa hồ sơ
-        </NutLienKet>
+          <section className="grid grid-cols-2 gap-3">
+            <TheSo nhan="BMR" moTa="Năng lượng lúc nghỉ" giaTri={k.bmr} />
+            <TheSo
+              nhan="TDEE"
+              moTa="Tổng năng lượng mỗi ngày"
+              giaTri={k.tdee}
+            />
+          </section>
+
+          {/* Macro — ẩn với bệnh thận (lượng đạm do bác sĩ chỉ định) */}
+          {k.an_toan.anGoiYMacro ? (
+            <HopGhiChu tieuDe="Chia theo nhóm chất">
+              {LOI_DAM_BENH_THAN}
+            </HopGhiChu>
+          ) : (
+            <section className="rounded-2xl border border-gray-200 bg-white p-4">
+              <h2 className="mb-3 font-semibold text-gray-900">
+                Chia theo nhóm chất
+              </h2>
+              <DongMacro
+                ten="Chất đạm (protein)"
+                gam={k.macro.proteinG}
+                kcal={k.macro.proteinKcal}
+                tong={k.caloMucTieu}
+              />
+              <DongMacro
+                ten="Chất béo"
+                gam={k.macro.fatG}
+                kcal={k.macro.fatKcal}
+                tong={k.caloMucTieu}
+              />
+              <DongMacro
+                ten="Tinh bột (carb)"
+                gam={k.macro.carbG}
+                kcal={k.macro.carbKcal}
+                tong={k.caloMucTieu}
+              />
+            </section>
+          )}
+
+          {gioiHan && (
+            <section className="rounded-2xl border border-gray-200 bg-white p-4">
+              <label htmlFor="tiLe" className="font-semibold text-gray-900">
+                {k.mucTieuApDung === "giam_mo"
+                  ? "Mức bớt calo"
+                  : "Mức thêm calo"}
+                : {so(Math.abs(k.tiLeDieuChinh) * 100, 1)}%
+              </label>
+              <input
+                id="tiLe"
+                type="range"
+                min={gioiHan.toiThieu}
+                max={gioiHan.toiDa}
+                step={0.01}
+                value={Math.abs(k.tiLeDieuChinh)}
+                onChange={(e) =>
+                  luuHoSo({ ...hoSo, tiLeDieuChinh: Number(e.target.value) })
+                }
+                className="mt-2 w-full accent-emerald-600"
+              />
+              <div className="flex justify-between text-xs text-gray-500">
+                <span>{so(gioiHan.toiThieu * 100)}%</span>
+                <span>{so(gioiHan.toiDa * 100)}%</span>
+              </div>
+              <p className="mt-1 text-xs text-gray-500">
+                Bạn có thể chỉnh trong khoảng an toàn. Calo không bao giờ xuống
+                dưới mức sàn.
+              </p>
+            </section>
+          )}
+
+          {loiCanNang && kq?.soTuanDeXuat && (
+            <HopGhiChu kieu="luu_y" tieuDe="Về thời hạn của bạn">
+              <p>{loiCanNang}</p>
+              <button
+                type="button"
+                onClick={() => luuHoSo({ ...hoSo, soTuan: kq.soTuanDeXuat })}
+                className="mt-3 rounded-lg bg-white px-3 py-2 font-semibold text-amber-900 shadow-sm"
+              >
+                Dùng thời hạn {kq.soTuanDeXuat} tuần
+              </button>
+            </HopGhiChu>
+          )}
+
+          {hoSo.noiAn === "an_ngoai" && hoSo.diUng.length > 0 && (
+            <GhiChuDiUngAnNgoai />
+          )}
+        </div>
+        <div className="flex flex-col gap-5">
+          {/* Giải thích từng bước */}
+          <details className="rounded-2xl border border-gray-200 bg-white p-4">
+            <summary className="cursor-pointer font-semibold text-emerald-700">
+              Vì sao ra con số này?
+            </summary>
+            <ol className="mt-3 flex flex-col gap-3">
+              {buocGiaiThich.map((b) => (
+                <li key={b.tieuDe}>
+                  <p className="font-medium text-gray-900">{b.tieuDe}</p>
+                  <p className="text-sm leading-relaxed text-gray-700">
+                    {b.noiDung}
+                  </p>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-3 text-xs text-gray-500">
+              Đây là ước lượng theo công thức phổ biến, mỗi người có thể chênh
+              lệch một chút.
+            </p>
+          </details>
+
+          <div className="flex flex-col gap-2">
+            <NutLienKet href="/thuc-don">Xem thực đơn 7 ngày</NutLienKet>
+            <NutLienKet href="/onboarding" chinh={false}>
+              Sửa hồ sơ
+            </NutLienKet>
+          </div>
+        </div>
       </div>
     </KhungTrang>
   );

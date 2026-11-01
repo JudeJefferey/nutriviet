@@ -15,7 +15,7 @@ export function ThanhDieuHuong() {
   if (duongDan === "/" || duongDan.startsWith("/onboarding")) return null;
   return (
     <nav className="fixed inset-x-0 bottom-0 z-10 border-t border-gray-200 bg-white/95 backdrop-blur">
-      <ul className="mx-auto flex max-w-md">
+      <ul className="mx-auto flex max-w-md md:max-w-4xl">
         {MUC.map((m) => {
           const dangO =
             duongDan.startsWith(m.href) ||

@@ -2,6 +2,7 @@
 /** Trang Hồ sơ: xem lại thông tin đã nhập, sửa lại và tính lại (SPEC mục 2). */
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { ChonHoSoMau } from "@/components/ChonHoSoMau";
 import { DangTai, KhungTrang, NutLienKet } from "@/components/ui";
 import { DANH_SACH_DI_UNG } from "@/lib/config";
 import { so } from "@/lib/engine/explain";
@@ -104,35 +105,38 @@ function NoiDungHoSo({ h }: { h: HoSo }) {
   ];
 
   return (
-    <KhungTrang>
+    <KhungTrang rong>
       <h1 className="text-2xl font-bold text-gray-900">Hồ sơ của bạn</h1>
       <p className="-mt-3 text-sm text-gray-600">
         Thông tin chỉ lưu trên máy của bạn.
       </p>
-      {nhom.map((n) => (
-        <section
-          key={n.tieuDe}
-          className="rounded-2xl border border-gray-200 bg-white p-4"
-        >
-          <h2 className="mb-2 font-semibold text-gray-900">{n.tieuDe}</h2>
-          <dl className="flex flex-col gap-1.5 text-sm">
-            {n.dong.map(([nhan, giaTri]) => (
-              <div key={nhan} className="flex justify-between gap-4">
-                <dt className="text-gray-500">{nhan}</dt>
-                <dd className="text-right font-medium text-gray-900">
-                  {giaTri}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-      ))}
+      <div className="flex flex-col gap-5 md:grid md:grid-cols-2 md:items-start">
+        {nhom.map((n) => (
+          <section
+            key={n.tieuDe}
+            className="rounded-2xl border border-gray-200 bg-white p-4"
+          >
+            <h2 className="mb-2 font-semibold text-gray-900">{n.tieuDe}</h2>
+            <dl className="flex flex-col gap-1.5 text-sm">
+              {n.dong.map(([nhan, giaTri]) => (
+                <div key={nhan} className="flex justify-between gap-4">
+                  <dt className="text-gray-500">{nhan}</dt>
+                  <dd className="text-right font-medium text-gray-900">
+                    {giaTri}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+      </div>
       <CongTacDonGian />
       <div className="flex flex-col gap-2">
         <NutLienKet href="/onboarding">Sửa hồ sơ và tính lại</NutLienKet>
         <NutLienKet href="/ket-qua" chinh={false}>
           Xem kết quả
         </NutLienKet>
+        <ChonHoSoMau coHoSo />
       </div>
     </KhungTrang>
   );

@@ -235,9 +235,21 @@ export function NutPhu({
   );
 }
 
-export function KhungTrang({ children }: { children: ReactNode }) {
+/**
+ * Khung trang: điện thoại là một cột hẹp (mobile-first).
+ * rong = true → trên máy tính (từ 768px) khung rộng hơn để chia 2 cột.
+ */
+export function KhungTrang({
+  children,
+  rong = false,
+}: {
+  children: ReactNode;
+  rong?: boolean;
+}) {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-5 px-4 pt-6 pb-24">
+    <main
+      className={`mx-auto flex w-full max-w-md flex-1 flex-col gap-5 px-4 pt-6 pb-24 ${rong ? "md:max-w-4xl md:px-8" : ""}`}
+    >
       {children}
     </main>
   );
