@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkWeightGoal } from "./weightGoal";
+import { calcCanToiThieu, checkWeightGoal } from "./weightGoal";
 
 describe("checkWeightGoal", () => {
   it("Ca D — 70 → 62kg trong 4 tuần: 2kg/tuần = 2.86% > 1% → đề xuất ⌈8 / 0.7⌉ = 12 tuần", () => {
@@ -19,6 +19,12 @@ describe("checkWeightGoal", () => {
     expect(r.trangThai).toBe("bmi_thap");
     expect(r.bmiMucTieu).toBeCloseTo(17.97, 2);
     expect(r.soTuanDeXuat).toBeNull();
+    // 18.5 × 1.6² = 47.36 → làm tròn lên 47.4 kg
+    expect(r.canToiThieuKg).toBe(47.4);
+  });
+
+  it("calcCanToiThieu — 170cm: 18.5 × 1.7² = 53.465 → 53.5 kg", () => {
+    expect(calcCanToiThieu(170)).toBe(53.5);
   });
 
   it("Ca F — 60 → 66kg trong 10 tuần: 0.6kg/tuần = 1% > 0.5% → đề xuất 6 / 0.3 = 20 tuần", () => {

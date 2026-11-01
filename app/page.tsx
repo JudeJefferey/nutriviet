@@ -1,11 +1,29 @@
-// Trang tạm cho Giai đoạn 1 — sẽ thay bằng onboarding ở Giai đoạn 2.
-export default function Home() {
+"use client";
+/** Trang chủ: chưa có hồ sơ → nút "Bắt đầu"; đã có hồ sơ → chuyển sang trang Kết quả. */
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { DangTai, KhungTrang, NutLienKet } from "@/components/ui";
+import { useHoSo } from "@/lib/useHoSo";
+
+export default function TrangChu() {
+  const { daTai, hoSo } = useHoSo();
+  const router = useRouter();
+  useEffect(() => {
+    if (daTai && hoSo) router.replace("/ket-qua");
+  }, [daTai, hoSo, router]);
+
+  if (!daTai || hoSo) return <DangTai />;
+
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-3 p-6 text-center">
-      <h1 className="text-3xl font-bold text-emerald-700">NutriViet</h1>
-      <p className="text-gray-600">
-        Ứng dụng đang được xây dựng. Phần tính toán (engine) đã sẵn sàng.
-      </p>
-    </main>
+    <KhungTrang>
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
+        <h1 className="text-4xl font-bold text-emerald-700">NutriViet</h1>
+        <p className="text-gray-600">
+          Thực đơn món Việt lành mạnh, vừa túi tiền sinh viên. Trả lời vài câu hỏi để mình tính lượng ăn phù hợp cho bạn.
+        </p>
+        <p className="text-xs text-gray-500">Mất khoảng 2 phút · Thông tin chỉ lưu trên máy của bạn</p>
+      </div>
+      <NutLienKet href="/onboarding">Bắt đầu</NutLienKet>
+    </KhungTrang>
   );
 }

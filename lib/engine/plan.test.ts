@@ -65,3 +65,18 @@ describe("tinhKeHoach — chạy trọn quy trình, số đã làm tròn", () =>
     expect(k.caloMucTieu).toBe(k.tdee);
   });
 });
+
+describe("tinhKeHoach — các số hiển thị khớp nhau khi cộng lại", () => {
+  it("protein + béo + carb (kcal) = calo mục tiêu, với nhiều hồ sơ", () => {
+    for (const kg of [45, 52.5, 65, 80.3, 110]) {
+      for (const mucTieu of ["giam_mo", "tang_co", "duy_tri"] as const) {
+        const k = tinhKeHoach({
+          ...coBan, tuoi: 25, gioiTinh: "nu", canNangKg: kg, chieuCaoCm: 163,
+          congViec: "dung_di_lai", theThao: { soBuoiMoiTuan: 2, phutMoiBuoi: 45, cuongDo: "nhe" },
+          mucTieu,
+        });
+        expect(k.macro.proteinKcal + k.macro.fatKcal + k.macro.carbKcal).toBe(k.caloMucTieu);
+      }
+    }
+  });
+});

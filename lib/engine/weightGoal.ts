@@ -18,6 +18,13 @@ export interface KetQuaMucTieuCan {
   tiLeMoiTuan: number | null; // tốc độ tính theo % cân nặng hiện tại (0.01 = 1%)
   tiLeToiDa: number; // ngưỡng cho phép
   soTuanDeXuat: number | null; // chỉ có khi "qua_nhanh"
+  canToiThieuKg: number | null; // cân nặng thấp nhất để BMI vẫn ≥ 18.5 (làm tròn lên 0.1 kg)
+}
+
+/** Cân nặng thấp nhất để BMI ≥ 18.5: 18.5 × (m)², làm tròn LÊN 0.1 kg cho chắc chắn đủ. */
+export function calcCanToiThieu(chieuCaoCm: number): number {
+  const m = chieuCaoCm / 100;
+  return Math.ceil(BMI_TOI_THIEU * m * m * 10 - EPSILON) / 10;
 }
 
 /**
@@ -45,6 +52,7 @@ export function checkWeightGoal(params: {
     tiLeMoiTuan: null,
     tiLeToiDa,
     soTuanDeXuat: null,
+    canToiThieuKg: null,
   };
 
   const soHopLe = [canHienTaiKg, canMucTieuKg, soTuan, chieuCaoCm].every(
@@ -61,7 +69,14 @@ export function checkWeightGoal(params: {
   const kgMoiTuan = kgCanDoi / soTuan;
   const tiLeMoiTuan = kgMoiTuan / canHienTaiKg;
 
-  const ketQua = { bmiMucTieu, kgMoiTuan, tiLeMoiTuan, tiLeToiDa, soTuanDeXuat: null };
+  const ketQua = {
+    bmiMucTieu,
+    kgMoiTuan,
+    tiLeMoiTuan,
+    tiLeToiDa,
+    soTuanDeXuat: null,
+    canToiThieuKg: calcCanToiThieu(chieuCaoCm),
+  };
 
   if (bmiMucTieu < BMI_TOI_THIEU) {
     return { ...ketQua, trangThai: "bmi_thap" };

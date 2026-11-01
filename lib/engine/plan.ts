@@ -4,6 +4,7 @@
  *
  * Thứ tự: an toàn → BMR → calo tập → TDEE → calo mục tiêu (mức sàn) → macro → kiểm tra cân mục tiêu.
  */
+import { KCAL_MOI_GAM } from "@/lib/config";
 import { calcBMI, calcBMR } from "./body";
 import { calcExerciseKcalPerDay, calcTargetCalories, calcTDEE } from "./energy";
 import { calcMacros } from "./macros";
@@ -36,7 +37,15 @@ export interface KeHoach {
   mucSan: number;
   daNangLenMucSan: boolean;
   tiLeDieuChinh: number;
-  macro: { proteinG: number; fatG: number; carbG: number; proteinGPerKg: number };
+  macro: {
+    proteinG: number;
+    fatG: number;
+    carbG: number;
+    proteinKcal: number;
+    fatKcal: number;
+    carbKcal: number;
+    proteinGPerKg: number;
+  };
   kiemTraCanNang: KetQuaMucTieuCan | null;
 }
 
@@ -59,14 +68,20 @@ export function tinhKeHoach(hs: HoSoTinhToan): KeHoach {
     tiLeTuyChon: hs.tiLeDieuChinh,
   });
 
-  // 6. Macro (tính trên số chưa làm tròn để chính xác)
+  // 6. Macro — tính trên calo mục tiêu ĐÃ LÀM TRÒN (số người dùng nhìn thấy),
+  //    và carb = phần còn lại sau khi trừ protein, béo đã làm tròn
+  //    → bấm máy tính lại các số hiển thị sẽ khớp nhau.
+  const caloMucTieu = Math.round(target.kcal);
   const coChoiTheThao = hs.theThao !== null && hs.theThao.soBuoiMoiTuan > 0;
   const m = calcMacros({
-    kcal: target.kcal,
+    kcal: caloMucTieu,
     canNangKg: hs.canNangKg,
     mucTieu: mucTieuApDung,
     coChoiTheThao,
   });
+  const proteinKcal = Math.round(m.proteinKcal);
+  const fatKcal = Math.round(m.fatKcal);
+  const carbKcal = Math.max(0, caloMucTieu - proteinKcal - fatKcal);
 
   // 7. Kiểm tra cân mục tiêu (chỉ khi giảm mỡ / tăng cơ còn được áp dụng)
   let kiemTraCanNang: KetQuaMucTieuCan | null = null;
@@ -88,15 +103,18 @@ export function tinhKeHoach(hs: HoSoTinhToan): KeHoach {
     bmr: Math.round(bmr),
     caloTap: Math.round(caloTap),
     tdee: Math.round(tdee),
-    caloMucTieu: Math.round(target.kcal),
+    caloMucTieu,
     caloTruocMucSan: Math.round(target.kcalTruocMucSan),
     mucSan: Math.round(target.mucSan),
     daNangLenMucSan: target.daNangLenMucSan,
     tiLeDieuChinh: target.tiLeDieuChinh,
     macro: {
       proteinG: Math.round(m.proteinG),
-      fatG: Math.round(m.fatG),
-      carbG: Math.round(m.carbG),
+      fatG: Math.round(fatKcal / KCAL_MOI_GAM.fat),
+      carbG: Math.round(carbKcal / KCAL_MOI_GAM.carb),
+      proteinKcal,
+      fatKcal,
+      carbKcal,
       proteinGPerKg: m.proteinGPerKg,
     },
     kiemTraCanNang,

@@ -100,3 +100,38 @@ export const LOC_THEO_BENH = {
 
 export const GHI_CHU_BAC_SI =
   "Đây là gợi ý chung, không thay thế chỉ định của bác sĩ.";
+
+// ─────────────────────────────────────────────
+// Onboarding (SPEC mục 2)
+// ─────────────────────────────────────────────
+
+// Danh sách dị ứng ở bước 5. Mã (ma) phải trùng với trường "allergens" trong data/dishes.json.
+// Gồm cả "allergen ẩn" hay có sẵn trong món Việt: nước mắm, mắm tôm, đậu phộng.
+export const DANH_SACH_DI_UNG = [
+  { ma: "dau_phong", ten: "Đậu phộng" },
+  { ma: "hai_san_vo", ten: "Tôm, cua (hải sản có vỏ)" },
+  { ma: "ca", ten: "Cá" },
+  { ma: "trung", ten: "Trứng" },
+  { ma: "sua", ten: "Sữa" },
+  { ma: "dau_nanh", ten: "Đậu nành" },
+  { ma: "gluten", ten: "Lúa mì (gluten)" },
+  { ma: "nuoc_mam", ten: "Nước mắm" },
+  { ma: "mam_tom", ten: "Mắm tôm" },
+] as const;
+
+// Giới hạn nhập liệu hợp lý — ngoài khoảng này app nhờ người dùng kiểm tra lại
+export const GIOI_HAN_NHAP = {
+  tuoi: { min: 13, max: 100 },
+  chieuCaoCm: { min: 120, max: 220 },
+  canNangKg: { min: 30, max: 250 },
+  soTuan: { min: 1, max: 104 }, // tối đa 2 năm
+  soBuoiMoiTuan: { min: 1, max: 14 },
+  phutMoiBuoi: { min: 10, max: 300 },
+  nganSachMoiBuaVnd: { min: 10000, max: 500000 },
+} as const;
+
+// Lựa chọn thời gian nấu tối đa (phút) ở bước 5
+export const THOI_GIAN_NAU_LUA_CHON = [15, 30, 60, 120] as const;
+
+// Ngân sách mặc định gợi ý mỗi bữa (VNĐ) — mức phổ biến của sinh viên
+export const NGAN_SACH_MAC_DINH_VND = 35000;
