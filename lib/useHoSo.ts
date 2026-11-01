@@ -5,7 +5,16 @@
  * - Trên trình duyệt → đọc dữ liệu và tự cập nhật mỗi khi dữ liệu được lưu lại.
  */
 import { useMemo, useSyncExternalStore } from "react";
-import { KHOA_HO_SO, docRaw, phanTichHoSo, theoDoiThayDoi } from "@/lib/storage";
+import {
+  KHOA_CAI_DAT,
+  KHOA_HO_SO,
+  KHOA_NHAT_KY,
+  docRaw,
+  phanTichCaiDat,
+  phanTichHoSo,
+  phanTichNhatKy,
+  theoDoiThayDoi,
+} from "@/lib/storage";
 
 const CHUA_TAI = "__chua_tai__";
 
@@ -25,4 +34,16 @@ export function useHoSo() {
     if (raw === undefined) return { daTai: false as const, hoSo: null };
     return { daTai: true as const, hoSo: phanTichHoSo(raw) };
   }, [raw]);
+}
+
+/** Nhật ký ăn uống (tự cập nhật khi ghi món, thêm nước...) */
+export function useNhatKy() {
+  const raw = useKhoa(KHOA_NHAT_KY);
+  return useMemo(() => phanTichNhatKy(raw ?? null), [raw]);
+}
+
+/** Cài đặt (chế độ Đơn giản) */
+export function useCaiDat() {
+  const raw = useKhoa(KHOA_CAI_DAT);
+  return useMemo(() => phanTichCaiDat(raw ?? null), [raw]);
 }

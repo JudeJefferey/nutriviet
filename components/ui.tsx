@@ -21,9 +21,18 @@ export function ThanhTienDo({ buoc, tong }: { buoc: number; tong: number }) {
   );
 }
 
-export function NhanO({ children, htmlFor }: { children: ReactNode; htmlFor?: string }) {
+export function NhanO({
+  children,
+  htmlFor,
+}: {
+  children: ReactNode;
+  htmlFor?: string;
+}) {
   return (
-    <label htmlFor={htmlFor} className="mb-2 block text-sm font-semibold text-gray-800">
+    <label
+      htmlFor={htmlFor}
+      className="mb-2 block text-sm font-semibold text-gray-800"
+    >
       {children}
     </label>
   );
@@ -47,7 +56,10 @@ export function ChonMot<T extends string | number | boolean>({
   cot?: 1 | 2;
 }) {
   return (
-    <div className={`grid gap-2 ${cot === 2 ? "grid-cols-2" : "grid-cols-1"}`} role="radiogroup">
+    <div
+      className={`grid gap-2 ${cot === 2 ? "grid-cols-2" : "grid-cols-1"}`}
+      role="radiogroup"
+    >
       {tuyChon.map((t) => {
         const dangChon = t.giaTri === giaTri;
         return (
@@ -64,7 +76,11 @@ export function ChonMot<T extends string | number | boolean>({
             }`}
           >
             <span className="font-medium">{t.nhan}</span>
-            {t.moTa && <span className="mt-0.5 block text-xs text-gray-500">{t.moTa}</span>}
+            {t.moTa && (
+              <span className="mt-0.5 block text-xs text-gray-500">
+                {t.moTa}
+              </span>
+            )}
           </button>
         );
       })}
@@ -95,7 +111,11 @@ export function ChonNhieu({
             role="checkbox"
             aria-checked={dangChon}
             onClick={() =>
-              onDoi(dangChon ? giaTri.filter((x) => x !== t.giaTri) : [...giaTri, t.giaTri])
+              onDoi(
+                dangChon
+                  ? giaTri.filter((x) => x !== t.giaTri)
+                  : [...giaTri, t.giaTri],
+              )
             }
             className={`flex items-center gap-2 rounded-xl border-2 px-3 py-3 text-left text-sm transition ${
               dangChon
@@ -105,7 +125,9 @@ export function ChonNhieu({
           >
             <span
               className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border text-xs ${
-                dangChon ? "border-emerald-500 bg-emerald-500 text-white" : "border-gray-300"
+                dangChon
+                  ? "border-emerald-500 bg-emerald-500 text-white"
+                  : "border-gray-300"
               }`}
               aria-hidden
             >
@@ -166,7 +188,9 @@ export function HopGhiChu({
       ? "border-amber-200 bg-amber-50 text-amber-900"
       : "border-sky-200 bg-sky-50 text-sky-900";
   return (
-    <div className={`rounded-xl border px-4 py-3 text-sm leading-relaxed ${mau}`}>
+    <div
+      className={`rounded-xl border px-4 py-3 text-sm leading-relaxed ${mau}`}
+    >
       {tieuDe && <p className="mb-1 font-semibold">{tieuDe}</p>}
       {children}
     </div>
@@ -193,7 +217,13 @@ export function NutChinh({
   );
 }
 
-export function NutPhu({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
+export function NutPhu({
+  children,
+  onClick,
+}: {
+  children: ReactNode;
+  onClick?: () => void;
+}) {
   return (
     <button
       type="button"
@@ -206,7 +236,11 @@ export function NutPhu({ children, onClick }: { children: ReactNode; onClick?: (
 }
 
 export function KhungTrang({ children }: { children: ReactNode }) {
-  return <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-5 px-4 pt-6 pb-24">{children}</main>;
+  return (
+    <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-5 px-4 pt-6 pb-24">
+      {children}
+    </main>
+  );
 }
 
 export function DangTai() {
@@ -231,7 +265,10 @@ export function NutLienKet({
     ? "bg-emerald-600 text-white active:bg-emerald-700"
     : "border-2 border-gray-200 bg-white text-gray-700 active:bg-gray-50";
   return (
-    <Link href={href} className={`block w-full rounded-xl px-4 py-3 text-center font-semibold ${kieu}`}>
+    <Link
+      href={href}
+      className={`block w-full rounded-xl px-4 py-3 text-center font-semibold ${kieu}`}
+    >
       {children}
     </Link>
   );

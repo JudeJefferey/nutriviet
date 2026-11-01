@@ -12,7 +12,11 @@ export function generateStaticParams() {
   return DANH_SACH_MON.map((m) => ({ id: m.id }));
 }
 
-export default async function TrangMon({ params }: { params: Promise<{ id: string }> }) {
+export default async function TrangMon({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   if (!timMon(id)) notFound();
   return (

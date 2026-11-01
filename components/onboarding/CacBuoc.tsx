@@ -8,7 +8,12 @@ import {
   GIOI_HAN_NHAP,
   THOI_GIAN_NAU_LUA_CHON,
 } from "@/lib/config";
-import { LOI_BMI_THAP_AN_GIAM_MO, LOI_KHUYEN_CHUYEN_GIA, giaiThichMucTieuCan, giaiThichTang1 } from "@/lib/engine/explain";
+import {
+  LOI_BMI_THAP_AN_GIAM_MO,
+  LOI_KHUYEN_CHUYEN_GIA,
+  giaiThichMucTieuCan,
+  giaiThichTang1,
+} from "@/lib/engine/explain";
 import type { BenhNen, MucTieu } from "@/lib/engine/types";
 import {
   NHAN_AN_CAN_BANG,
@@ -24,8 +29,21 @@ import {
   type CheDoAn,
   type NoiAn,
 } from "@/lib/labels";
-import { anToanTuDraft, docSo, kiemTraCanTuDraft, type Draft, type LoiBuoc } from "@/lib/profile";
-import { ChonMot, ChonNhieu, HopGhiChu, LoiNhac, NhanO, ONhapSo } from "@/components/ui";
+import {
+  anToanTuDraft,
+  docSo,
+  kiemTraCanTuDraft,
+  type Draft,
+  type LoiBuoc,
+} from "@/lib/profile";
+import {
+  ChonMot,
+  ChonNhieu,
+  HopGhiChu,
+  LoiNhac,
+  NhanO,
+  ONhapSo,
+} from "@/components/ui";
 import { TimMonKhongThich } from "./TimMon";
 
 export interface PropsBuoc {
@@ -50,7 +68,10 @@ function TieuDe({ tieuDe, moTa }: { tieuDe: string; moTa?: string }) {
 
 // ─────────────────────────── Bước 1 ───────────────────────────
 export function Buoc1({ d, sua, loi }: PropsBuoc) {
-  const benh = Object.entries(NHAN_BENH_NEN).map(([giaTri, nhan]) => ({ giaTri, nhan }));
+  const benh = Object.entries(NHAN_BENH_NEN).map(([giaTri, nhan]) => ({
+    giaTri,
+    nhan,
+  }));
   return (
     <>
       <TieuDe
@@ -59,12 +80,23 @@ export function Buoc1({ d, sua, loi }: PropsBuoc) {
       />
       <div>
         <NhanO htmlFor="tuoi">Bạn bao nhiêu tuổi?</NhanO>
-        <ONhapSo id="tuoi" giaTri={d.tuoi} onDoi={(v) => sua({ tuoi: v })} donVi="tuổi" placeholder="vd: 20" />
+        <ONhapSo
+          id="tuoi"
+          giaTri={d.tuoi}
+          onDoi={(v) => sua({ tuoi: v })}
+          donVi="tuổi"
+          placeholder="vd: 20"
+        />
         <LoiNhac>{loi.tuoi}</LoiNhac>
       </div>
       <div>
         <NhanO>Bạn đang mang thai hoặc cho con bú?</NhanO>
-        <ChonMot cot={2} tuyChon={CO_KHONG} giaTri={d.mangThaiChoConBu} onChon={(v) => sua({ mangThaiChoConBu: v })} />
+        <ChonMot
+          cot={2}
+          tuyChon={CO_KHONG}
+          giaTri={d.mangThaiChoConBu}
+          onChon={(v) => sua({ mangThaiChoConBu: v })}
+        />
         <LoiNhac>{loi.mangThaiChoConBu}</LoiNhac>
       </div>
       <div>
@@ -79,7 +111,12 @@ export function Buoc1({ d, sua, loi }: PropsBuoc) {
             cot={1}
             tuyChon={[{ giaTri: "khong_co", nhan: "Không có" }]}
             giaTri={d.khongCoBenh ? ["khong_co"] : []}
-            onDoi={(v) => sua({ khongCoBenh: v.length > 0, benhNen: v.length > 0 ? [] : d.benhNen })}
+            onDoi={(v) =>
+              sua({
+                khongCoBenh: v.length > 0,
+                benhNen: v.length > 0 ? [] : d.benhNen,
+              })
+            }
           />
         </div>
         <LoiNhac>{loi.benhNen}</LoiNhac>
@@ -87,10 +124,12 @@ export function Buoc1({ d, sua, loi }: PropsBuoc) {
       <div>
         <NhanO>Bạn có đang được theo dõi về vấn đề ăn uống không?</NhanO>
         <ChonMot
-          tuyChon={Object.entries(NHAN_VAN_DE_AN_UONG).map(([giaTri, nhan]) => ({
-            giaTri: giaTri as Draft["vanDeAnUong"] & string,
-            nhan,
-          }))}
+          tuyChon={Object.entries(NHAN_VAN_DE_AN_UONG).map(
+            ([giaTri, nhan]) => ({
+              giaTri: giaTri as Draft["vanDeAnUong"] & string,
+              nhan,
+            }),
+          )}
           giaTri={d.vanDeAnUong}
           onChon={(v) => sua({ vanDeAnUong: v })}
         />
@@ -104,7 +143,10 @@ export function Buoc1({ d, sua, loi }: PropsBuoc) {
 export function Buoc2({ d, sua, loi }: PropsBuoc) {
   return (
     <>
-      <TieuDe tieuDe="Về cơ thể của bạn" moTa="Dùng để tính năng lượng cơ thể cần mỗi ngày." />
+      <TieuDe
+        tieuDe="Về cơ thể của bạn"
+        moTa="Dùng để tính năng lượng cơ thể cần mỗi ngày."
+      />
       <div>
         <NhanO>Giới tính sinh học</NhanO>
         <ChonMot
@@ -116,17 +158,33 @@ export function Buoc2({ d, sua, loi }: PropsBuoc) {
           giaTri={d.gioiTinh}
           onChon={(v) => sua({ gioiTinh: v })}
         />
-        <p className="mt-1 text-xs text-gray-500">Công thức tính năng lượng khác nhau giữa nam và nữ.</p>
+        <p className="mt-1 text-xs text-gray-500">
+          Công thức tính năng lượng khác nhau giữa nam và nữ.
+        </p>
         <LoiNhac>{loi.gioiTinh}</LoiNhac>
       </div>
       <div>
         <NhanO htmlFor="cao">Chiều cao</NhanO>
-        <ONhapSo id="cao" giaTri={d.chieuCaoCm} onDoi={(v) => sua({ chieuCaoCm: v })} donVi="cm" placeholder="vd: 165" thapPhan />
+        <ONhapSo
+          id="cao"
+          giaTri={d.chieuCaoCm}
+          onDoi={(v) => sua({ chieuCaoCm: v })}
+          donVi="cm"
+          placeholder="vd: 165"
+          thapPhan
+        />
         <LoiNhac>{loi.chieuCaoCm}</LoiNhac>
       </div>
       <div>
         <NhanO htmlFor="can">Cân nặng</NhanO>
-        <ONhapSo id="can" giaTri={d.canNangKg} onDoi={(v) => sua({ canNangKg: v })} donVi="kg" placeholder="vd: 55" thapPhan />
+        <ONhapSo
+          id="can"
+          giaTri={d.canNangKg}
+          onDoi={(v) => sua({ canNangKg: v })}
+          donVi="kg"
+          placeholder="vd: 55"
+          thapPhan
+        />
         <LoiNhac>{loi.canNangKg}</LoiNhac>
       </div>
     </>
@@ -142,9 +200,21 @@ export function Buoc3({ d, sua, loi }: PropsBuoc) {
         <NhanO>Công việc / việc học hằng ngày của bạn</NhanO>
         <ChonMot
           tuyChon={[
-            { giaTri: "ngoi_nhieu" as const, nhan: NHAN_CONG_VIEC.ngoi_nhieu, moTa: "Học, làm văn phòng, ít đi lại" },
-            { giaTri: "dung_di_lai" as const, nhan: NHAN_CONG_VIEC.dung_di_lai, moTa: "Bán hàng, phục vụ, đi lại nhiều" },
-            { giaTri: "lao_dong_chan_tay" as const, nhan: NHAN_CONG_VIEC.lao_dong_chan_tay, moTa: "Bốc vác, xây dựng, việc nặng" },
+            {
+              giaTri: "ngoi_nhieu" as const,
+              nhan: NHAN_CONG_VIEC.ngoi_nhieu,
+              moTa: "Học, làm văn phòng, ít đi lại",
+            },
+            {
+              giaTri: "dung_di_lai" as const,
+              nhan: NHAN_CONG_VIEC.dung_di_lai,
+              moTa: "Bán hàng, phục vụ, đi lại nhiều",
+            },
+            {
+              giaTri: "lao_dong_chan_tay" as const,
+              nhan: NHAN_CONG_VIEC.lao_dong_chan_tay,
+              moTa: "Bốc vác, xây dựng, việc nặng",
+            },
           ]}
           giaTri={d.congViec}
           onChon={(v) => sua({ congViec: v })}
@@ -153,7 +223,12 @@ export function Buoc3({ d, sua, loi }: PropsBuoc) {
       </div>
       <div>
         <NhanO>Bạn có chơi thể thao thường xuyên không?</NhanO>
-        <ChonMot cot={2} tuyChon={CO_KHONG} giaTri={d.coTheThao} onChon={(v) => sua({ coTheThao: v })} />
+        <ChonMot
+          cot={2}
+          tuyChon={CO_KHONG}
+          giaTri={d.coTheThao}
+          onChon={(v) => sua({ coTheThao: v })}
+        />
         <LoiNhac>{loi.coTheThao}</LoiNhac>
       </div>
       {d.coTheThao && (
@@ -173,12 +248,22 @@ export function Buoc3({ d, sua, loi }: PropsBuoc) {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <NhanO htmlFor="buoi">Số buổi/tuần</NhanO>
-              <ONhapSo id="buoi" giaTri={d.soBuoiMoiTuan} onDoi={(v) => sua({ soBuoiMoiTuan: v })} placeholder="vd: 3" />
+              <ONhapSo
+                id="buoi"
+                giaTri={d.soBuoiMoiTuan}
+                onDoi={(v) => sua({ soBuoiMoiTuan: v })}
+                placeholder="vd: 3"
+              />
               <LoiNhac>{loi.soBuoiMoiTuan}</LoiNhac>
             </div>
             <div>
               <NhanO htmlFor="phut">Phút/buổi</NhanO>
-              <ONhapSo id="phut" giaTri={d.phutMoiBuoi} onDoi={(v) => sua({ phutMoiBuoi: v })} placeholder="vd: 60" />
+              <ONhapSo
+                id="phut"
+                giaTri={d.phutMoiBuoi}
+                onDoi={(v) => sua({ phutMoiBuoi: v })}
+                placeholder="vd: 60"
+              />
               <LoiNhac>{loi.phutMoiBuoi}</LoiNhac>
             </div>
           </div>
@@ -186,9 +271,21 @@ export function Buoc3({ d, sua, loi }: PropsBuoc) {
             <NhanO>Cường độ</NhanO>
             <ChonMot
               tuyChon={[
-                { giaTri: "nhe" as const, nhan: NHAN_CUONG_DO.nhe, moTa: "Vẫn nói chuyện thoải mái (đi bộ nhanh, yoga)" },
-                { giaTri: "vua" as const, nhan: NHAN_CUONG_DO.vua, moTa: "Thở nhanh, hơi khó nói (đá bóng phong trào, đạp xe)" },
-                { giaTri: "nang" as const, nhan: NHAN_CUONG_DO.nang, moTa: "Thở dốc, khó nói thành câu (chạy nhanh, HIIT)" },
+                {
+                  giaTri: "nhe" as const,
+                  nhan: NHAN_CUONG_DO.nhe,
+                  moTa: "Vẫn nói chuyện thoải mái (đi bộ nhanh, yoga)",
+                },
+                {
+                  giaTri: "vua" as const,
+                  nhan: NHAN_CUONG_DO.vua,
+                  moTa: "Thở nhanh, hơi khó nói (đá bóng phong trào, đạp xe)",
+                },
+                {
+                  giaTri: "nang" as const,
+                  nhan: NHAN_CUONG_DO.nang,
+                  moTa: "Thở dốc, khó nói thành câu (chạy nhanh, HIIT)",
+                },
               ]}
               giaTri={d.cuongDo}
               onChon={(v) => sua({ cuongDo: v })}
@@ -260,11 +357,22 @@ export function Buoc4({ d, sua, loi }: PropsBuoc) {
         <div className="grid grid-cols-2 gap-3">
           <div>
             <NhanO htmlFor="canMT">Cân mục tiêu</NhanO>
-            <ONhapSo id="canMT" giaTri={d.canMucTieuKg} onDoi={(v) => sua({ canMucTieuKg: v })} donVi="kg" thapPhan />
+            <ONhapSo
+              id="canMT"
+              giaTri={d.canMucTieuKg}
+              onDoi={(v) => sua({ canMucTieuKg: v })}
+              donVi="kg"
+              thapPhan
+            />
           </div>
           <div>
             <NhanO htmlFor="tuan">Trong vòng</NhanO>
-            <ONhapSo id="tuan" giaTri={d.soTuan} onDoi={(v) => sua({ soTuan: v })} donVi="tuần" />
+            <ONhapSo
+              id="tuan"
+              giaTri={d.soTuan}
+              onDoi={(v) => sua({ soTuan: v })}
+              donVi="tuần"
+            />
           </div>
           <div className="col-span-2 -mt-2">
             <LoiNhac>{loiMucTieuCan}</LoiNhac>
@@ -281,9 +389,14 @@ export function Buoc5({ d, sua, loi }: PropsBuoc) {
   const G = GIOI_HAN_NHAP.nganSachMoiBuaVnd;
   return (
     <>
-      <TieuDe tieuDe="Thói quen ăn uống" moTa="Để thực đơn hợp khẩu vị và túi tiền của bạn." />
+      <TieuDe
+        tieuDe="Thói quen ăn uống"
+        moTa="Để thực đơn hợp khẩu vị và túi tiền của bạn."
+      />
       <div>
-        <NhanO>Bạn bị dị ứng với gì không? (chọn nhiều, bỏ trống nếu không)</NhanO>
+        <NhanO>
+          Bạn bị dị ứng với gì không? (chọn nhiều, bỏ trống nếu không)
+        </NhanO>
         <ChonNhieu
           tuyChon={DANH_SACH_DI_UNG.map((x) => ({ giaTri: x.ma, nhan: x.ten }))}
           giaTri={d.diUng}
@@ -294,7 +407,10 @@ export function Buoc5({ d, sua, loi }: PropsBuoc) {
       <div>
         <NhanO>Chế độ ăn</NhanO>
         <ChonMot
-          tuyChon={(Object.keys(NHAN_CHE_DO_AN) as CheDoAn[]).map((k) => ({ giaTri: k, nhan: NHAN_CHE_DO_AN[k] }))}
+          tuyChon={(Object.keys(NHAN_CHE_DO_AN) as CheDoAn[]).map((k) => ({
+            giaTri: k,
+            nhan: NHAN_CHE_DO_AN[k],
+          }))}
           giaTri={d.cheDoAn}
           onChon={(v) => sua({ cheDoAn: v })}
         />
@@ -302,13 +418,22 @@ export function Buoc5({ d, sua, loi }: PropsBuoc) {
       </div>
       <div>
         <NhanO>Món bạn không thích</NhanO>
-        <TimMonKhongThich daChon={d.monKhongThich} onDoi={(v) => sua({ monKhongThich: v })} />
+        <TimMonKhongThich
+          daChon={d.monKhongThich}
+          onDoi={(v) => sua({ monKhongThich: v })}
+        />
       </div>
       <div>
         <NhanO htmlFor="tien">Ngân sách mỗi bữa</NhanO>
-        <ONhapSo id="tien" giaTri={d.nganSachMoiBuaVnd} onDoi={(v) => sua({ nganSachMoiBuaVnd: v })} donVi="đồng" />
+        <ONhapSo
+          id="tien"
+          giaTri={d.nganSachMoiBuaVnd}
+          onDoi={(v) => sua({ nganSachMoiBuaVnd: v })}
+          donVi="đồng"
+        />
         <p className="mt-1 text-xs text-gray-500">
-          Từ {G.min.toLocaleString("vi-VN")} đến {G.max.toLocaleString("vi-VN")} đồng
+          Từ {G.min.toLocaleString("vi-VN")} đến {G.max.toLocaleString("vi-VN")}{" "}
+          đồng
         </p>
         <LoiNhac>{loi.nganSachMoiBuaVnd}</LoiNhac>
       </div>
@@ -316,7 +441,10 @@ export function Buoc5({ d, sua, loi }: PropsBuoc) {
         <NhanO>Thời gian nấu tối đa mỗi bữa</NhanO>
         <ChonMot
           cot={2}
-          tuyChon={THOI_GIAN_NAU_LUA_CHON.map((p) => ({ giaTri: p as number, nhan: nhanThoiGianNau(p) }))}
+          tuyChon={THOI_GIAN_NAU_LUA_CHON.map((p) => ({
+            giaTri: p as number,
+            nhan: nhanThoiGianNau(p),
+          }))}
           giaTri={d.thoiGianNauToiDa}
           onChon={(v) => sua({ thoiGianNauToiDa: v })}
         />
@@ -328,7 +456,11 @@ export function Buoc5({ d, sua, loi }: PropsBuoc) {
           cot={2}
           tuyChon={[
             { giaTri: 3 as const, nhan: "3 bữa" },
-            { giaTri: 4 as const, nhan: "4 bữa", moTa: "3 bữa chính + 1 bữa phụ" },
+            {
+              giaTri: 4 as const,
+              nhan: "4 bữa",
+              moTa: "3 bữa chính + 1 bữa phụ",
+            },
           ]}
           giaTri={d.soBua}
           onChon={(v) => sua({ soBua: v })}
@@ -339,7 +471,10 @@ export function Buoc5({ d, sua, loi }: PropsBuoc) {
         <NhanO>Bạn thường ăn ở đâu?</NhanO>
         <ChonMot
           cot={2}
-          tuyChon={(Object.keys(NHAN_NOI_AN) as NoiAn[]).map((k) => ({ giaTri: k, nhan: NHAN_NOI_AN[k] }))}
+          tuyChon={(Object.keys(NHAN_NOI_AN) as NoiAn[]).map((k) => ({
+            giaTri: k,
+            nhan: NHAN_NOI_AN[k],
+          }))}
           giaTri={d.noiAn}
           onChon={(v) => sua({ noiAn: v })}
         />
@@ -353,7 +488,8 @@ export function Buoc5({ d, sua, loi }: PropsBuoc) {
 export function GhiChuDiUngAnNgoai() {
   return (
     <HopGhiChu kieu="luu_y">
-      Khi ăn ở ngoài, app không thể đảm bảo món ăn không bị lẫn chất gây dị ứng. Bạn nhớ hỏi kỹ người bán nhé.
+      Khi ăn ở ngoài, app không thể đảm bảo món ăn không bị lẫn chất gây dị ứng.
+      Bạn nhớ hỏi kỹ người bán nhé.
     </HopGhiChu>
   );
 }

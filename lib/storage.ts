@@ -3,13 +3,17 @@
  *
  * Có "đăng ký theo dõi" (subscribe) để các trang tự cập nhật khi hồ sơ thay đổi.
  */
+import { SO_LY_NUOC_TOI_DA } from "@/lib/config";
 import type { PhongCach, ThucDonTuan } from "@/lib/engine/menu";
+import type { MonDaAn, NhatKy, NhatKyNgay } from "@/lib/engine/tracking";
 import { timMon } from "@/lib/monAn";
 import { laHoSoHopLe, type HoSo } from "@/lib/profile";
 
 export const KHOA_HO_SO = "nutriviet.hoSo";
 export const KHOA_THUC_DON = "nutriviet.thucDon";
 export const KHOA_PHONG_CACH = "nutriviet.phongCach";
+export const KHOA_NHAT_KY = "nutriviet.nhatKy";
+export const KHOA_CAI_DAT = "nutriviet.caiDat";
 const SU_KIEN_THAY_DOI = "nutriviet:storage";
 
 /** Kho lưu trữ tối thiểu — trong trình duyệt là window.localStorage, trong test là bản giả. */
@@ -134,5 +138,86 @@ export function xoaThucDonPhongCach(hoSo: HoSo, phongCach: PhongCach, kho: KhoLu
 export function luuPhongCach(p: PhongCach, kho: KhoLuuTru | null = khoMacDinh()): void {
   if (!kho) return;
   kho.setItem(KHOA_PHONG_CACH, p);
+  baoThayDoi();
+}
+
+// ─────────────────────────────────────────────
+// Nhật ký ăn uống (Giai đoạn 4)
+// ─────────────────────────────────────────────
+function laMonDaAnHopLe(x: unknown): x is MonDaAn {
+  const m = x as MonDaAn;
+  return (
+    !!m &&
+    typeof m.id === "string" &&
+    typeof m.monId === "string" &&
+    ["it", "vua", "nhieu"].includes(m.khauPhan) &&
+    ["sang", "trua", "toi", "phu"].includes(m.bua) &&
+    typeof m.ngoaiKeHoach === "boolean" &&
+    !!m.dinhDuong &&
+    ["kcal", "protein", "carb", "fat"].every((k) => Number.isFinite(m.dinhDuong[k as "kcal"]))
+  );
+}
+
+/** Đọc nhật ký; ngày nào hỏng thì bỏ ngày đó, không làm sập app. */
+export function phanTichNhatKy(raw: string | null): NhatKy {
+  if (!raw) return {};
+  try {
+    const x = JSON.parse(raw) as Record<string, unknown>;
+    if (!x || typeof x !== "object") return {};
+    const kq: NhatKy = {};
+    for (const [ngay, v] of Object.entries(x)) {
+      const n = v as NhatKyNgay;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(ngay) || !n || !Array.isArray(n.mon)) continue;
+      kq[ngay] = {
+        mon: n.mon.filter(laMonDaAnHopLe),
+        nuoc: Number.isFinite(n.nuoc) ? Math.max(0, Math.min(SO_LY_NUOC_TOI_DA, n.nuoc)) : 0,
+      };
+    }
+    return kq;
+  } catch {
+    return {};
+  }
+}
+
+function suaNgay(ngay: string, sua: (n: NhatKyNgay) => NhatKyNgay, kho: KhoLuuTru | null) {
+  if (!kho) return;
+  const nk = phanTichNhatKy(kho.getItem(KHOA_NHAT_KY));
+  nk[ngay] = sua(nk[ngay] ?? { mon: [], nuoc: 0 });
+  kho.setItem(KHOA_NHAT_KY, JSON.stringify(nk));
+  baoThayDoi();
+}
+
+export function themMonDaAn(ngay: string, mon: MonDaAn, kho: KhoLuuTru | null = khoMacDinh()): void {
+  suaNgay(ngay, (n) => ({ ...n, mon: [...n.mon, mon] }), kho);
+}
+
+export function xoaMonDaAn(ngay: string, id: string, kho: KhoLuuTru | null = khoMacDinh()): void {
+  suaNgay(ngay, (n) => ({ ...n, mon: n.mon.filter((m) => m.id !== id) }), kho);
+}
+
+/** Thêm/bớt ly nước (không âm, không quá giới hạn) */
+export function doiNuoc(ngay: string, them: number, kho: KhoLuuTru | null = khoMacDinh()): void {
+  suaNgay(ngay, (n) => ({ ...n, nuoc: Math.max(0, Math.min(SO_LY_NUOC_TOI_DA, n.nuoc + them)) }), kho);
+}
+
+// ─────────────────────────────────────────────
+// Cài đặt (tách khỏi hồ sơ để bật/tắt không làm thực đơn bị tạo lại)
+// ─────────────────────────────────────────────
+export interface CaiDat {
+  cheDoDonGian: boolean; // ẩn số liệu, chỉ hiện "bữa tới nên ăn gì"
+}
+
+export function phanTichCaiDat(raw: string | null): CaiDat {
+  try {
+    const x = raw ? (JSON.parse(raw) as Partial<CaiDat>) : {};
+    return { cheDoDonGian: x?.cheDoDonGian === true };
+  } catch {
+    return { cheDoDonGian: false };
+  }
+}
+
+export function luuCaiDat(c: CaiDat, kho: KhoLuuTru | null = khoMacDinh()): void {
+  if (!kho) return;
+  kho.setItem(KHOA_CAI_DAT, JSON.stringify(c));
   baoThayDoi();
 }

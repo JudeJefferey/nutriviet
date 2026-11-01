@@ -5,8 +5,20 @@
  */
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Buoc1, Buoc2, Buoc3, Buoc4, Buoc5 } from "@/components/onboarding/CacBuoc";
-import { DangTai, KhungTrang, NutChinh, NutPhu, ThanhTienDo } from "@/components/ui";
+import {
+  Buoc1,
+  Buoc2,
+  Buoc3,
+  Buoc4,
+  Buoc5,
+} from "@/components/onboarding/CacBuoc";
+import {
+  DangTai,
+  KhungTrang,
+  NutChinh,
+  NutPhu,
+  ThanhTienDo,
+} from "@/components/ui";
 import {
   DRAFT_TRONG,
   SO_BUOC_NHAP,
@@ -34,10 +46,13 @@ export default function TrangOnboarding() {
 function FormOnboarding({ hoSoCu }: { hoSoCu: HoSo | null }) {
   const router = useRouter();
   const [buoc, setBuoc] = useState(1);
-  const [d, setD] = useState<Draft>(() => (hoSoCu ? hoSoThanhDraft(hoSoCu) : DRAFT_TRONG));
+  const [d, setD] = useState<Draft>(() =>
+    hoSoCu ? hoSoThanhDraft(hoSoCu) : DRAFT_TRONG,
+  );
   const [loi, setLoi] = useState<LoiBuoc>({});
 
-  const sua = (thayDoi: Partial<Draft>) => setD((cu) => ({ ...cu, ...thayDoi }));
+  const sua = (thayDoi: Partial<Draft>) =>
+    setD((cu) => ({ ...cu, ...thayDoi }));
 
   function chuyenBuoc(moi: number) {
     setLoi({});
@@ -105,8 +120,12 @@ function FormOnboarding({ hoSoCu }: { hoSoCu: HoSo | null }) {
       <NoiDung d={d} sua={sua} loi={loi} />
 
       <div className="mt-auto flex flex-col gap-2 pt-4">
-        <NutChinh onClick={tiep}>{buoc < SO_BUOC_NHAP ? "Tiếp" : "Xem kết quả"}</NutChinh>
-        {buoc > 1 && <NutPhu onClick={() => chuyenBuoc(buoc - 1)}>Quay lại</NutPhu>}
+        <NutChinh onClick={tiep}>
+          {buoc < SO_BUOC_NHAP ? "Tiếp" : "Xem kết quả"}
+        </NutChinh>
+        {buoc > 1 && (
+          <NutPhu onClick={() => chuyenBuoc(buoc - 1)}>Quay lại</NutPhu>
+        )}
       </div>
     </KhungTrang>
   );

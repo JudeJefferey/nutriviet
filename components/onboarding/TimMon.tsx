@@ -5,11 +5,7 @@
  */
 import { useState } from "react";
 import { DANH_SACH_MON as MON } from "@/lib/monAn";
-
-/** Bỏ dấu tiếng Việt để tìm "com tam" vẫn ra "Cơm tấm" */
-function boDau(s: string) {
-  return s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
-}
+import { boDau } from "@/lib/text";
 
 export function TimMonKhongThich({
   daChon,
@@ -23,7 +19,10 @@ export function TimMonKhongThich({
   const ketQua =
     tuKhoa.trim() === ""
       ? []
-      : MON.filter((m) => boDau(m.name).includes(boDau(tuKhoa)) && !daChon.includes(m.id)).slice(0, 6);
+      : MON.filter(
+          (m) =>
+            boDau(m.name).includes(boDau(tuKhoa)) && !daChon.includes(m.id),
+        ).slice(0, 6);
 
   return (
     <div className="flex flex-col gap-2">

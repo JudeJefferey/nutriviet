@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const MUC = [
+  { href: "/hom-nay", nhan: "Hôm nay", bieuTuong: "☀️" },
   { href: "/thuc-don", nhan: "Thực đơn", bieuTuong: "🍱" },
   { href: "/ket-qua", nhan: "Kết quả", bieuTuong: "📊" },
   { href: "/ho-so", nhan: "Hồ sơ", bieuTuong: "👤" },
@@ -16,7 +17,9 @@ export function ThanhDieuHuong() {
     <nav className="fixed inset-x-0 bottom-0 z-10 border-t border-gray-200 bg-white/95 backdrop-blur">
       <ul className="mx-auto flex max-w-md">
         {MUC.map((m) => {
-          const dangO = duongDan.startsWith(m.href) || (m.href === "/thuc-don" && duongDan.startsWith("/mon"));
+          const dangO =
+            duongDan.startsWith(m.href) ||
+            (m.href === "/thuc-don" && duongDan.startsWith("/mon"));
           return (
             <li key={m.href} className="flex-1">
               <Link

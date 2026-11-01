@@ -165,3 +165,17 @@ export const DIEM_CHON_MON = {
   thuongTagUuTien: 0.1, // tầng 2: món có tag ưu tiên (vd gi_thap với tiểu đường)
   thuongDungNoiAn: 0.03, // ưu tiên nhẹ món hợp thói quen ăn ngoài / nấu nhà
 } as const;
+
+// ─────────────────────────────────────────────
+// Theo dõi hằng ngày — trang "Hôm nay" (SPEC mục 4 "Theo dõi" và mục 7)
+// ─────────────────────────────────────────────
+export const MUC_TIEU_NUOC_LY = 8; // mục tiêu mặc định 8 ly nước/ngày
+export const SO_LY_NUOC_TOI_DA = 30; // chặn bấm nhầm quá nhiều
+
+// "Lỡ ăn rồi": phần calo dư (so với mục tiêu gốc) được chia đều cho mấy ngày tới
+export const SO_NGAY_CHIA_BU = 3;
+// Mỗi ngày giảm tối đa 10% mục tiêu, và không bao giờ xuống dưới mức sàn
+export const GIAM_BU_TOI_DA_MOI_NGAY = 0.1;
+
+// Luật quan tâm: bao nhiêu ngày liền (có ghi chép) dưới mức sàn thì hiện thông điệp quan tâm
+export const SO_NGAY_DUOI_SAN_CANH_BAO = 3;
