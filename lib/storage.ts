@@ -47,7 +47,10 @@ export function phanTichHoSo(raw: string | null): HoSo | null {
   }
 }
 
-export function luuHoSo(hoSo: HoSo, kho: KhoLuuTru | null = khoMacDinh()): void {
+export function luuHoSo(
+  hoSo: HoSo,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): void {
   if (!kho) return;
   kho.setItem(KHOA_HO_SO, JSON.stringify(hoSo));
   baoThayDoi();
@@ -60,7 +63,8 @@ export function xoaHoSo(kho: KhoLuuTru | null = khoMacDinh()): void {
 }
 
 function baoThayDoi() {
-  if (typeof window !== "undefined") window.dispatchEvent(new Event(SU_KIEN_THAY_DOI));
+  if (typeof window !== "undefined")
+    window.dispatchEvent(new Event(SU_KIEN_THAY_DOI));
 }
 
 /** Đăng ký nhận thông báo khi dữ liệu thay đổi (cùng tab hoặc tab khác). Trả về hàm hủy. */
@@ -75,7 +79,10 @@ export function theoDoiThayDoi(callback: () => void): () => void {
 }
 
 /** Đọc chuỗi thô của một khóa (dùng cho hook React để so sánh thay đổi). */
-export function docRaw(khoa: string, kho: KhoLuuTru | null = khoMacDinh()): string | null {
+export function docRaw(
+  khoa: string,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): string | null {
   return kho?.getItem(khoa) ?? null;
 }
 
@@ -93,11 +100,19 @@ function dauHoSo(h: HoSo): string {
   return JSON.stringify(h);
 }
 
-export function phanTichThucDonDaLuu(raw: string | null, hoSo: HoSo): ThucDonDaLuu | null {
+export function phanTichThucDonDaLuu(
+  raw: string | null,
+  hoSo: HoSo,
+): ThucDonDaLuu | null {
   if (!raw) return null;
   try {
     const x = JSON.parse(raw) as ThucDonDaLuu;
-    if (x?.phienBan !== 1 || x.dauHoSo !== dauHoSo(hoSo) || typeof x.theoPhongCach !== "object") return null;
+    if (
+      x?.phienBan !== 1 ||
+      x.dauHoSo !== dauHoSo(hoSo) ||
+      typeof x.theoPhongCach !== "object"
+    )
+      return null;
     return x;
   } catch {
     return null;
@@ -105,28 +120,45 @@ export function phanTichThucDonDaLuu(raw: string | null, hoSo: HoSo): ThucDonDaL
 }
 
 /** Thực đơn đã lưu (đã đổi món) của một phong cách — null nếu chưa có / hồ sơ đã đổi / dữ liệu hỏng. */
-export function layThucDonDaLuu(raw: string | null, hoSo: HoSo, phongCach: PhongCach): ThucDonTuan | null {
+export function layThucDonDaLuu(
+  raw: string | null,
+  hoSo: HoSo,
+  phongCach: PhongCach,
+): ThucDonTuan | null {
   const t = phanTichThucDonDaLuu(raw, hoSo)?.theoPhongCach[phongCach];
   if (!t || !Array.isArray(t.ngay) || t.ngay.length !== 7) return null;
   // Món phải còn trong database (phòng khi nhóm sửa dishes.json)
-  const conDuMon = t.ngay.every((n) => Array.isArray(n.bua) && n.bua.every((b) => timMon(b.monId)));
+  const conDuMon = t.ngay.every(
+    (n) => Array.isArray(n.bua) && n.bua.every((b) => timMon(b.monId)),
+  );
   return conDuMon ? t : null;
 }
 
-export function luuThucDon(hoSo: HoSo, thucDon: ThucDonTuan, kho: KhoLuuTru | null = khoMacDinh()): void {
+export function luuThucDon(
+  hoSo: HoSo,
+  thucDon: ThucDonTuan,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): void {
   if (!kho) return;
   const cu = phanTichThucDonDaLuu(kho.getItem(KHOA_THUC_DON), hoSo);
   const moi: ThucDonDaLuu = {
     phienBan: 1,
     dauHoSo: dauHoSo(hoSo),
-    theoPhongCach: { ...(cu?.theoPhongCach ?? {}), [thucDon.phongCach]: thucDon },
+    theoPhongCach: {
+      ...(cu?.theoPhongCach ?? {}),
+      [thucDon.phongCach]: thucDon,
+    },
   };
   kho.setItem(KHOA_THUC_DON, JSON.stringify(moi));
   baoThayDoi();
 }
 
 /** Bỏ các lần đổi món của một phong cách → quay về thực đơn gốc do thuật toán tạo. */
-export function xoaThucDonPhongCach(hoSo: HoSo, phongCach: PhongCach, kho: KhoLuuTru | null = khoMacDinh()): void {
+export function xoaThucDonPhongCach(
+  hoSo: HoSo,
+  phongCach: PhongCach,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): void {
   if (!kho) return;
   const cu = phanTichThucDonDaLuu(kho.getItem(KHOA_THUC_DON), hoSo);
   if (!cu) return;
@@ -135,7 +167,10 @@ export function xoaThucDonPhongCach(hoSo: HoSo, phongCach: PhongCach, kho: KhoLu
   baoThayDoi();
 }
 
-export function luuPhongCach(p: PhongCach, kho: KhoLuuTru | null = khoMacDinh()): void {
+export function luuPhongCach(
+  p: PhongCach,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): void {
   if (!kho) return;
   kho.setItem(KHOA_PHONG_CACH, p);
   baoThayDoi();
@@ -154,7 +189,9 @@ function laMonDaAnHopLe(x: unknown): x is MonDaAn {
     ["sang", "trua", "toi", "phu"].includes(m.bua) &&
     typeof m.ngoaiKeHoach === "boolean" &&
     !!m.dinhDuong &&
-    ["kcal", "protein", "carb", "fat"].every((k) => Number.isFinite(m.dinhDuong[k as "kcal"]))
+    ["kcal", "protein", "carb", "fat"].every((k) =>
+      Number.isFinite(m.dinhDuong[k as "kcal"]),
+    )
   );
 }
 
@@ -167,10 +204,13 @@ export function phanTichNhatKy(raw: string | null): NhatKy {
     const kq: NhatKy = {};
     for (const [ngay, v] of Object.entries(x)) {
       const n = v as NhatKyNgay;
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(ngay) || !n || !Array.isArray(n.mon)) continue;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(ngay) || !n || !Array.isArray(n.mon))
+        continue;
       kq[ngay] = {
         mon: n.mon.filter(laMonDaAnHopLe),
-        nuoc: Number.isFinite(n.nuoc) ? Math.max(0, Math.min(SO_LY_NUOC_TOI_DA, n.nuoc)) : 0,
+        nuoc: Number.isFinite(n.nuoc)
+          ? Math.max(0, Math.min(SO_LY_NUOC_TOI_DA, n.nuoc))
+          : 0,
       };
     }
     return kq;
@@ -179,7 +219,11 @@ export function phanTichNhatKy(raw: string | null): NhatKy {
   }
 }
 
-function suaNgay(ngay: string, sua: (n: NhatKyNgay) => NhatKyNgay, kho: KhoLuuTru | null) {
+function suaNgay(
+  ngay: string,
+  sua: (n: NhatKyNgay) => NhatKyNgay,
+  kho: KhoLuuTru | null,
+) {
   if (!kho) return;
   const nk = phanTichNhatKy(kho.getItem(KHOA_NHAT_KY));
   nk[ngay] = sua(nk[ngay] ?? { mon: [], nuoc: 0 });
@@ -187,17 +231,36 @@ function suaNgay(ngay: string, sua: (n: NhatKyNgay) => NhatKyNgay, kho: KhoLuuTr
   baoThayDoi();
 }
 
-export function themMonDaAn(ngay: string, mon: MonDaAn, kho: KhoLuuTru | null = khoMacDinh()): void {
+export function themMonDaAn(
+  ngay: string,
+  mon: MonDaAn,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): void {
   suaNgay(ngay, (n) => ({ ...n, mon: [...n.mon, mon] }), kho);
 }
 
-export function xoaMonDaAn(ngay: string, id: string, kho: KhoLuuTru | null = khoMacDinh()): void {
+export function xoaMonDaAn(
+  ngay: string,
+  id: string,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): void {
   suaNgay(ngay, (n) => ({ ...n, mon: n.mon.filter((m) => m.id !== id) }), kho);
 }
 
 /** Thêm/bớt ly nước (không âm, không quá giới hạn) */
-export function doiNuoc(ngay: string, them: number, kho: KhoLuuTru | null = khoMacDinh()): void {
-  suaNgay(ngay, (n) => ({ ...n, nuoc: Math.max(0, Math.min(SO_LY_NUOC_TOI_DA, n.nuoc + them)) }), kho);
+export function doiNuoc(
+  ngay: string,
+  them: number,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): void {
+  suaNgay(
+    ngay,
+    (n) => ({
+      ...n,
+      nuoc: Math.max(0, Math.min(SO_LY_NUOC_TOI_DA, n.nuoc + them)),
+    }),
+    kho,
+  );
 }
 
 // ─────────────────────────────────────────────
@@ -216,7 +279,10 @@ export function phanTichCaiDat(raw: string | null): CaiDat {
   }
 }
 
-export function luuCaiDat(c: CaiDat, kho: KhoLuuTru | null = khoMacDinh()): void {
+export function luuCaiDat(
+  c: CaiDat,
+  kho: KhoLuuTru | null = khoMacDinh(),
+): void {
   if (!kho) return;
   kho.setItem(KHOA_CAI_DAT, JSON.stringify(c));
   baoThayDoi();

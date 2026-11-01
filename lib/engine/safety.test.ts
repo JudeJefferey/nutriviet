@@ -15,7 +15,12 @@ describe("getSafetyTier — tầng 1", () => {
   it("hồ sơ bình thường → không thuộc tầng 1, được chọn mọi mục tiêu", () => {
     const r = getSafetyTier(binhThuong, "giam_mo");
     expect(r.tang1).toBe(false);
-    expect(r.mucTieuDuocChon).toEqual(["giam_mo", "tang_co", "duy_tri", "an_lanh_manh"]);
+    expect(r.mucTieuDuocChon).toEqual([
+      "giam_mo",
+      "tang_co",
+      "duy_tri",
+      "an_lanh_manh",
+    ]);
     expect(r.canGhiChuBacSi).toBe(false);
   });
 
@@ -44,16 +49,23 @@ describe("getSafetyTier — tầng 1", () => {
   });
 
   it("không có bệnh thận → vẫn hiện gợi ý macro", () => {
-    expect(getSafetyTier({ ...binhThuong, benhNen: ["tieu_duong"] }).anGoiYMacro).toBe(false);
+    expect(
+      getSafetyTier({ ...binhThuong, benhNen: ["tieu_duong"] }).anGoiYMacro,
+    ).toBe(false);
     expect(getSafetyTier(binhThuong).anGoiYMacro).toBe(false);
   });
 
   it("trả lời 'có' về vấn đề ăn uống → tầng 1", () => {
-    expect(getSafetyTier({ ...binhThuong, vanDeAnUong: "co" }).tang1).toBe(true);
+    expect(getSafetyTier({ ...binhThuong, vanDeAnUong: "co" }).tang1).toBe(
+      true,
+    );
   });
 
   it("'không muốn trả lời' → cũng tầng 1 (phương án an toàn hơn)", () => {
-    const r = getSafetyTier({ ...binhThuong, vanDeAnUong: "khong_muon_tra_loi" });
+    const r = getSafetyTier({
+      ...binhThuong,
+      vanDeAnUong: "khong_muon_tra_loi",
+    });
     expect(r.tang1).toBe(true);
     expect(r.lyDoTang1).toContain("van_de_an_uong");
   });
@@ -74,8 +86,17 @@ describe("getSafetyTier — tầng 1", () => {
   });
 
   it("nhiều lý do cùng lúc được liệt kê đủ", () => {
-    const r = getSafetyTier({ ...binhThuong, tuoi: 16, mangThaiChoConBu: true, vanDeAnUong: "co" });
-    expect(r.lyDoTang1).toEqual(["duoi_18_tuoi", "mang_thai_cho_con_bu", "van_de_an_uong"]);
+    const r = getSafetyTier({
+      ...binhThuong,
+      tuoi: 16,
+      mangThaiChoConBu: true,
+      vanDeAnUong: "co",
+    });
+    expect(r.lyDoTang1).toEqual([
+      "duoi_18_tuoi",
+      "mang_thai_cho_con_bu",
+      "van_de_an_uong",
+    ]);
   });
 
   it("tuổi không hợp lệ → coi như tầng 1 (an toàn hơn)", () => {
@@ -94,13 +115,19 @@ describe("getSafetyTier — tầng 2", () => {
   });
 
   it("gout + huyết áp cao → loại nhieu_purine và nhieu_muoi", () => {
-    const r = getSafetyTier({ ...binhThuong, benhNen: ["gout", "huyet_ap_cao"] });
+    const r = getSafetyTier({
+      ...binhThuong,
+      benhNen: ["gout", "huyet_ap_cao"],
+    });
     expect(r.tagLoai).toEqual(["nhieu_purine", "nhieu_muoi"]);
     expect(r.tagUuTien).toEqual([]);
   });
 
   it("bệnh thận + tiểu đường → vừa tầng 1 vừa lọc món tầng 2", () => {
-    const r = getSafetyTier({ ...binhThuong, benhNen: ["benh_than", "tieu_duong"] });
+    const r = getSafetyTier({
+      ...binhThuong,
+      benhNen: ["benh_than", "tieu_duong"],
+    });
     expect(r.tang1).toBe(true);
     expect(r.tang2).toBe(true);
     expect(r.tagLoai).toEqual(["nhieu_duong"]);

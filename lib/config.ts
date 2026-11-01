@@ -179,3 +179,14 @@ export const GIAM_BU_TOI_DA_MOI_NGAY = 0.1;
 
 // Luật quan tâm: bao nhiêu ngày liền (có ghi chép) dưới mức sàn thì hiện thông điệp quan tâm
 export const SO_NGAY_DUOI_SAN_CANH_BAO = 3;
+
+// ─────────────────────────────────────────────
+// Tính năng AI (SPEC mục 8) — AI chỉ chọn món & viết giải thích, KHÔNG tạo số liệu
+// ─────────────────────────────────────────────
+export const AI_MODEL_MAC_DINH = "claude-opus-5-5"; // dùng khi .env.local không đặt ANTHROPIC_MODEL
+export const AI_THOI_GIAN_CHO_MS = 20000; // quá 20 giây → dùng phương án dự phòng
+export const AI_SO_LAN_THU_LAI = 1; // thử lại 1 lần nếu lỗi mạng tạm thời
+export const AI_MAX_TOKENS = 4000; // đủ cho JSON thực đơn 7 ngày
+export const DO_DAI_CAU_NHAP_TOI_DA = 200; // ký tự — chặn câu quá dài / lạm dụng
+export const DO_DAI_GIAI_THICH_TOI_DA = 600; // ký tự — câu giải thích dài hơn thì bỏ
+export const SO_MON_GAN_TEN = 3; // AI không nhận ra món → hiện 3 món gần tên nhất

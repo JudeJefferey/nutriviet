@@ -40,16 +40,25 @@ export interface SafetyResult {
   anGoiYMacro: boolean;
 }
 
-const TAT_CA_MUC_TIEU: MucTieu[] = ["giam_mo", "tang_co", "duy_tri", "an_lanh_manh"];
+const TAT_CA_MUC_TIEU: MucTieu[] = [
+  "giam_mo",
+  "tang_co",
+  "duy_tri",
+  "an_lanh_manh",
+];
 
 /**
  * @param mucTieu mục tiêu người dùng đã chọn (bỏ trống nếu chưa tới bước 4).
  */
-export function getSafetyTier(input: SafetyInput, mucTieu?: MucTieu): SafetyResult {
+export function getSafetyTier(
+  input: SafetyInput,
+  mucTieu?: MucTieu,
+): SafetyResult {
   const lyDo: LyDoTang1[] = [];
 
   // Tuổi không hợp lệ → coi như chưa đủ tuổi (phương án an toàn hơn)
-  if (!Number.isFinite(input.tuoi) || input.tuoi < TUOI_TOI_THIEU) lyDo.push("duoi_18_tuoi");
+  if (!Number.isFinite(input.tuoi) || input.tuoi < TUOI_TOI_THIEU)
+    lyDo.push("duoi_18_tuoi");
   if (input.mangThaiChoConBu) lyDo.push("mang_thai_cho_con_bu");
   if (input.benhNen.includes("benh_than")) lyDo.push("benh_than");
   if (input.vanDeAnUong !== "khong") lyDo.push("van_de_an_uong");
@@ -69,7 +78,8 @@ export function getSafetyTier(input: SafetyInput, mucTieu?: MucTieu): SafetyResu
   //  - BMI thấp (chưa chọn giảm mỡ) → không hiện "Giảm mỡ"
   let mucTieuDuocChon: MucTieu[];
   if (tang1) mucTieuDuocChon = ["an_lanh_manh"];
-  else if (bmiThap) mucTieuDuocChon = TAT_CA_MUC_TIEU.filter((m) => m !== "giam_mo");
+  else if (bmiThap)
+    mucTieuDuocChon = TAT_CA_MUC_TIEU.filter((m) => m !== "giam_mo");
   else mucTieuDuocChon = [...TAT_CA_MUC_TIEU];
 
   // Tầng 2: lọc món theo bệnh nền

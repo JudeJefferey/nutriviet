@@ -76,7 +76,11 @@ export function phanChenh(tongKcal: number, mucTieuGoc: number): number {
  * Xét 3 ngày liền ngay trước hôm nay (không tính hôm nay vì chưa hết ngày).
  * Ngày không ghi gì → không tính (không ghi chưa chắc là không ăn).
  */
-export function duoiMucSanNhieuNgay(nhatKy: NhatKy, homNay: string, mucSan: number): boolean {
+export function duoiMucSanNhieuNgay(
+  nhatKy: NhatKy,
+  homNay: string,
+  mucSan: number,
+): boolean {
   for (let k = 1; k <= SO_NGAY_DUOI_SAN_CANH_BAO; k++) {
     const ngay = nhatKy[congNgay(homNay, -k)];
     if (!ngay || ngay.mon.length === 0) return false;
@@ -110,7 +114,8 @@ export function giamBuChoNgay(p: {
   dangCanhBao: boolean;
 }): KetQuaGiamBu {
   const { nhatKy, ngay, mucTieuGoc, mucSan, dangCanhBao } = p;
-  if (dangCanhBao) return { giam: 0, mucTieuNgay: mucTieuGoc, chiTiet: [], biGioiHan: false };
+  if (dangCanhBao)
+    return { giam: 0, mucTieuNgay: mucTieuGoc, chiTiet: [], biGioiHan: false };
 
   const chiTiet: KetQuaGiamBu["chiTiet"] = [];
   for (let k = 1; k <= SO_NGAY_CHIA_BU; k++) {
@@ -119,9 +124,17 @@ export function giamBuChoNgay(p: {
     if (du > 0) chiTiet.push({ tuNgay, du, phan: du / SO_NGAY_CHIA_BU });
   }
   const tong = chiTiet.reduce((s, c) => s + c.phan, 0);
-  const gioiHan = Math.min(mucTieuGoc * GIAM_BU_TOI_DA_MOI_NGAY, Math.max(0, mucTieuGoc - mucSan));
+  const gioiHan = Math.min(
+    mucTieuGoc * GIAM_BU_TOI_DA_MOI_NGAY,
+    Math.max(0, mucTieuGoc - mucSan),
+  );
   const giam = Math.round(Math.min(tong, gioiHan));
-  return { giam, mucTieuNgay: mucTieuGoc - giam, chiTiet, biGioiHan: tong > gioiHan };
+  return {
+    giam,
+    mucTieuNgay: mucTieuGoc - giam,
+    chiTiet,
+    biGioiHan: tong > gioiHan,
+  };
 }
 
 /**
@@ -143,8 +156,13 @@ export function macroMucTieuNgay(
 // Gợi ý bữa kế tiếp
 // ─────────────────────────────────────────────
 /** Bữa đầu tiên trong thực đơn hôm nay mà người dùng chưa ghi (món "Lỡ ăn rồi" không tính là đã ăn bữa đó). */
-export function buaKeTiep(ngayThucDon: NgayThucDon | undefined, daAn: MonDaAn[]): MonDaChon | null {
+export function buaKeTiep(
+  ngayThucDon: NgayThucDon | undefined,
+  daAn: MonDaAn[],
+): MonDaChon | null {
   if (!ngayThucDon) return null;
-  const buaDaGhi = new Set(daAn.filter((m) => !m.ngoaiKeHoach).map((m) => m.bua));
+  const buaDaGhi = new Set(
+    daAn.filter((m) => !m.ngoaiKeHoach).map((m) => m.bua),
+  );
   return ngayThucDon.bua.find((b) => !buaDaGhi.has(b.bua)) ?? null;
 }

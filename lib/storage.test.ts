@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { DRAFT_TRONG, draftThanhHoSo, type Draft } from "./profile";
-import { KHOA_HO_SO, docHoSo, luuHoSo, xoaHoSo, type KhoLuuTru } from "./storage";
+import {
+  KHOA_HO_SO,
+  docHoSo,
+  luuHoSo,
+  xoaHoSo,
+  type KhoLuuTru,
+} from "./storage";
 
 /** localStorage giả để test (chạy trong Node không có trình duyệt) */
 function taoKhoGia(): KhoLuuTru & { duLieu: Map<string, string> } {
@@ -15,9 +21,20 @@ function taoKhoGia(): KhoLuuTru & { duLieu: Map<string, string> } {
 
 const draft: Draft = {
   ...DRAFT_TRONG,
-  tuoi: "25", mangThaiChoConBu: false, khongCoBenh: true, vanDeAnUong: "khong",
-  gioiTinh: "nu", chieuCaoCm: "160", canNangKg: "55", congViec: "ngoi_nhieu", coTheThao: false,
-  mucTieu: "duy_tri", cheDoAn: "chay", thoiGianNauToiDa: 15, soBua: 4, noiAn: "nau_nha",
+  tuoi: "25",
+  mangThaiChoConBu: false,
+  khongCoBenh: true,
+  vanDeAnUong: "khong",
+  gioiTinh: "nu",
+  chieuCaoCm: "160",
+  canNangKg: "55",
+  congViec: "ngoi_nhieu",
+  coTheThao: false,
+  mucTieu: "duy_tri",
+  cheDoAn: "chay",
+  thoiGianNauToiDa: 15,
+  soBua: 4,
+  noiAn: "nau_nha",
 };
 
 describe("storage", () => {
@@ -53,11 +70,24 @@ describe("storage", () => {
   });
 });
 
-import { doiNuoc, luuCaiDat, phanTichCaiDat, phanTichNhatKy, themMonDaAn, xoaMonDaAn, KHOA_CAI_DAT, KHOA_NHAT_KY } from "./storage";
+import {
+  doiNuoc,
+  luuCaiDat,
+  phanTichCaiDat,
+  phanTichNhatKy,
+  themMonDaAn,
+  xoaMonDaAn,
+  KHOA_CAI_DAT,
+  KHOA_NHAT_KY,
+} from "./storage";
 import type { MonDaAn } from "@/lib/engine/tracking";
 
 const monAn: MonDaAn = {
-  id: "a1", monId: "pho-bo", khauPhan: "vua", bua: "sang", ngoaiKeHoach: false,
+  id: "a1",
+  monId: "pho-bo",
+  khauPhan: "vua",
+  bua: "sang",
+  ngoaiKeHoach: false,
   dinhDuong: { kcal: 450, protein: 25, carb: 60, fat: 12 },
 };
 
@@ -66,25 +96,37 @@ describe("storage — nhật ký", () => {
     const kho = taoKhoGia();
     themMonDaAn("2026-11-01", monAn, kho);
     themMonDaAn("2026-11-01", { ...monAn, id: "a2" }, kho);
-    expect(phanTichNhatKy(kho.getItem(KHOA_NHAT_KY))["2026-11-01"].mon).toHaveLength(2);
+    expect(
+      phanTichNhatKy(kho.getItem(KHOA_NHAT_KY))["2026-11-01"].mon,
+    ).toHaveLength(2);
     xoaMonDaAn("2026-11-01", "a1", kho);
-    expect(phanTichNhatKy(kho.getItem(KHOA_NHAT_KY))["2026-11-01"].mon.map((m) => m.id)).toEqual(["a2"]);
+    expect(
+      phanTichNhatKy(kho.getItem(KHOA_NHAT_KY))["2026-11-01"].mon.map(
+        (m) => m.id,
+      ),
+    ).toEqual(["a2"]);
   });
 
   it("nước: không âm, không quá 30 ly", () => {
     const kho = taoKhoGia();
     doiNuoc("2026-11-01", -1, kho);
-    expect(phanTichNhatKy(kho.getItem(KHOA_NHAT_KY))["2026-11-01"].nuoc).toBe(0);
+    expect(phanTichNhatKy(kho.getItem(KHOA_NHAT_KY))["2026-11-01"].nuoc).toBe(
+      0,
+    );
     for (let i = 0; i < 40; i++) doiNuoc("2026-11-01", 1, kho);
-    expect(phanTichNhatKy(kho.getItem(KHOA_NHAT_KY))["2026-11-01"].nuoc).toBe(30);
+    expect(phanTichNhatKy(kho.getItem(KHOA_NHAT_KY))["2026-11-01"].nuoc).toBe(
+      30,
+    );
   });
 
   it("dữ liệu hỏng → bỏ qua phần hỏng, không lỗi", () => {
     expect(phanTichNhatKy("{hỏng")).toEqual({});
-    const nk = phanTichNhatKy(JSON.stringify({
-      "2026-11-01": { mon: [monAn, { id: 1 }], nuoc: 3 },
-      "ngày-lạ": { mon: [], nuoc: 1 },
-    }));
+    const nk = phanTichNhatKy(
+      JSON.stringify({
+        "2026-11-01": { mon: [monAn, { id: 1 }], nuoc: 3 },
+        "ngày-lạ": { mon: [], nuoc: 1 },
+      }),
+    );
     expect(Object.keys(nk)).toEqual(["2026-11-01"]);
     expect(nk["2026-11-01"].mon).toHaveLength(1);
   });

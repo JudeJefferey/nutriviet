@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GhiMon } from "@/components/GhiMon";
+import { NhapNhanh } from "@/components/NhapNhanh";
 import {
   DangTai,
   HopGhiChu,
@@ -220,6 +221,14 @@ function HomNay({ hoSo }: { hoSo: HoSo }) {
           </p>
         )}
       </section>
+
+      {/* Nhập nhanh bằng câu tự nhiên (AI hiểu câu, có dự phòng) */}
+      <NhapNhanh
+        cacBua={cacBua}
+        buaMacDinh={keTiep?.bua ?? cacBua[0]}
+        anSo={anSo}
+        onLuu={luu}
+      />
 
       {/* Ghi món / Lỡ ăn rồi */}
       {moGhi ? (

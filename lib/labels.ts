@@ -11,7 +11,10 @@ import type {
   TraLoiVanDeAnUong,
 } from "@/lib/engine/types";
 
-export const NHAN_GIOI_TINH: Record<GioiTinh, string> = { nam: "Nam", nu: "Nữ" };
+export const NHAN_GIOI_TINH: Record<GioiTinh, string> = {
+  nam: "Nam",
+  nu: "Nữ",
+};
 
 export const NHAN_CONG_VIEC: Record<CongViec, string> = {
   ngoi_nhieu: "Ngồi nhiều",
@@ -86,15 +89,24 @@ export const NHAN_KHAU_PHAN = {
   nhieu: "Nhiều",
 } as const;
 
-export const NHAN_THU = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"];
+export const NHAN_THU = [
+  "Thứ 2",
+  "Thứ 3",
+  "Thứ 4",
+  "Thứ 5",
+  "Thứ 6",
+  "Thứ 7",
+  "Chủ nhật",
+];
 export const NHAN_THU_NGAN = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 
 /** Gợi ý nới bộ lọc khi không đủ món (theo lý do loại nhiều món nhất) */
 export const GOI_Y_NOI_BO_LOC = {
-  benh_nen: "Một số món được loại vì không phù hợp với bệnh nền — phần này mình giữ nguyên để an toàn cho bạn.",
+  benh_nen:
+    "Một số món được loại vì không phù hợp với bệnh nền — phần này mình giữ nguyên để an toàn cho bạn.",
   di_ung: "Nhiều món có chứa chất bạn dị ứng.",
   che_do_an: "Danh sách món phù hợp chế độ ăn của bạn còn ít.",
-  khong_thich: "Bạn có thể bỏ bớt vài món trong danh sách \"Món không thích\".",
+  khong_thich: 'Bạn có thể bỏ bớt vài món trong danh sách "Món không thích".',
   ngan_sach: "Bạn có thể tăng ngân sách mỗi bữa thêm một chút.",
   thoi_gian_nau: "Bạn có thể chọn thời gian nấu dài hơn.",
 } as const;

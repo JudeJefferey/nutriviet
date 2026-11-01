@@ -34,13 +34,23 @@ export interface BuocGiaiThich {
   noiDung: string;
 }
 
-export function giaiThichKeHoach(hs: HoSoTinhToan, k: KeHoach): BuocGiaiThich[] {
+export function giaiThichKeHoach(
+  hs: HoSoTinhToan,
+  k: KeHoach,
+): BuocGiaiThich[] {
   const buoc: BuocGiaiThich[] = [];
   const laNam = hs.gioiTinh === "nam";
 
   // 1. BMR — hiện tới 1 chữ số thập phân để các bước sau bấm máy tính lại vẫn khớp
-  const bmrChinhXac = calcBMR(hs.gioiTinh, hs.canNangKg, hs.chieuCaoCm, hs.tuoi);
-  const hangSo = laNam ? `+ ${BMR.HANG_SO_NAM}` : `− ${Math.abs(BMR.HANG_SO_NU)}`;
+  const bmrChinhXac = calcBMR(
+    hs.gioiTinh,
+    hs.canNangKg,
+    hs.chieuCaoCm,
+    hs.tuoi,
+  );
+  const hangSo = laNam
+    ? `+ ${BMR.HANG_SO_NAM}`
+    : `− ${Math.abs(BMR.HANG_SO_NU)}`;
   buoc.push({
     tieuDe: "1. Năng lượng lúc nghỉ (BMR)",
     noiDung:
@@ -102,12 +112,10 @@ export function giaiThichKeHoach(hs: HoSoTinhToan, k: KeHoach): BuocGiaiThich[] 
       `Để tăng cơ, mình thêm ${phanTram}% so với TDEE: ` +
       `${so(k.tdee)} × (1 + ${phanTram}%) ≈ ${so(k.caloTruocMucSan)} kcal.`;
   } else {
-    noiDungMucTieu =
-      `Với mục tiêu "${NHAN_MUC_TIEU[k.mucTieuApDung].toLowerCase()}", calo mục tiêu bằng TDEE: ${so(k.caloTruocMucSan)} kcal.`;
+    noiDungMucTieu = `Với mục tiêu "${NHAN_MUC_TIEU[k.mucTieuApDung].toLowerCase()}", calo mục tiêu bằng TDEE: ${so(k.caloTruocMucSan)} kcal.`;
   }
   const mucToiThieu = MUC_SAN_CALO[hs.gioiTinh];
-  noiDungMucTieu +=
-    ` Mức sàn an toàn của bạn là ${so(k.mucSan)} kcal (số lớn hơn giữa BMR và ${so(mucToiThieu)} kcal với ${laNam ? "nam" : "nữ"}).`;
+  noiDungMucTieu += ` Mức sàn an toàn của bạn là ${so(k.mucSan)} kcal (số lớn hơn giữa BMR và ${so(mucToiThieu)} kcal với ${laNam ? "nam" : "nữ"}).`;
   noiDungMucTieu += k.daNangLenMucSan
     ? ` Vì con số trên thấp hơn mức sàn, mình dùng ${so(k.caloMucTieu)} kcal để cơ thể vẫn đủ năng lượng.`
     : ` Con số của bạn cao hơn mức sàn nên giữ nguyên: ${so(k.caloMucTieu)} kcal.`;

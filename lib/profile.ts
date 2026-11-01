@@ -21,7 +21,10 @@ import type {
   MucTieu,
   TraLoiVanDeAnUong,
 } from "@/lib/engine/types";
-import { checkWeightGoal, type KetQuaMucTieuCan } from "@/lib/engine/weightGoal";
+import {
+  checkWeightGoal,
+  type KetQuaMucTieuCan,
+} from "@/lib/engine/weightGoal";
 import type { BoLoc } from "@/lib/engine/dishes";
 import type { PhongCach } from "@/lib/engine/menu";
 import type { CheDoAn, NoiAn } from "@/lib/labels";
@@ -41,7 +44,12 @@ export interface HoSo {
   canNangKg: number;
   // Bước 3 — Vận động
   congViec: CongViec;
-  theThao: { mon: string; soBuoiMoiTuan: number; phutMoiBuoi: number; cuongDo: CuongDo } | null;
+  theThao: {
+    mon: string;
+    soBuoiMoiTuan: number;
+    phutMoiBuoi: number;
+    cuongDo: CuongDo;
+  } | null;
   // Bước 4 — Mục tiêu
   mucTieu: MucTieu;
   canMucTieuKg: number | null;
@@ -161,8 +169,10 @@ export function anToanTuDraft(d: Draft, mucTieu?: MucTieu): SafetyResult {
  */
 export function chuanHoaMucTieu(d: Draft): Draft {
   const { mucTieuDuocChon } = anToanTuDraft(d);
-  if (mucTieuDuocChon.length === 1) return { ...d, mucTieu: mucTieuDuocChon[0] };
-  if (d.mucTieu && !mucTieuDuocChon.includes(d.mucTieu)) return { ...d, mucTieu: null };
+  if (mucTieuDuocChon.length === 1)
+    return { ...d, mucTieu: mucTieuDuocChon[0] };
+  if (d.mucTieu && !mucTieuDuocChon.includes(d.mucTieu))
+    return { ...d, mucTieu: null };
   return d;
 }
 
@@ -187,10 +197,11 @@ export function kiemTraBuoc(buoc: number, d: Draft): LoiBuoc {
   const G = GIOI_HAN_NHAP;
 
   if (buoc === 1) {
-    if (!trongKhoang(docSo(d.tuoi), G.tuoi)) loi.tuoi = `${NHAC_KIEM_TRA} (từ ${G.tuoi.min} đến ${G.tuoi.max} tuổi)`;
+    if (!trongKhoang(docSo(d.tuoi), G.tuoi))
+      loi.tuoi = `${NHAC_KIEM_TRA} (từ ${G.tuoi.min} đến ${G.tuoi.max} tuổi)`;
     if (d.mangThaiChoConBu === null) loi.mangThaiChoConBu = NHAC_CHON;
     if (!d.khongCoBenh && d.benhNen.length === 0)
-      loi.benhNen = "Bạn chọn bệnh nền, hoặc chọn \"Không có\" nhé";
+      loi.benhNen = 'Bạn chọn bệnh nền, hoặc chọn "Không có" nhé';
     if (d.vanDeAnUong === null) loi.vanDeAnUong = NHAC_CHON;
   }
 
@@ -206,7 +217,8 @@ export function kiemTraBuoc(buoc: number, d: Draft): LoiBuoc {
     if (d.congViec === null) loi.congViec = NHAC_CHON;
     if (d.coTheThao === null) loi.coTheThao = NHAC_CHON;
     if (d.coTheThao) {
-      if (d.monTheThao.trim() === "") loi.monTheThao = "Bạn ghi tên môn thể thao giúp mình nhé";
+      if (d.monTheThao.trim() === "")
+        loi.monTheThao = "Bạn ghi tên môn thể thao giúp mình nhé";
       if (!trongKhoang(docSo(d.soBuoiMoiTuan), G.soBuoiMoiTuan))
         loi.soBuoiMoiTuan = `${NHAC_KIEM_TRA} (từ ${G.soBuoiMoiTuan.min} đến ${G.soBuoiMoiTuan.max} buổi)`;
       if (!trongKhoang(docSo(d.phutMoiBuoi), G.phutMoiBuoi))
@@ -240,7 +252,12 @@ export function kiemTraBuoc(buoc: number, d: Draft): LoiBuoc {
     if (d.cheDoAn === null) loi.cheDoAn = NHAC_CHON;
     if (!trongKhoang(docSo(d.nganSachMoiBuaVnd, true), G.nganSachMoiBuaVnd))
       loi.nganSachMoiBuaVnd = `${NHAC_KIEM_TRA} (từ 10.000 đến 500.000 đ)`;
-    if (d.thoiGianNauToiDa === null || !(THOI_GIAN_NAU_LUA_CHON as readonly number[]).includes(d.thoiGianNauToiDa))
+    if (
+      d.thoiGianNauToiDa === null ||
+      !(THOI_GIAN_NAU_LUA_CHON as readonly number[]).includes(
+        d.thoiGianNauToiDa,
+      )
+    )
       loi.thoiGianNauToiDa = NHAC_CHON;
     if (d.soBua !== 3 && d.soBua !== 4) loi.soBua = NHAC_CHON;
     if (d.noiAn === null) loi.noiAn = NHAC_CHON;
@@ -328,7 +345,8 @@ export function hoSoThanhDraft(h: HoSo): Draft {
 export function laHoSoHopLe(x: unknown): x is HoSo {
   try {
     const h = x as HoSo;
-    if (!h || typeof h !== "object" || h.phienBan !== PHIEN_BAN_HO_SO) return false;
+    if (!h || typeof h !== "object" || h.phienBan !== PHIEN_BAN_HO_SO)
+      return false;
     return draftThanhHoSo(hoSoThanhDraft(h)) !== null;
   } catch {
     return false;

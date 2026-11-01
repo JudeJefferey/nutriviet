@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { DangTai, HopGhiChu, KhungTrang, NutPhu } from "@/components/ui";
-import { DANH_SACH_DI_UNG } from "@/lib/config";
+import { DANH_SACH_DI_UNG, GHI_CHU_BAC_SI } from "@/lib/config";
 import {
   CAC_KHAU_PHAN,
   dinhDuongKhauPhan,
@@ -15,7 +15,13 @@ import {
 } from "@/lib/engine/dishes";
 import { so } from "@/lib/engine/explain";
 import { doiMon, goiYDoiMon } from "@/lib/engine/menu";
-import { NHAN_BUA, NHAN_KHAU_PHAN, NHAN_THU } from "@/lib/labels";
+import {
+  NHAN_AN_CAN_BANG,
+  NHAN_BUA,
+  NHAN_KHAU_PHAN,
+  NHAN_MUC_TIEU,
+  NHAN_THU,
+} from "@/lib/labels";
 import { DANH_SACH_MON, timMon } from "@/lib/monAn";
 import type { HoSo } from "@/lib/profile";
 import { luuThucDon } from "@/lib/storage";
@@ -148,7 +154,7 @@ function ThongTinMon({ mon, anSo }: { mon: Mon; anSo: boolean }) {
 function DoiMon({ mon, hoSo, anSo }: { mon: Mon; hoSo: HoSo; anSo: boolean }) {
   const params = useSearchParams();
   const router = useRouter();
-  const { thucDon, boLoc } = useThucDon(hoSo);
+  const { thucDon, boLoc, phongCach, anToan, keHoach } = useThucDon(hoSo);
   const [moRong, setMoRong] = useState(false);
 
   const ngayIdx = Number(params.get("ngay"));
@@ -166,6 +172,25 @@ function DoiMon({ mon, hoSo, anSo }: { mon: Mon; hoSo: HoSo; anSo: boolean }) {
         phần {NHAN_KHAU_PHAN[o.khauPhan].toLowerCase()}
         {!anSo && ` · ${so(o.dinhDuong.kcal)} kcal`}
       </p>
+      {/* Chế độ Đơn giản ẩn số liệu nên không hiện phần giải thích (có nhắc calo) */}
+      {!anSo && (
+        <ViSaoChon
+          yeuCau={{
+            monId: mon.id,
+            khauPhan: o.khauPhan,
+            bua: o.bua,
+            kcalBua:
+              thucDon.caloBua.find((c) => c.bua === o.bua)?.kcal ??
+              o.dinhDuong.kcal,
+            phongCach,
+            tagUuTien: anToan.tagUuTien,
+            tenMucTieu: anToan.tang1
+              ? NHAN_AN_CAN_BANG
+              : NHAN_MUC_TIEU[keHoach.mucTieuApDung],
+          }}
+          ghiChuBacSi={anToan.canGhiChuBacSi}
+        />
+      )}
       {!moRong ? (
         <NutPhu onClick={() => setMoRong(true)}>Đổi món</NutPhu>
       ) : goiY.length === 0 ? (
@@ -209,5 +234,71 @@ function DoiMon({ mon, hoSo, anSo }: { mon: Mon; hoSo: HoSo; anSo: boolean }) {
         </>
       )}
     </section>
+  );
+}
+
+/** Nút "Vì sao chọn món này?" — AI viết 2–3 câu, máy chủ kiểm tra không có số bịa; lỗi thì dùng câu mẫu. */
+function ViSaoChon({
+  yeuCau,
+  ghiChuBacSi,
+}: {
+  yeuCau: {
+    monId: string;
+    khauPhan: string;
+    bua: string;
+    kcalBua: number;
+    phongCach: string;
+    tagUuTien: string[];
+    tenMucTieu: string;
+  };
+  ghiChuBacSi: boolean;
+}) {
+  const [trangThai, setTrangThai] = useState<"chua" | "dang" | "xong" | "loi">(
+    "chua",
+  );
+  const [kq, setKq] = useState<{
+    nguon: "ai" | "du_phong";
+    cau: string;
+  } | null>(null);
+
+  async function hoi() {
+    setTrangThai("dang");
+    try {
+      const res = await fetch("/api/ai/giai-thich", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(yeuCau),
+      });
+      if (!res.ok) throw new Error();
+      setKq(await res.json());
+      setTrangThai("xong");
+    } catch {
+      setTrangThai("loi");
+    }
+  }
+
+  if (trangThai === "chua" || trangThai === "loi")
+    return (
+      <div>
+        <NutPhu onClick={hoi}>Vì sao chọn món này?</NutPhu>
+        {trangThai === "loi" && (
+          <p className="mt-1 text-sm text-amber-700">
+            Mình chưa lấy được lời giải thích, bạn thử lại nhé.
+          </p>
+        )}
+      </div>
+    );
+  if (trangThai === "dang")
+    return <p className="text-sm text-gray-500">Đang viết lời giải thích…</p>;
+  return (
+    <HopGhiChu tieuDe="Vì sao chọn món này?">
+      <p>{kq?.cau}</p>
+      {ghiChuBacSi && <p className="mt-2 text-xs">{GHI_CHU_BAC_SI}</p>}
+      <p className="mt-2 text-xs opacity-80">
+        {kq?.nguon === "ai"
+          ? "Viết bởi AI · số liệu do ứng dụng tính"
+          : "Giải thích tự động từ số liệu của ứng dụng"}
+      </p>
+    </HopGhiChu>
   );
 }

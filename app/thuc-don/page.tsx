@@ -18,7 +18,8 @@ import {
 } from "@/lib/labels";
 import { DANH_SACH_MON, timMon } from "@/lib/monAn";
 import type { HoSo } from "@/lib/profile";
-import { luuPhongCach, xoaThucDonPhongCach } from "@/lib/storage";
+import type { ThucDonTuan } from "@/lib/engine/menu";
+import { luuPhongCach, luuThucDon, xoaThucDonPhongCach } from "@/lib/storage";
 import { useCaiDat, useHoSo } from "@/lib/useHoSo";
 import { useThucDon } from "@/lib/useThucDon";
 
@@ -231,6 +232,20 @@ function ThucDon({ hoSo }: { hoSo: HoSo }) {
         </p>
       )}
 
+      {/* AI chọn món đa dạng (engine kiểm tra lại; lỗi thì giữ thực đơn tự động) */}
+      <GoiYDaDang
+        hoSo={hoSo}
+        yeuCau={{
+          boLoc,
+          kcalMucTieu: keHoach.caloMucTieu,
+          soBua: hoSo.soBua,
+          phongCach,
+          tagUuTien: anToan.tagUuTien,
+          noiAn: hoSo.noiAn,
+        }}
+        laAI={thucDon.nguon === "ai"}
+      />
+
       {daDoiMon && (
         <button
           type="button"
@@ -246,5 +261,72 @@ function ThucDon({ hoSo }: { hoSo: HoSo }) {
         nhóm kiểm tra lại theo Bảng thành phần thực phẩm Việt Nam.
       </p>
     </KhungTrang>
+  );
+}
+
+/** Nút "Gợi ý thực đơn đa dạng hơn" — chỉ gọi AI khi người dùng bấm (tiết kiệm chi phí). */
+function GoiYDaDang({
+  hoSo,
+  yeuCau,
+  laAI,
+}: {
+  hoSo: HoSo;
+  yeuCau: Record<string, unknown>;
+  laAI: boolean;
+}) {
+  const [trangThai, setTrangThai] = useState<
+    "chua" | "dang" | "du_phong" | "loi"
+  >("chua");
+
+  async function goi() {
+    setTrangThai("dang");
+    try {
+      const res = await fetch("/api/ai/chon-mon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(yeuCau),
+      });
+      if (!res.ok) throw new Error();
+      const kq = (await res.json()) as {
+        nguon: "ai" | "du_phong";
+        thucDon: ThucDonTuan;
+      };
+      if (kq.nguon === "ai") {
+        luuThucDon(hoSo, kq.thucDon); // lưu như một bản "đã đổi món" → vẫn khôi phục được
+        setTrangThai("chua");
+      } else setTrangThai("du_phong");
+    } catch {
+      setTrangThai("loi");
+    }
+  }
+
+  return (
+    <section className="flex flex-col gap-2">
+      {laAI && (
+        <p className="text-xs text-gray-600">
+          Thực đơn này do AI chọn món cho đa dạng · ứng dụng đã kiểm tra lại
+          calo, khẩu phần và bộ lọc của bạn.
+        </p>
+      )}
+      <button
+        type="button"
+        onClick={goi}
+        disabled={trangThai === "dang"}
+        className="w-full rounded-xl border-2 border-emerald-200 bg-white px-4 py-3 font-semibold text-emerald-800 disabled:opacity-60"
+      >
+        {trangThai === "dang" ? "Đang chọn món…" : "Gợi ý thực đơn đa dạng hơn"}
+      </button>
+      {trangThai === "du_phong" && (
+        <p className="text-xs text-gray-600">
+          Lúc này mình chưa tạo được gợi ý mới phù hợp, nên vẫn giữ thực đơn tự
+          động hiện tại.
+        </p>
+      )}
+      {trangThai === "loi" && (
+        <p className="text-xs text-amber-700">
+          Mình chưa kết nối được, bạn thử lại sau nhé.
+        </p>
+      )}
+    </section>
   );
 }

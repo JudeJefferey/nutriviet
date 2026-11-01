@@ -43,7 +43,9 @@ export function checkWeightGoal(params: {
 }): KetQuaMucTieuCan {
   const { mucTieu, canHienTaiKg, canMucTieuKg, soTuan, chieuCaoCm } = params;
   const tiLeToiDa =
-    mucTieu === "giam_mo" ? TOC_DO_TOI_DA_MOI_TUAN.giam : TOC_DO_TOI_DA_MOI_TUAN.tang;
+    mucTieu === "giam_mo"
+      ? TOC_DO_TOI_DA_MOI_TUAN.giam
+      : TOC_DO_TOI_DA_MOI_TUAN.tang;
 
   const khongHopLe: KetQuaMucTieuCan = {
     trangThai: "khong_hop_le",

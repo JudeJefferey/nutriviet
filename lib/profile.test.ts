@@ -34,7 +34,8 @@ const draftDu: Draft = {
 
 describe("docSo", () => {
   it("đọc dấu phẩy thập phân", () => expect(docSo("65,5")).toBe(65.5));
-  it("đọc tiền có dấu chấm ngăn nghìn", () => expect(docSo("35.000", true)).toBe(35000));
+  it("đọc tiền có dấu chấm ngăn nghìn", () =>
+    expect(docSo("35.000", true)).toBe(35000));
   it("chữ lạ hoặc rỗng → NaN", () => {
     expect(docSo("")).toBeNaN();
     expect(docSo("abc")).toBeNaN();
@@ -48,9 +49,12 @@ describe("kiemTraBuoc", () => {
   });
 
   it("bước 1 — bản nháp trống báo đủ 4 lỗi", () => {
-    expect(Object.keys(kiemTraBuoc(1, DRAFT_TRONG)).sort()).toEqual(
-      ["benhNen", "mangThaiChoConBu", "tuoi", "vanDeAnUong"],
-    );
+    expect(Object.keys(kiemTraBuoc(1, DRAFT_TRONG)).sort()).toEqual([
+      "benhNen",
+      "mangThaiChoConBu",
+      "tuoi",
+      "vanDeAnUong",
+    ]);
   });
 
   it("bước 1 — tuổi ngoài khoảng 13–100", () => {
@@ -59,26 +63,41 @@ describe("kiemTraBuoc", () => {
   });
 
   it("bước 2 — chiều cao/cân nặng ngoài khoảng", () => {
-    const loi = kiemTraBuoc(2, { ...draftDu, chieuCaoCm: "300", canNangKg: "20" });
+    const loi = kiemTraBuoc(2, {
+      ...draftDu,
+      chieuCaoCm: "300",
+      canNangKg: "20",
+    });
     expect(loi.chieuCaoCm).toBeDefined();
     expect(loi.canNangKg).toBeDefined();
   });
 
   it("bước 3 — có thể thao thì phải điền đủ chi tiết", () => {
     const loi = kiemTraBuoc(3, { ...draftDu, coTheThao: true });
-    expect(Object.keys(loi).sort()).toEqual(["cuongDo", "monTheThao", "phutMoiBuoi", "soBuoiMoiTuan"]);
+    expect(Object.keys(loi).sort()).toEqual([
+      "cuongDo",
+      "monTheThao",
+      "phutMoiBuoi",
+      "soBuoiMoiTuan",
+    ]);
   });
 
   it("bước 4 — cân mục tiêu làm BMI < 18.5 → chưa nhận", () => {
-    expect(kiemTraBuoc(4, { ...draftDu, canMucTieuKg: "50" }).canMucTieuKg).toBe("MUC_TIEU_CHUA_NHAN");
+    expect(
+      kiemTraBuoc(4, { ...draftDu, canMucTieuKg: "50" }).canMucTieuKg,
+    ).toBe("MUC_TIEU_CHUA_NHAN");
   });
 
   it("bước 4 — giảm mỡ mà cân mục tiêu cao hơn → chưa nhận", () => {
-    expect(kiemTraBuoc(4, { ...draftDu, canMucTieuKg: "70" }).canMucTieuKg).toBe("MUC_TIEU_CHUA_NHAN");
+    expect(
+      kiemTraBuoc(4, { ...draftDu, canMucTieuKg: "70" }).canMucTieuKg,
+    ).toBe("MUC_TIEU_CHUA_NHAN");
   });
 
   it("bước 4 — giảm quá nhanh vẫn cho đi tiếp (trang Kết quả sẽ đề xuất)", () => {
-    expect(kiemTraBuoc(4, { ...draftDu, canMucTieuKg: "56", soTuan: "3" })).toEqual({});
+    expect(
+      kiemTraBuoc(4, { ...draftDu, canMucTieuKg: "56", soTuan: "3" }),
+    ).toEqual({});
   });
 
   it("bước 4 — tầng 1 mà chọn giảm mỡ → báo lỗi", () => {
@@ -86,7 +105,11 @@ describe("kiemTraBuoc", () => {
   });
 
   it("bước 5 — ngân sách ngoài khoảng, thiếu lựa chọn", () => {
-    const loi = kiemTraBuoc(5, { ...draftDu, nganSachMoiBuaVnd: "1000", soBua: null });
+    const loi = kiemTraBuoc(5, {
+      ...draftDu,
+      nganSachMoiBuaVnd: "1000",
+      soBua: null,
+    });
     expect(loi.nganSachMoiBuaVnd).toBeDefined();
     expect(loi.soBua).toBeDefined();
   });
@@ -94,7 +117,9 @@ describe("kiemTraBuoc", () => {
 
 describe("chuanHoaMucTieu", () => {
   it("tầng 1 → tự chọn 'Ăn cân bằng'", () => {
-    expect(chuanHoaMucTieu({ ...draftDu, tuoi: "17" }).mucTieu).toBe("an_lanh_manh");
+    expect(chuanHoaMucTieu({ ...draftDu, tuoi: "17" }).mucTieu).toBe(
+      "an_lanh_manh",
+    );
   });
   it("BMI thấp mà đang chọn giảm mỡ → bỏ chọn", () => {
     expect(chuanHoaMucTieu({ ...draftDu, canNangKg: "50" }).mucTieu).toBeNull();

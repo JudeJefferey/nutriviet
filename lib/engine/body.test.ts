@@ -15,7 +15,9 @@ describe("calcBMR (Mifflin-St Jeor)", () => {
   });
 
   it("nam và nữ cùng số đo chênh nhau đúng 166 kcal (5 − (−161))", () => {
-    expect(calcBMR("nam", 60, 165, 25) - calcBMR("nu", 60, 165, 25)).toBeCloseTo(166, 6);
+    expect(
+      calcBMR("nam", 60, 165, 25) - calcBMR("nu", 60, 165, 25),
+    ).toBeCloseTo(166, 6);
   });
 
   it("báo lỗi khi dữ liệu không hợp lệ", () => {

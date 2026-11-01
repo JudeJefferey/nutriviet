@@ -71,7 +71,11 @@ export function lyDoLoai(mon: Mon, b: BoLoc): LyDoLoai | null {
   if (mon.allergens.some((a) => b.diUng.includes(a))) return "di_ung";
   if (b.cheDoAn === "chay" && !mon.diet.includes("chay")) return "che_do_an";
   // Món chay thì chắc chắn không có thịt heo
-  if (b.cheDoAn === "khong_heo" && !mon.diet.includes("khong_heo") && !mon.diet.includes("chay"))
+  if (
+    b.cheDoAn === "khong_heo" &&
+    !mon.diet.includes("khong_heo") &&
+    !mon.diet.includes("chay")
+  )
     return "che_do_an";
   if (b.monKhongThich.includes(mon.id)) return "khong_thich";
   if (mon.price_vnd > b.nganSachMoiBuaVnd) return "ngan_sach";
@@ -84,7 +88,10 @@ export function locMon(mons: Mon[], b: BoLoc): Mon[] {
 }
 
 /** Đếm số món bị loại theo từng lý do — dùng để gợi ý "nới bộ lọc nào" khi không đủ món. */
-export function demLyDoLoai(mons: Mon[], b: BoLoc): Partial<Record<LyDoLoai, number>> {
+export function demLyDoLoai(
+  mons: Mon[],
+  b: BoLoc,
+): Partial<Record<LyDoLoai, number>> {
   const dem: Partial<Record<LyDoLoai, number>> = {};
   for (const m of mons) {
     const l = lyDoLoai(m, b);

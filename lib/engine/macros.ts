@@ -34,7 +34,13 @@ export function calcMacros(params: {
   /** Cộng thêm g/kg (vd phong cách High-protein +0.4). Mặc định 0. */
   proteinThemGPerKg?: number;
 }): Macros {
-  const { kcal, canNangKg, mucTieu, coChoiTheThao, proteinThemGPerKg = 0 } = params;
+  const {
+    kcal,
+    canNangKg,
+    mucTieu,
+    coChoiTheThao,
+    proteinThemGPerKg = 0,
+  } = params;
   assertPositive(kcal, "calo");
   assertPositive(canNangKg, "cân nặng");
 
@@ -53,5 +59,13 @@ export function calcMacros(params: {
   const carbKcal = Math.max(0, kcal - proteinKcal - fatKcal);
   const carbG = carbKcal / KCAL_MOI_GAM.carb;
 
-  return { proteinG, fatG, carbG, proteinKcal, fatKcal, carbKcal, proteinGPerKg };
+  return {
+    proteinG,
+    fatG,
+    carbG,
+    proteinKcal,
+    fatKcal,
+    carbKcal,
+    proteinGPerKg,
+  };
 }

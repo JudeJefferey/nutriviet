@@ -9,7 +9,13 @@ import { PROTEIN_THEM_HIGH_PROTEIN } from "@/lib/config";
 import { taoThucDon, type PhongCach } from "@/lib/engine/menu";
 import { tinhKeHoach } from "@/lib/engine/plan";
 import { DANH_SACH_MON } from "@/lib/monAn";
-import { anToanTuHoSo, boLocTuHoSo, hoSoThanhTinhToan, phongCachChoPhep, type HoSo } from "@/lib/profile";
+import {
+  anToanTuHoSo,
+  boLocTuHoSo,
+  hoSoThanhTinhToan,
+  phongCachChoPhep,
+  type HoSo,
+} from "@/lib/profile";
 import { KHOA_PHONG_CACH, KHOA_THUC_DON, layThucDonDaLuu } from "@/lib/storage";
 import { useKhoa } from "@/lib/useHoSo";
 
@@ -27,7 +33,8 @@ export function useThucDon(hoSo: HoSo) {
     // Mục tiêu dinh dưỡng theo phong cách (High-protein: +0.4 g/kg protein)
     const keHoach = tinhKeHoach({
       ...hoSoThanhTinhToan(hoSo),
-      proteinThemGPerKg: phongCach === "high_protein" ? PROTEIN_THEM_HIGH_PROTEIN : 0,
+      proteinThemGPerKg:
+        phongCach === "high_protein" ? PROTEIN_THEM_HIGH_PROTEIN : 0,
     });
     const thucDonGoc = taoThucDon({
       mons: DANH_SACH_MON,
