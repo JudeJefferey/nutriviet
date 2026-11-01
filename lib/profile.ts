@@ -22,6 +22,8 @@ import type {
   TraLoiVanDeAnUong,
 } from "@/lib/engine/types";
 import { checkWeightGoal, type KetQuaMucTieuCan } from "@/lib/engine/weightGoal";
+import type { BoLoc } from "@/lib/engine/dishes";
+import type { PhongCach } from "@/lib/engine/menu";
 import type { CheDoAn, NoiAn } from "@/lib/labels";
 
 export const PHIEN_BAN_HO_SO = 1;
@@ -356,4 +358,32 @@ export function hoSoThanhTinhToan(h: HoSo): HoSoTinhToan {
     soTuan: h.soTuan ?? undefined,
     tiLeDieuChinh: h.tiLeDieuChinh ?? undefined,
   };
+}
+
+// ─────────────────────────────────────────────
+// Hồ sơ → bộ lọc món & phong cách thực đơn (Giai đoạn 3)
+// ─────────────────────────────────────────────
+
+/** An toàn của hồ sơ đã lưu (tầng 1, tầng 2, tag lọc món...). */
+export function anToanTuHoSo(h: HoSo): SafetyResult {
+  return getSafetyTier(h, h.mucTieu);
+}
+
+/** Bộ lọc món: tầng 2 (bệnh nền) + tầng 3 (dị ứng, chế độ ăn, món ghét, ngân sách, thời gian nấu). */
+export function boLocTuHoSo(h: HoSo): BoLoc {
+  return {
+    tagLoai: anToanTuHoSo(h).tagLoai,
+    diUng: h.diUng,
+    cheDoAn: h.cheDoAn,
+    monKhongThich: h.monKhongThich,
+    nganSachMoiBuaVnd: h.nganSachMoiBuaVnd,
+    thoiGianNauToiDa: h.thoiGianNauToiDa,
+  };
+}
+
+/** Phong cách được phép: bệnh thận không có High-protein (luật an toàn thắng). */
+export function phongCachChoPhep(h: HoSo): PhongCach[] {
+  return anToanTuHoSo(h).anGoiYMacro
+    ? ["can_bang", "tiet_kiem"]
+    : ["can_bang", "high_protein", "tiet_kiem"];
 }

@@ -170,9 +170,9 @@ function KetQua({ hoSo }: { hoSo: HoSo }) {
       </details>
 
       <div className="flex flex-col gap-2">
-        <NutLienKet href="/onboarding">Sửa hồ sơ</NutLienKet>
-        <NutLienKet href="/ho-so" chinh={false}>
-          Xem hồ sơ
+        <NutLienKet href="/thuc-don">Xem thực đơn 7 ngày</NutLienKet>
+        <NutLienKet href="/onboarding" chinh={false}>
+          Sửa hồ sơ
         </NutLienKet>
       </div>
     </KhungTrang>

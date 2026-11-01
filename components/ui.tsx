@@ -206,7 +206,7 @@ export function NutPhu({ children, onClick }: { children: ReactNode; onClick?: (
 }
 
 export function KhungTrang({ children }: { children: ReactNode }) {
-  return <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-5 px-4 py-6">{children}</main>;
+  return <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-5 px-4 pt-6 pb-24">{children}</main>;
 }
 
 export function DangTai() {

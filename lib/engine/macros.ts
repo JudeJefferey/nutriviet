@@ -22,7 +22,7 @@ export interface Macros {
 
 /**
  * Cách tính:
- *  1. Protein (g) = g/kg theo mục tiêu (+0.2 nếu chơi thể thao) × cân nặng
+ *  1. Protein (g) = g/kg theo mục tiêu (+0.2 nếu chơi thể thao, +0.4 nếu chọn High-protein) × cân nặng
  *  2. Chất béo  = 25% tổng calo → chia 9 ra gam
  *  3. Carb      = phần calo còn lại → chia 4 ra gam (không âm)
  */
@@ -31,14 +31,17 @@ export function calcMacros(params: {
   canNangKg: number;
   mucTieu: MucTieu;
   coChoiTheThao: boolean;
+  /** Cộng thêm g/kg (vd phong cách High-protein +0.4). Mặc định 0. */
+  proteinThemGPerKg?: number;
 }): Macros {
-  const { kcal, canNangKg, mucTieu, coChoiTheThao } = params;
+  const { kcal, canNangKg, mucTieu, coChoiTheThao, proteinThemGPerKg = 0 } = params;
   assertPositive(kcal, "calo");
   assertPositive(canNangKg, "cân nặng");
 
   const proteinGPerKg =
     PROTEIN_G_PER_KG[mucTieu] +
-    (coChoiTheThao ? PROTEIN_THEM_KHI_CHOI_THE_THAO : 0);
+    (coChoiTheThao ? PROTEIN_THEM_KHI_CHOI_THE_THAO : 0) +
+    proteinThemGPerKg;
 
   const proteinG = proteinGPerKg * canNangKg;
   const proteinKcal = proteinG * KCAL_MOI_GAM.protein;

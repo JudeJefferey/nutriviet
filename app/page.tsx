@@ -1,5 +1,5 @@
 "use client";
-/** Trang chủ: chưa có hồ sơ → nút "Bắt đầu"; đã có hồ sơ → chuyển sang trang Kết quả. */
+/** Trang chủ: chưa có hồ sơ → nút "Bắt đầu"; đã có hồ sơ → chuyển sang trang Thực đơn. */
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { DangTai, KhungTrang, NutLienKet } from "@/components/ui";
@@ -9,7 +9,7 @@ export default function TrangChu() {
   const { daTai, hoSo } = useHoSo();
   const router = useRouter();
   useEffect(() => {
-    if (daTai && hoSo) router.replace("/ket-qua");
+    if (daTai && hoSo) router.replace("/thuc-don");
   }, [daTai, hoSo, router]);
 
   if (!daTai || hoSo) return <DangTai />;

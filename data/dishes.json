@@ -1,1 +1,605 @@
-[]
+[
+  {
+    "id": "pho-bo",
+    "name": "Phở bò",
+    "meal": [
+      "sang",
+      "trua"
+    ],
+    "per_serving_vua": {
+      "kcal": 450,
+      "protein": 25,
+      "carb": 60,
+      "fat": 12
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 40000,
+    "cook_minutes": 0,
+    "eat_out": true,
+    "diet": [],
+    "allergens": [
+      "nuoc_mam"
+    ],
+    "health_tags": [
+      "nhieu_muoi",
+      "nhieu_purine"
+    ],
+    "style_tags": [],
+    "ingredients": [
+      "bánh phở",
+      "thịt bò",
+      "nước dùng xương bò",
+      "hành, rau thơm",
+      "nước mắm"
+    ],
+    "verified": false
+  },
+  {
+    "id": "banh-mi-trung",
+    "name": "Bánh mì trứng",
+    "meal": [
+      "sang",
+      "phu"
+    ],
+    "per_serving_vua": {
+      "kcal": 380,
+      "protein": 15,
+      "carb": 45,
+      "fat": 15
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 15000,
+    "cook_minutes": 10,
+    "eat_out": true,
+    "diet": [
+      "khong_heo"
+    ],
+    "allergens": [
+      "gluten",
+      "trung",
+      "dau_nanh"
+    ],
+    "health_tags": [],
+    "style_tags": [
+      "tiet_kiem",
+      "nhanh_15p"
+    ],
+    "ingredients": [
+      "bánh mì",
+      "trứng gà",
+      "dưa leo",
+      "nước tương"
+    ],
+    "verified": false
+  },
+  {
+    "id": "xoi-dau-xanh",
+    "name": "Xôi đậu xanh",
+    "meal": [
+      "sang"
+    ],
+    "per_serving_vua": {
+      "kcal": 400,
+      "protein": 10,
+      "carb": 75,
+      "fat": 7
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 12000,
+    "cook_minutes": 0,
+    "eat_out": true,
+    "diet": [
+      "chay",
+      "khong_heo"
+    ],
+    "allergens": [],
+    "health_tags": [],
+    "style_tags": [
+      "tiet_kiem"
+    ],
+    "ingredients": [
+      "gạo nếp",
+      "đậu xanh",
+      "hành phi",
+      "muối"
+    ],
+    "verified": false
+  },
+  {
+    "id": "khoai-lang-luoc",
+    "name": "Khoai lang luộc",
+    "meal": [
+      "sang",
+      "phu"
+    ],
+    "per_serving_vua": {
+      "kcal": 200,
+      "protein": 3,
+      "carb": 46,
+      "fat": 0
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 10000,
+    "cook_minutes": 25,
+    "eat_out": false,
+    "diet": [
+      "chay",
+      "khong_heo"
+    ],
+    "allergens": [],
+    "health_tags": [
+      "gi_thap"
+    ],
+    "style_tags": [
+      "tiet_kiem"
+    ],
+    "ingredients": [
+      "khoai lang"
+    ],
+    "verified": false
+  },
+  {
+    "id": "bun-bo-hue",
+    "name": "Bún bò Huế",
+    "meal": [
+      "sang",
+      "trua"
+    ],
+    "per_serving_vua": {
+      "kcal": 550,
+      "protein": 28,
+      "carb": 65,
+      "fat": 18
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 40000,
+    "cook_minutes": 0,
+    "eat_out": true,
+    "diet": [],
+    "allergens": [
+      "mam_tom",
+      "nuoc_mam"
+    ],
+    "health_tags": [
+      "nhieu_muoi",
+      "nhieu_purine"
+    ],
+    "style_tags": [],
+    "ingredients": [
+      "bún",
+      "thịt bò",
+      "giò heo",
+      "mắm ruốc",
+      "sả",
+      "nước mắm"
+    ],
+    "verified": false
+  },
+  {
+    "id": "com-tam-suon",
+    "name": "Cơm tấm sườn",
+    "meal": [
+      "sang",
+      "trua",
+      "toi"
+    ],
+    "per_serving_vua": {
+      "kcal": 600,
+      "protein": 30,
+      "carb": 75,
+      "fat": 20
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 35000,
+    "cook_minutes": 0,
+    "eat_out": true,
+    "diet": [],
+    "allergens": [
+      "nuoc_mam"
+    ],
+    "health_tags": [
+      "nhieu_muoi"
+    ],
+    "style_tags": [],
+    "ingredients": [
+      "cơm tấm",
+      "sườn heo nướng",
+      "đồ chua",
+      "nước mắm"
+    ],
+    "verified": false
+  },
+  {
+    "id": "com-ga-luoc",
+    "name": "Cơm gà luộc",
+    "meal": [
+      "trua",
+      "toi"
+    ],
+    "per_serving_vua": {
+      "kcal": 520,
+      "protein": 35,
+      "carb": 65,
+      "fat": 12
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 30000,
+    "cook_minutes": 40,
+    "eat_out": false,
+    "diet": [
+      "khong_heo"
+    ],
+    "allergens": [
+      "nuoc_mam"
+    ],
+    "health_tags": [],
+    "style_tags": [
+      "high_protein"
+    ],
+    "ingredients": [
+      "cơm trắng",
+      "ức gà luộc",
+      "rau răm",
+      "nước mắm gừng"
+    ],
+    "verified": false
+  },
+  {
+    "id": "com-ca-kho-to",
+    "name": "Cơm cá kho tộ",
+    "meal": [
+      "trua",
+      "toi"
+    ],
+    "per_serving_vua": {
+      "kcal": 550,
+      "protein": 30,
+      "carb": 70,
+      "fat": 15
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 30000,
+    "cook_minutes": 45,
+    "eat_out": false,
+    "diet": [
+      "khong_heo"
+    ],
+    "allergens": [
+      "ca",
+      "nuoc_mam"
+    ],
+    "health_tags": [
+      "nhieu_muoi",
+      "nhieu_duong"
+    ],
+    "style_tags": [
+      "high_protein"
+    ],
+    "ingredients": [
+      "cơm trắng",
+      "cá basa",
+      "nước mắm",
+      "đường thắng",
+      "tiêu",
+      "canh rau"
+    ],
+    "verified": false
+  },
+  {
+    "id": "com-gao-lut-dau-hu",
+    "name": "Cơm gạo lứt đậu hũ sốt cà",
+    "meal": [
+      "trua",
+      "toi"
+    ],
+    "per_serving_vua": {
+      "kcal": 480,
+      "protein": 20,
+      "carb": 65,
+      "fat": 15
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 20000,
+    "cook_minutes": 20,
+    "eat_out": false,
+    "diet": [
+      "chay",
+      "khong_heo"
+    ],
+    "allergens": [
+      "dau_nanh"
+    ],
+    "health_tags": [
+      "gi_thap"
+    ],
+    "style_tags": [
+      "tiet_kiem"
+    ],
+    "ingredients": [
+      "cơm gạo lứt",
+      "đậu hũ",
+      "cà chua",
+      "hành lá",
+      "dầu ăn"
+    ],
+    "verified": false
+  },
+  {
+    "id": "com-rau-cu-xao-nam",
+    "name": "Cơm rau củ xào nấm",
+    "meal": [
+      "trua",
+      "toi"
+    ],
+    "per_serving_vua": {
+      "kcal": 450,
+      "protein": 12,
+      "carb": 70,
+      "fat": 13
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 18000,
+    "cook_minutes": 15,
+    "eat_out": false,
+    "diet": [
+      "chay",
+      "khong_heo"
+    ],
+    "allergens": [
+      "dau_nanh"
+    ],
+    "health_tags": [],
+    "style_tags": [
+      "tiet_kiem",
+      "nhanh_15p"
+    ],
+    "ingredients": [
+      "cơm trắng",
+      "nấm rơm",
+      "cà rốt",
+      "bông cải",
+      "nước tương"
+    ],
+    "verified": false
+  },
+  {
+    "id": "bun-thit-nuong",
+    "name": "Bún thịt nướng",
+    "meal": [
+      "trua",
+      "toi"
+    ],
+    "per_serving_vua": {
+      "kcal": 500,
+      "protein": 25,
+      "carb": 65,
+      "fat": 15
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 35000,
+    "cook_minutes": 0,
+    "eat_out": true,
+    "diet": [],
+    "allergens": [
+      "nuoc_mam",
+      "dau_phong"
+    ],
+    "health_tags": [
+      "nhieu_muoi",
+      "nhieu_duong"
+    ],
+    "style_tags": [],
+    "ingredients": [
+      "bún",
+      "thịt heo nướng",
+      "rau sống",
+      "đậu phộng rang",
+      "nước mắm chua ngọt"
+    ],
+    "verified": false
+  },
+  {
+    "id": "goi-ga-bap-cai",
+    "name": "Gỏi gà bắp cải",
+    "meal": [
+      "trua",
+      "toi"
+    ],
+    "per_serving_vua": {
+      "kcal": 350,
+      "protein": 30,
+      "carb": 20,
+      "fat": 15
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 35000,
+    "cook_minutes": 20,
+    "eat_out": false,
+    "diet": [
+      "khong_heo"
+    ],
+    "allergens": [
+      "nuoc_mam",
+      "dau_phong"
+    ],
+    "health_tags": [
+      "gi_thap"
+    ],
+    "style_tags": [
+      "high_protein"
+    ],
+    "ingredients": [
+      "ức gà",
+      "bắp cải",
+      "cà rốt",
+      "rau răm",
+      "đậu phộng",
+      "nước mắm chua ngọt"
+    ],
+    "verified": false
+  },
+  {
+    "id": "com-trung-chien-rau-luoc",
+    "name": "Cơm trứng chiên, rau luộc",
+    "meal": [
+      "trua",
+      "toi"
+    ],
+    "per_serving_vua": {
+      "kcal": 500,
+      "protein": 18,
+      "carb": 70,
+      "fat": 16
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 15000,
+    "cook_minutes": 15,
+    "eat_out": false,
+    "diet": [
+      "khong_heo"
+    ],
+    "allergens": [
+      "trung",
+      "nuoc_mam"
+    ],
+    "health_tags": [],
+    "style_tags": [
+      "tiet_kiem",
+      "nhanh_15p"
+    ],
+    "ingredients": [
+      "cơm trắng",
+      "trứng gà",
+      "rau muống luộc",
+      "nước mắm"
+    ],
+    "verified": false
+  },
+  {
+    "id": "sua-chua-khong-duong",
+    "name": "Sữa chua không đường",
+    "meal": [
+      "phu"
+    ],
+    "per_serving_vua": {
+      "kcal": 90,
+      "protein": 5,
+      "carb": 8,
+      "fat": 4
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 8000,
+    "cook_minutes": 0,
+    "eat_out": false,
+    "diet": [
+      "chay",
+      "khong_heo"
+    ],
+    "allergens": [
+      "sua"
+    ],
+    "health_tags": [
+      "gi_thap"
+    ],
+    "style_tags": [
+      "tiet_kiem",
+      "nhanh_15p"
+    ],
+    "ingredients": [
+      "sữa chua không đường"
+    ],
+    "verified": false
+  },
+  {
+    "id": "chuoi",
+    "name": "Chuối",
+    "meal": [
+      "sang",
+      "phu"
+    ],
+    "per_serving_vua": {
+      "kcal": 110,
+      "protein": 1,
+      "carb": 27,
+      "fat": 0
+    },
+    "portion_factor": {
+      "it": 0.7,
+      "vua": 1.0,
+      "nhieu": 1.3
+    },
+    "price_vnd": 5000,
+    "cook_minutes": 0,
+    "eat_out": false,
+    "diet": [
+      "chay",
+      "khong_heo"
+    ],
+    "allergens": [],
+    "health_tags": [],
+    "style_tags": [
+      "tiet_kiem",
+      "nhanh_15p"
+    ],
+    "ingredients": [
+      "chuối"
+    ],
+    "verified": false
+  }
+]

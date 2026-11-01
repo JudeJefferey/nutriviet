@@ -135,3 +135,33 @@ export const THOI_GIAN_NAU_LUA_CHON = [15, 30, 60, 120] as const;
 
 // Ngân sách mặc định gợi ý mỗi bữa (VNĐ) — mức phổ biến của sinh viên
 export const NGAN_SACH_MAC_DINH_VND = 35000;
+
+// ─────────────────────────────────────────────
+// Thực đơn 7 ngày (SPEC mục 5, 6)
+// ─────────────────────────────────────────────
+
+// Chia calo theo bữa (tổng = 1)
+export const TI_LE_BUA = {
+  3: { sang: 0.3, trua: 0.35, toi: 0.35 },
+  4: { sang: 0.25, trua: 0.35, toi: 0.3, phu: 0.1 },
+} as const;
+
+// Hệ số khẩu phần (ít/vừa/nhiều) nằm trong từng món: trường "portion_factor" của data/dishes.json
+
+export const SO_LAN_TOI_DA_MOI_TUAN = 2; // một món không lặp quá 2 lần/tuần
+export const SAI_LECH_CALO_NGAY = 0.1; // tổng ngày phải trong ±10% calo mục tiêu
+export const SO_NGAY_THUC_DON = 7;
+export const SO_MON_THAY_THE = 3; // nút "Đổi món" đưa ra 3 lựa chọn
+
+// Phong cách High-protein: cộng thêm protein mục tiêu (g/kg)
+export const PROTEIN_THEM_HIGH_PROTEIN = 0.4;
+
+// Điểm ưu tiên khi chọn món (điểm càng THẤP càng được chọn).
+// Điểm gốc = độ lệch calo so với bữa (vd lệch 10% = 0.1), rồi cộng/trừ các mục dưới.
+export const DIEM_CHON_MON = {
+  phatMoiLanDaDung: 0.15, // món đã dùng trong tuần bị cộng điểm → thực đơn đa dạng hơn
+  thuongHighProtein: 0.15, // phong cách High-protein: món có tag high_protein được trừ điểm
+  phatGiaTietKiem: 0.3, // phong cách Tiết kiệm: cộng điểm theo giá (giá / ngân sách × hệ số)
+  thuongTagUuTien: 0.1, // tầng 2: món có tag ưu tiên (vd gi_thap với tiểu đường)
+  thuongDungNoiAn: 0.03, // ưu tiên nhẹ món hợp thói quen ăn ngoài / nấu nhà
+} as const;

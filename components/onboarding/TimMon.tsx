@@ -1,13 +1,10 @@
 "use client";
 /**
  * Ô tìm món không thích trong database món (data/dishes.json).
- * Giai đoạn 2: database còn trống nên chỉ hiện lời nhắc; Giai đoạn 3 có món sẽ tự hoạt động.
+ * Tìm không cần gõ dấu: "com tam" vẫn ra "Cơm tấm".
  */
 import { useState } from "react";
-import danhSachMon from "@/data/dishes.json";
-
-type MonTomTat = { id: string; name: string };
-const MON = danhSachMon as MonTomTat[];
+import { DANH_SACH_MON as MON } from "@/lib/monAn";
 
 /** Bỏ dấu tiếng Việt để tìm "com tam" vẫn ra "Cơm tấm" */
 function boDau(s: string) {
@@ -22,14 +19,6 @@ export function TimMonKhongThich({
   onDoi: (ids: string[]) => void;
 }) {
   const [tuKhoa, setTuKhoa] = useState("");
-
-  if (MON.length === 0) {
-    return (
-      <p className="text-sm text-gray-500">
-        Danh sách món đang được nhóm chuẩn bị. Bạn có thể bỏ qua mục này và quay lại chọn sau trong trang Hồ sơ.
-      </p>
-    );
-  }
 
   const ketQua =
     tuKhoa.trim() === ""

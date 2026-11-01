@@ -36,3 +36,11 @@ describe("calcMacros", () => {
     expect(m.carbG).toBe(0);
   });
 });
+
+describe("calcMacros — phong cách High-protein", () => {
+  it("+0.4 g/kg: giảm mỡ 1.6 + 0.4 = 2.0 g/kg × 65 = 130 g", () => {
+    const m = calcMacros({ kcal: 1650, canNangKg: 65, mucTieu: "giam_mo", coChoiTheThao: false, proteinThemGPerKg: 0.4 });
+    expect(m.proteinGPerKg).toBeCloseTo(2.0, 9);
+    expect(m.proteinG).toBeCloseTo(130, 6);
+  });
+});

@@ -22,6 +22,7 @@ export interface HoSoTinhToan extends SafetyInput {
   canMucTieuKg?: number; // chỉ dùng khi giảm mỡ / tăng cơ
   soTuan?: number;
   tiLeDieuChinh?: number; // % cắt/thêm người dùng tự chỉnh (vd 0.18)
+  proteinThemGPerKg?: number; // phong cách High-protein: +0.4 g/kg
 }
 
 export interface KeHoach {
@@ -78,6 +79,8 @@ export function tinhKeHoach(hs: HoSoTinhToan): KeHoach {
     canNangKg: hs.canNangKg,
     mucTieu: mucTieuApDung,
     coChoiTheThao,
+    // Bệnh thận: không cộng thêm đạm dù chọn phong cách nào (an toàn thắng)
+    proteinThemGPerKg: an_toan.anGoiYMacro ? 0 : (hs.proteinThemGPerKg ?? 0),
   });
   const proteinKcal = Math.round(m.proteinKcal);
   const fatKcal = Math.round(m.fatKcal);
