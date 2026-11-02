@@ -42,3 +42,7 @@ next-env.d.ts
 
 # cho phép commit file mẫu (không chứa key thật)
 !.env.example
+
+# kết quả test trình duyệt
+/test-results/
+/playwright-report/

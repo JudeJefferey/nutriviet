@@ -19,7 +19,7 @@ import {
 } from "@/lib/labels";
 import type { HoSo } from "@/lib/profile";
 import { luuCaiDat } from "@/lib/storage";
-import { useCaiDat, useHoSo } from "@/lib/useHoSo";
+import { useAnSoLieu, useCaiDat, useHoSo } from "@/lib/useHoSo";
 
 export default function TrangHoSo() {
   const { daTai, hoSo } = useHoSo();
@@ -130,7 +130,7 @@ function NoiDungHoSo({ h }: { h: HoSo }) {
           </section>
         ))}
       </div>
-      <CongTacDonGian />
+      <CongTacDonGian hoSo={h} />
       <div className="flex flex-col gap-2">
         <NutLienKet href="/onboarding">Sửa hồ sơ và tính lại</NutLienKet>
         <NutLienKet href="/ket-qua" chinh={false}>
@@ -143,26 +143,31 @@ function NoiDungHoSo({ h }: { h: HoSo }) {
 }
 
 /** Công tắc chế độ "Đơn giản": ẩn số liệu, chỉ hiện "bữa tới nên ăn gì" (SPEC mục 7) */
-function CongTacDonGian() {
+function CongTacDonGian({ hoSo }: { hoSo: HoSo }) {
   const { cheDoDonGian } = useCaiDat();
+  const { doAnToan } = useAnSoLieu(hoSo); // tầng 1 → luôn bật, không tắt được
+  const bat = cheDoDonGian || doAnToan;
   return (
     <section className="flex items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-4">
       <div>
         <p className="font-semibold text-gray-900">Chế độ Đơn giản</p>
         <p className="text-sm text-gray-600">
-          Ẩn calo và các con số, chỉ hiện bữa tới nên ăn gì.
+          {doAnToan
+            ? "Đang luôn bật vì lý do an toàn: mình không hiển thị con số calo cho hồ sơ của bạn."
+            : "Ẩn calo và các con số, chỉ hiện bữa tới nên ăn gì."}
         </p>
       </div>
       <button
         type="button"
         role="switch"
-        aria-checked={cheDoDonGian}
+        aria-checked={bat}
         aria-label="Chế độ Đơn giản"
+        disabled={doAnToan}
         onClick={() => luuCaiDat({ cheDoDonGian: !cheDoDonGian })}
-        className={`relative h-7 w-12 shrink-0 rounded-full transition ${cheDoDonGian ? "bg-emerald-600" : "bg-gray-300"}`}
+        className={`relative h-7 w-12 shrink-0 rounded-full transition ${bat ? "bg-emerald-600" : "bg-gray-300"} disabled:opacity-60`}
       >
         <span
-          className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${cheDoDonGian ? "left-[1.375rem]" : "left-0.5"}`}
+          className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${bat ? "left-[1.375rem]" : "left-0.5"}`}
         />
       </button>
     </section>

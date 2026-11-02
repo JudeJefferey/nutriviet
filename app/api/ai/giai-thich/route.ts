@@ -1,9 +1,12 @@
 /**
  * POST /api/ai/giai-thich — chạy ở máy chủ, dùng ANTHROPIC_API_KEY (không bao giờ gửi xuống trình duyệt).
- * Lỗi hay AI trả kết quả không hợp lệ → tự dùng phương án dự phòng không cần AI.
+ * Lỗi, AI trả kết quả không hợp lệ, hoặc gọi quá nhiều lần → tự dùng phương án dự phòng không cần AI.
  */
 import { goiAnthropic } from "@/lib/ai/client";
+import { choPhepGoiAI, layDiaChi } from "@/lib/ai/gioiHan";
 import { docYeuCauGiaiThich, xuLyGiaiThich } from "@/lib/ai/xuLy";
+
+const khongGoiAI = async () => null; // vượt giới hạn → bỏ qua AI, dùng dự phòng
 
 export async function POST(request: Request) {
   const body: unknown = await request.json().catch(() => null);
@@ -13,5 +16,6 @@ export async function POST(request: Request) {
       { loi: "Dữ liệu gửi lên chưa hợp lệ." },
       { status: 400 },
     );
-  return Response.json(await xuLyGiaiThich(yc, goiAnthropic));
+  const goi = choPhepGoiAI(layDiaChi(request)) ? goiAnthropic : khongGoiAI;
+  return Response.json(await xuLyGiaiThich(yc, goi));
 }

@@ -104,7 +104,7 @@ export interface KetQuaGiamBu {
  *   tổng = Σ (calo dư của mỗi ngày trong 3 ngày trước ÷ 3)
  *   giới hạn = min(10% mục tiêu gốc, mục tiêu gốc − mức sàn)
  *   giảm = min(tổng, giới hạn)
- * Đang có cảnh báo dưới mức sàn → không giảm (an toàn thắng).
+ * Đang có cảnh báo dưới mức sàn, hoặc người dùng thuộc tầng 1 → không giảm (an toàn thắng).
  */
 export function giamBuChoNgay(p: {
   nhatKy: NhatKy;
@@ -112,9 +112,17 @@ export function giamBuChoNgay(p: {
   mucTieuGoc: number;
   mucSan: number;
   dangCanhBao: boolean;
+  tatGiamBu?: boolean; // tầng 1 (SafetyResult.tatGiamBu)
 }): KetQuaGiamBu {
-  const { nhatKy, ngay, mucTieuGoc, mucSan, dangCanhBao } = p;
-  if (dangCanhBao)
+  const {
+    nhatKy,
+    ngay,
+    mucTieuGoc,
+    mucSan,
+    dangCanhBao,
+    tatGiamBu = false,
+  } = p;
+  if (dangCanhBao || tatGiamBu)
     return { giam: 0, mucTieuNgay: mucTieuGoc, chiTiet: [], biGioiHan: false };
 
   const chiTiet: KetQuaGiamBu["chiTiet"] = [];

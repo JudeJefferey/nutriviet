@@ -7,7 +7,7 @@ Web app lập thực đơn món Việt và theo dõi ăn uống có hỗ trợ A
 - **Luật an toàn luôn thắng mục tiêu người dùng** (xem `SPEC.md` mục 4).
 - Dữ liệu sức khỏe chỉ lưu trên trình duyệt (`localStorage`), không có tài khoản hay database máy chủ.
 
-Chi tiết tính năng: [`SPEC.md`](SPEC.md) · Luật làm việc của dự án: [`CLAUDE.md`](CLAUDE.md)
+Chi tiết tính năng: [`SPEC.md`](SPEC.md) · Luật làm việc của dự án: [`CLAUDE.md`](CLAUDE.md) · Chuẩn bị thuyết trình: [`docs/THUYET-TRINH.md`](docs/THUYET-TRINH.md)
 
 ---
 
@@ -25,7 +25,8 @@ Mở http://localhost:3000 (bật chế độ xem điện thoại trong trình d
 | Lệnh | Tác dụng |
 |---|---|
 | `npm run dev` | Chạy bản phát triển |
-| `npm test` | Chạy toàn bộ test (Vitest) |
+| `npm test` | Chạy toàn bộ unit test (Vitest) cho engine, AI, lưu trữ |
+| `npm run test:e2e` | Chạy test trình duyệt (Playwright) — cần `npm run build` trước. Máy mới cài trình duyệt một lần: `npx playwright install chromium` |
 | `npm run build` | Build bản chính thức (Vercel cũng chạy lệnh này) |
 | `npm run lint` | Kiểm tra lỗi viết code |
 
@@ -66,6 +67,8 @@ lib/
   profile.ts          hồ sơ người dùng, kiểm tra từng bước onboarding
   hoSoMau.ts          3 hồ sơ mẫu để demo
 data/dishes.json      database 15 món Việt mẫu
+e2e/                  test trình duyệt (Playwright)
+docs/THUYET-TRINH.md  tài liệu chuẩn bị thuyết trình
 ```
 
 ## Engine tính toán (`lib/engine/`)
@@ -76,7 +79,8 @@ Mọi hằng số nằm ở `lib/config.ts`, nhóm chỉnh ở đó là cả app
 Hồ sơ người dùng
    │
    ▼
-safety.ts ── Tầng an toàn: tầng 1 → chỉ "Ăn cân bằng"; tầng 2 → lọc món theo bệnh nền
+safety.ts ── Tầng an toàn: tầng 1 → chỉ "Ăn cân bằng", ẩn con số calo, tắt giảm bù;
+             tầng 2 → lọc món theo bệnh nền
    │
    ▼
 body.ts ──── BMR (Mifflin-St Jeor), BMI
@@ -113,6 +117,8 @@ Mỗi file có file `*.test.ts` đi kèm, gồm các ca tính tay ghi rõ phép 
 | Chọn món đa dạng | Chọn id món từ danh sách đã lọc | Món trong danh sách, ≤2 lần/tuần, không trùng ngày, engine tự tính khẩu phần, ±10% | Giữ thực đơn rule-based |
 
 Chỉ gửi cho AI: mục tiêu, phong cách, calo bữa, tên món, nhãn ưu tiên — không gửi tuổi, cân nặng, chiều cao hay tên bệnh.
+
+Mỗi địa chỉ mạng gọi AI tối đa 20 lần / 10 phút (`lib/ai/gioiHan.ts`); vượt quá thì vẫn trả kết quả bằng phương án dự phòng.
 
 ---
 

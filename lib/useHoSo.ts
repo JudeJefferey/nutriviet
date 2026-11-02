@@ -5,6 +5,8 @@
  * - Trên trình duyệt → đọc dữ liệu và tự cập nhật mỗi khi dữ liệu được lưu lại.
  */
 import { useMemo, useSyncExternalStore } from "react";
+import { khoaNgay } from "@/lib/engine/tracking";
+import { anToanTuHoSo, type HoSo } from "@/lib/profile";
 import {
   KHOA_CAI_DAT,
   KHOA_HO_SO,
@@ -46,4 +48,39 @@ export function useNhatKy() {
 export function useCaiDat() {
   const raw = useKhoa(KHOA_CAI_DAT);
   return useMemo(() => phanTichCaiDat(raw ?? null), [raw]);
+}
+
+/**
+ * Có ẩn số liệu calo/dinh dưỡng không?
+ *  - Người dùng tự bật chế độ Đơn giản, HOẶC
+ *  - Hồ sơ thuộc tầng 1 an toàn (luôn ẩn, không tắt được)
+ */
+export function useAnSoLieu(hoSo: HoSo | null) {
+  const { cheDoDonGian } = useCaiDat();
+  const doAnToan = hoSo ? anToanTuHoSo(hoSo).anSoLieu : false;
+  return { anSo: cheDoDonGian || doAnToan, doAnToan };
+}
+
+/** Đăng ký kiểm tra lại ngày: mỗi phút, và khi người dùng quay lại tab / cửa sổ */
+function theoDoiNgay(callback: () => void): () => void {
+  const id = window.setInterval(callback, 60_000);
+  document.addEventListener("visibilitychange", callback);
+  window.addEventListener("focus", callback);
+  return () => {
+    window.clearInterval(id);
+    document.removeEventListener("visibilitychange", callback);
+    window.removeEventListener("focus", callback);
+  };
+}
+
+/**
+ * Khóa ngày hôm nay ("YYYY-MM-DD") theo giờ máy — tự đổi khi qua nửa đêm,
+ * kể cả khi trang Hôm nay vẫn đang mở.
+ */
+export function useHomNay(): string {
+  return useSyncExternalStore(
+    theoDoiNgay,
+    () => khoaNgay(new Date()),
+    () => "",
+  );
 }

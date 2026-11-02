@@ -139,3 +139,24 @@ describe("getSafetyTier — tầng 2", () => {
     expect(r.tagLoai).toEqual([]);
   });
 });
+
+describe("getSafetyTier — ẩn số liệu & tắt giảm bù cho tầng 1", () => {
+  it("tầng 1 (mang thai, dưới 18, vấn đề ăn uống) → ẩn số liệu, tắt giảm bù", () => {
+    for (const thayDoi of [
+      { mangThaiChoConBu: true },
+      { tuoi: 16 },
+      { vanDeAnUong: "co" as const },
+      { vanDeAnUong: "khong_muon_tra_loi" as const },
+    ]) {
+      const r = getSafetyTier({ ...binhThuong, ...thayDoi });
+      expect(r.anSoLieu).toBe(true);
+      expect(r.tatGiamBu).toBe(true);
+    }
+  });
+  it("tầng 2 hoặc bình thường → vẫn hiện số liệu", () => {
+    expect(
+      getSafetyTier({ ...binhThuong, benhNen: ["tieu_duong"] }).anSoLieu,
+    ).toBe(false);
+    expect(getSafetyTier(binhThuong).tatGiamBu).toBe(false);
+  });
+});

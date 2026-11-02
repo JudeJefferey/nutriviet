@@ -38,6 +38,14 @@ export interface SafetyResult {
   canGhiChuBacSi: boolean;
   /** Bệnh thận: lượng đạm cần bác sĩ chỉ định → app KHÔNG hiện gợi ý protein/macro */
   anGoiYMacro: boolean;
+  /**
+   * Tầng 1 → ẨN mọi con số calo/macro và tự bật chế độ Đơn giản.
+   * Lý do: mang thai/cho con bú cần nhiều năng lượng hơn TDEE, dưới 18 tuổi công thức người lớn
+   * không chính xác, và đếm calo có thể gây hại cho người có vấn đề ăn uống.
+   */
+  anSoLieu: boolean;
+  /** Tầng 1 → TẮT giảm bù sau "Lỡ ăn rồi" (không bao giờ siết calo với nhóm này) */
+  tatGiamBu: boolean;
 }
 
 const TAT_CA_MUC_TIEU: MucTieu[] = [
@@ -101,6 +109,8 @@ export function getSafetyTier(
     // Có bệnh nền (kể cả bệnh thận ở tầng 1) → luôn hiện ghi chú bác sĩ
     canGhiChuBacSi: tang2 || input.benhNen.length > 0,
     anGoiYMacro: input.benhNen.includes("benh_than"),
+    anSoLieu: tang1,
+    tatGiamBu: tang1,
   };
 }
 

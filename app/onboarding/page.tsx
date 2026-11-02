@@ -30,8 +30,8 @@ import {
   type HoSo,
   type LoiBuoc,
 } from "@/lib/profile";
-import { luuHoSo } from "@/lib/storage";
-import { useHoSo } from "@/lib/useHoSo";
+import { KHOA_THUC_DON, coThucDonDaDoi, luuHoSo } from "@/lib/storage";
+import { useHoSo, useKhoa } from "@/lib/useHoSo";
 
 const TONG_BUOC = SO_BUOC_NHAP + 1; // + bước Kết quả
 const CAC_BUOC = [Buoc1, Buoc2, Buoc3, Buoc4, Buoc5];
@@ -50,6 +50,9 @@ function FormOnboarding({ hoSoCu }: { hoSoCu: HoSo | null }) {
     hoSoCu ? hoSoThanhDraft(hoSoCu) : DRAFT_TRONG,
   );
   const [loi, setLoi] = useState<LoiBuoc>({});
+  // Đang sửa hồ sơ mà đã có thực đơn đổi món → nhắc ở bước cuối
+  const rawThucDon = useKhoa(KHOA_THUC_DON) ?? null;
+  const coMonDaDoi = hoSoCu ? coThucDonDaDoi(rawThucDon, hoSoCu) : false;
 
   const sua = (thayDoi: Partial<Draft>) =>
     setD((cu) => ({ ...cu, ...thayDoi }));
@@ -118,6 +121,13 @@ function FormOnboarding({ hoSoCu }: { hoSoCu: HoSo | null }) {
       </div>
 
       <NoiDung d={d} sua={sua} loi={loi} />
+
+      {buoc === SO_BUOC_NHAP && coMonDaDoi && (
+        <p className="text-sm text-amber-700">
+          Nếu bạn thay đổi thông tin, thực đơn sẽ được tạo lại và các món bạn đã
+          đổi sẽ quay về gợi ý ban đầu.
+        </p>
+      )}
 
       <div className="mt-auto flex flex-col gap-2 pt-4">
         <NutChinh onClick={tiep}>

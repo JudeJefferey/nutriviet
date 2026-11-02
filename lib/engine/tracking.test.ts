@@ -163,6 +163,22 @@ describe("giamBuChoNgay — 'Lỡ ăn rồi'", () => {
   });
 });
 
+describe("giamBuChoNgay — tầng 1 không bao giờ bị giảm bù", () => {
+  it("dư 900 kcal hôm qua nhưng tatGiamBu → giảm 0", () => {
+    const nk: NhatKy = { "2026-11-01": ngay(2550) };
+    const r = giamBuChoNgay({
+      nhatKy: nk,
+      ngay: "2026-11-02",
+      mucTieuGoc: 1650,
+      mucSan: 1200,
+      dangCanhBao: false,
+      tatGiamBu: true,
+    });
+    expect(r.giam).toBe(0);
+    expect(r.mucTieuNgay).toBe(1650);
+  });
+});
+
 describe("duoiMucSanNhieuNgay — luật quan tâm", () => {
   const homNay = "2026-11-05";
   it("3 ngày liền (có ghi) dưới mức sàn → true", () => {

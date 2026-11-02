@@ -25,7 +25,7 @@ import {
 import { DANH_SACH_MON, timMon } from "@/lib/monAn";
 import type { HoSo } from "@/lib/profile";
 import { luuThucDon } from "@/lib/storage";
-import { useCaiDat, useHoSo } from "@/lib/useHoSo";
+import { useAnSoLieu, useHoSo } from "@/lib/useHoSo";
 import { useThucDon } from "@/lib/useThucDon";
 
 const NHAN_TAG: Record<string, string> = {
@@ -43,7 +43,7 @@ const NHAN_TAG: Record<string, string> = {
 export function ChiTietMon({ id }: { id: string }) {
   const mon = timMon(id)!;
   const { daTai, hoSo } = useHoSo();
-  const anSo = useCaiDat().cheDoDonGian; // chế độ Đơn giản: ẩn số liệu dinh dưỡng
+  const { anSo } = useAnSoLieu(hoSo); // chế độ Đơn giản hoặc tầng 1: ẩn số liệu dinh dưỡng
   if (!daTai) return <DangTai />;
   return (
     <KhungTrang>

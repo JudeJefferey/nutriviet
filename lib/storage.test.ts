@@ -141,3 +141,36 @@ describe("storage — cài đặt", () => {
     expect(phanTichCaiDat("rác").cheDoDonGian).toBe(false);
   });
 });
+
+import { coThucDonDaDoi, luuThucDon } from "./storage";
+import { taoThucDon } from "@/lib/engine/menu";
+import { DANH_SACH_MON } from "@/lib/monAn";
+
+describe("storage — nhắc khi sắp mất món đã đổi", () => {
+  it("chưa đổi → false; đã lưu thực đơn đổi món → true; hồ sơ khác → false", () => {
+    const kho = taoKhoGia();
+    const h = draftThanhHoSo(draft)!;
+    expect(coThucDonDaDoi(kho.getItem("nutriviet.thucDon"), h)).toBe(false);
+    const td = taoThucDon({
+      mons: DANH_SACH_MON,
+      boLoc: {
+        tagLoai: [],
+        diUng: [],
+        cheDoAn: "chay",
+        monKhongThich: [],
+        nganSachMoiBuaVnd: 35000,
+        thoiGianNauToiDa: 15,
+      },
+      kcalMucTieu: 1600,
+      soBua: 4,
+      phongCach: "can_bang",
+      tagUuTien: [],
+      noiAn: "nau_nha",
+    });
+    luuThucDon(h, td, kho);
+    expect(coThucDonDaDoi(kho.getItem("nutriviet.thucDon"), h)).toBe(true);
+    expect(
+      coThucDonDaDoi(kho.getItem("nutriviet.thucDon"), { ...h, canNangKg: 56 }),
+    ).toBe(false);
+  });
+});

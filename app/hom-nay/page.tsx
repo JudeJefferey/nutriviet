@@ -37,7 +37,7 @@ import { NHAN_BUA, NHAN_KHAU_PHAN, NHAN_THU } from "@/lib/labels";
 import { timMon } from "@/lib/monAn";
 import type { HoSo } from "@/lib/profile";
 import { doiNuoc, themMonDaAn, xoaMonDaAn } from "@/lib/storage";
-import { useCaiDat, useHoSo, useNhatKy } from "@/lib/useHoSo";
+import { useAnSoLieu, useHoSo, useHomNay, useNhatKy } from "@/lib/useHoSo";
 import { useThucDon } from "@/lib/useThucDon";
 
 export default function TrangHomNay() {
@@ -53,12 +53,12 @@ export default function TrangHomNay() {
 function HomNay({ hoSo }: { hoSo: HoSo }) {
   const { thucDon, keHoach, anToan } = useThucDon(hoSo);
   const nhatKy = useNhatKy();
-  const { cheDoDonGian } = useCaiDat();
   const [moGhi, setMoGhi] = useState<null | "ghi" | "lo_an">(null);
 
-  // Ngày hôm nay (theo giờ máy người dùng)
-  const bayGio = new Date();
-  const homNay = khoaNgay(bayGio);
+  // Ngày hôm nay (theo giờ máy) — tự cập nhật khi qua nửa đêm
+  const homNay = useHomNay() || khoaNgay(new Date());
+  const [nam, thang, ngayThang] = homNay.split("-").map(Number);
+  const bayGio = new Date(nam, thang - 1, ngayThang);
   const thu = (bayGio.getDay() + 6) % 7; // 0 = Thứ 2
   const ngayNay = nhatKy[homNay] ?? { mon: [], nuoc: 0 };
 
@@ -71,6 +71,7 @@ function HomNay({ hoSo }: { hoSo: HoSo }) {
     mucTieuGoc: keHoach.caloMucTieu,
     mucSan,
     dangCanhBao,
+    tatGiamBu: anToan.tatGiamBu, // tầng 1: không bao giờ giảm bù
   });
   const macroNgay = macroMucTieuNgay(keHoach.macro, bu.giam);
   const daAn = tongNgay(ngayNay);
@@ -78,7 +79,7 @@ function HomNay({ hoSo }: { hoSo: HoSo }) {
   const duHomNay = phanChenh(daAn.kcal, keHoach.caloMucTieu);
 
   const anMacro = anToan.anGoiYMacro;
-  const anSo = cheDoDonGian;
+  const { anSo } = useAnSoLieu(hoSo); // chế độ Đơn giản hoặc tầng 1 → ẩn số liệu
   const keTiep = buaKeTiep(thucDon.ngay[thu], ngayNay.mon);
   const cacBua = thucDon.caloBua.map((c) => c.bua);
 
@@ -154,6 +155,7 @@ function HomNay({ hoSo }: { hoSo: HoSo }) {
                 <p className="mt-2 text-sm text-gray-700">
                   Hôm nay bạn ăn nhiều hơn dự kiến một chút — không sao cả.
                   {!dangCanhBao &&
+                    !anToan.tatGiamBu &&
                     ` Mình sẽ điều chỉnh nhẹ trong ${SO_NGAY_CHIA_BU} ngày tới.`}
                 </p>
               )}
@@ -260,7 +262,7 @@ function HomNay({ hoSo }: { hoSo: HoSo }) {
             </div>
           )}
 
-          {duHomNay > 0 && !dangCanhBao && !anSo && (
+          {duHomNay > 0 && !dangCanhBao && !anToan.tatGiamBu && !anSo && (
             <p className="-mt-2 text-xs text-gray-600">
               Phần nhiều hơn {so(duHomNay)} kcal sẽ được chia nhẹ cho{" "}
               {SO_NGAY_CHIA_BU} ngày tới (mỗi ngày tối đa{" "}

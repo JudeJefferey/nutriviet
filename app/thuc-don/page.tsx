@@ -20,7 +20,7 @@ import { DANH_SACH_MON, timMon } from "@/lib/monAn";
 import type { HoSo } from "@/lib/profile";
 import type { ThucDonTuan } from "@/lib/engine/menu";
 import { luuPhongCach, luuThucDon, xoaThucDonPhongCach } from "@/lib/storage";
-import { useCaiDat, useHoSo } from "@/lib/useHoSo";
+import { useAnSoLieu, useHoSo } from "@/lib/useHoSo";
 import { useThucDon } from "@/lib/useThucDon";
 
 export default function TrangThucDon() {
@@ -55,7 +55,7 @@ function ThucDon({ hoSo }: { hoSo: HoSo }) {
   });
   const ngay = thucDon.ngay[ngayChon];
   const anMacro = anToan.anGoiYMacro;
-  const anSo = useCaiDat().cheDoDonGian; // chế độ Đơn giản: ẩn số liệu
+  const { anSo } = useAnSoLieu(hoSo); // chế độ Đơn giản hoặc tầng 1: ẩn số liệu
 
   // Gợi ý nới bộ lọc khi có ngày chưa đủ món: lấy lý do loại nhiều món nhất (trừ lý do an toàn)
   const soNgayThieu = thucDon.ngay.filter((n) => n.bua.length === 0).length;

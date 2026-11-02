@@ -287,3 +287,9 @@ export function luuCaiDat(
   kho.setItem(KHOA_CAI_DAT, JSON.stringify(c));
   baoThayDoi();
 }
+
+/** Hồ sơ hiện tại có thực đơn đã đổi món (hoặc do AI chọn) đang lưu không? Dùng để nhắc trước khi mất. */
+export function coThucDonDaDoi(raw: string | null, hoSo: HoSo): boolean {
+  const t = phanTichThucDonDaLuu(raw, hoSo);
+  return !!t && Object.keys(t.theoPhongCach).length > 0;
+}

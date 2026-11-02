@@ -190,3 +190,8 @@ export const AI_MAX_TOKENS = 4000; // đủ cho JSON thực đơn 7 ngày
 export const DO_DAI_CAU_NHAP_TOI_DA = 200; // ký tự — chặn câu quá dài / lạm dụng
 export const DO_DAI_GIAI_THICH_TOI_DA = 600; // ký tự — câu giải thích dài hơn thì bỏ
 export const SO_MON_GAN_TEN = 3; // AI không nhận ra món → hiện 3 món gần tên nhất
+
+// Giới hạn số lần gọi AI cho mỗi địa chỉ mạng (chống người lạ dùng hết API key khi deploy công khai).
+// Vượt giới hạn → vẫn trả kết quả bằng phương án dự phòng, chỉ không gọi AI.
+export const AI_GIOI_HAN_SO_LAN = 20; // tối đa 20 lần gọi AI...
+export const AI_GIOI_HAN_CUA_SO_MS = 10 * 60 * 1000; // ...trong mỗi 10 phút
