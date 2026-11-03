@@ -46,3 +46,6 @@ next-env.d.ts
 # kết quả test trình duyệt
 /test-results/
 /playwright-report/
+
+# file zip bản HTML (tạo bằng npm run xuat-html)
+/NutriViet-HTML.zip

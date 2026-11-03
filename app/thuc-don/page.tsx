@@ -296,7 +296,7 @@ function GoiYDaDang({
         setTrangThai("chua");
       } else setTrangThai("du_phong");
     } catch {
-      setTrangThai("loi");
+      setTrangThai("du_phong"); // không gọi được máy chủ → giữ thực đơn tự động hiện tại
     }
   }
 

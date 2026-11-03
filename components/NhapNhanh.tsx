@@ -16,7 +16,8 @@ import {
 import { so } from "@/lib/engine/explain";
 import type { MonDaAn } from "@/lib/engine/tracking";
 import { NHAN_BUA, NHAN_KHAU_PHAN } from "@/lib/labels";
-import { timMon } from "@/lib/monAn";
+import { nhapMonDuPhong } from "@/lib/ai/kiemTra";
+import { DANH_SACH_MON, timMon } from "@/lib/monAn";
 
 interface KetQua {
   nguon: "ai" | "du_phong";
@@ -55,9 +56,21 @@ export function NhapNhanh({
       if (!res.ok) throw new Error();
       setKq((await res.json()) as KetQua);
     } catch {
-      setLoi(
-        'Mình chưa xử lý được câu này. Bạn thử lại hoặc dùng nút "Ghi món đã ăn" nhé.',
-      );
+      // Không gọi được máy chủ (mất mạng, hoặc bản HTML tĩnh không có máy chủ)
+      // → dùng phương án dự phòng ngay trên trình duyệt: dò từ khóa + so tên món
+      const dp = nhapMonDuPhong({
+        cauNhap: cau,
+        cacBua,
+        buaMacDinh,
+        mons: DANH_SACH_MON,
+      });
+      setKq({
+        nguon: "du_phong",
+        monId: dp.monId,
+        bua: dp.bua,
+        khauPhan: dp.khauPhan,
+        goiY: dp.goiY.map((m) => m.id),
+      });
     } finally {
       setDangGui(false);
     }

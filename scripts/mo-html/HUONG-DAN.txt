@@ -1,0 +1,25 @@
+NUTRIVIET — BẢN HTML (mở không cần cài đặt)
+============================================
+
+Không nhấp đúp vào index.html: trình duyệt sẽ chặn các file đi kèm và trang bị trắng.
+Hãy mở theo cách dưới đây.
+
+WINDOWS
+  1. Giải nén file zip (chuột phải → Extract All).
+  2. Nhấp đúp "Mo NutriViet (Windows).bat".
+     Nếu Windows hiện cảnh báo màu xanh, bấm "More info" → "Run anyway".
+  3. Trình duyệt tự mở http://localhost:8123. Giữ cửa sổ đen mở trong lúc dùng app.
+
+MAC
+  1. Giải nén file zip (nhấp đúp).
+  2. Chuột phải "Mo NutriViet (Mac).command" → Open → Open.
+     (Lần đầu, nếu máy hỏi cài "command line developer tools" thì bấm Install.)
+  3. Trình duyệt tự mở http://localhost:8123. Giữ cửa sổ Terminal mở trong lúc dùng app.
+
+CÁCH KHÁC (nếu máy đã cài Node.js)
+  Mở Terminal trong thư mục này rồi chạy:  npx serve .
+
+LƯU Ý
+  - Bản HTML không có máy chủ nên 3 tính năng AI dùng phương án dự phòng
+    (nhãn "Gợi ý tự động"). Mọi tính năng khác chạy đầy đủ.
+  - Dữ liệu lưu trong trình duyệt của máy bạn.

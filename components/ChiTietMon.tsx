@@ -12,6 +12,8 @@ import {
   CAC_KHAU_PHAN,
   dinhDuongKhauPhan,
   type Mon,
+  type Bua,
+  type KhauPhan,
 } from "@/lib/engine/dishes";
 import { so } from "@/lib/engine/explain";
 import { doiMon, goiYDoiMon } from "@/lib/engine/menu";
@@ -22,6 +24,8 @@ import {
   NHAN_MUC_TIEU,
   NHAN_THU,
 } from "@/lib/labels";
+import { giaiThichDuPhong } from "@/lib/ai/kiemTra";
+import type { PhongCach } from "@/lib/engine/menu";
 import { DANH_SACH_MON, timMon } from "@/lib/monAn";
 import type { HoSo } from "@/lib/profile";
 import { luuThucDon } from "@/lib/storage";
@@ -273,7 +277,21 @@ function ViSaoChon({
       setKq(await res.json());
       setTrangThai("xong");
     } catch {
-      setTrangThai("loi");
+      // Không gọi được máy chủ → câu giải thích ghép từ số liệu, ngay trên trình duyệt
+      const mon = timMon(yeuCau.monId);
+      if (!mon) return setTrangThai("loi");
+      setKq({
+        nguon: "du_phong",
+        cau: giaiThichDuPhong({
+          mon,
+          khauPhan: yeuCau.khauPhan as KhauPhan,
+          bua: yeuCau.bua as Bua,
+          kcalBua: yeuCau.kcalBua,
+          phongCach: yeuCau.phongCach as PhongCach,
+          tagUuTien: yeuCau.tagUuTien,
+        }),
+      });
+      setTrangThai("xong");
     }
   }
 

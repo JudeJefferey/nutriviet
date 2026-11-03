@@ -29,6 +29,7 @@ Mở http://localhost:3000 (bật chế độ xem điện thoại trong trình d
 | `npm run test:e2e` | Chạy test trình duyệt (Playwright) — cần `npm run build` trước. Máy mới cài trình duyệt một lần: `npx playwright install chromium` |
 | `npm run build` | Build bản chính thức (Vercel cũng chạy lệnh này) |
 | `npm run lint` | Kiểm tra lỗi viết code |
+| `npm run xuat-html` | Xuất app thành thư mục HTML tĩnh `out/` (xem bên dưới) |
 
 ### Bật tính năng AI (không bắt buộc)
 
@@ -39,6 +40,18 @@ App vẫn chạy đầy đủ khi **không có** API key — các tính năng AI
 3. Chạy lại `npm run dev`. Nhãn "Gợi ý bởi AI" sẽ xuất hiện thay cho "Gợi ý tự động".
 
 `.env.local` đã nằm trong `.gitignore` — **không bao giờ commit key**. Key chỉ được dùng ở máy chủ (`app/api/ai/...`), không bao giờ gửi xuống trình duyệt.
+
+### Xuất bản HTML (mở không cần cài đặt)
+
+```bash
+npm run xuat-html
+```
+
+Tạo thư mục `out/` chứa app dạng HTML tĩnh, kèm file mở nhanh `Mo NutriViet (Windows).bat` / `Mo NutriViet (Mac).command` và `HUONG-DAN.txt`. Nén thư mục `out/` thành zip để gửi cho người khác.
+
+- **Không nhấp đúp `index.html`**: trình duyệt chặn file đi kèm khi mở trực tiếp từ ổ cứng. Hãy dùng file mở nhanh (nó chạy một máy chủ nhỏ tại http://localhost:8123).
+- Bản HTML không có máy chủ nên 3 tính năng AI tự dùng phương án dự phòng ngay trên trình duyệt.
+- Sau khi xuất, chạy lại `npm run build` nếu muốn dùng `npm start` hoặc `npm run test:e2e`.
 
 ### Xóa dữ liệu để làm lại từ đầu
 
