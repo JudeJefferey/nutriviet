@@ -174,3 +174,18 @@ describe("storage — nhắc khi sắp mất món đã đổi", () => {
     ).toBe(false);
   });
 });
+
+import { xoaToanBoDuLieu } from "./storage";
+
+describe("storage — xóa toàn bộ dữ liệu", () => {
+  it("xóa hết khóa nutriviet., giữ dữ liệu của trang khác", () => {
+    const kho = taoKhoGia();
+    luuHoSo(draftThanhHoSo(draft)!, kho);
+    themMonDaAn("2026-11-01", monAn, kho);
+    luuCaiDat({ cheDoDonGian: true }, kho);
+    kho.setItem("trang-khac", "giu-nguyen");
+    xoaToanBoDuLieu(kho);
+    expect([...kho.duLieu.keys()]).toEqual(["trang-khac"]);
+    expect(docHoSo(kho)).toBeNull();
+  });
+});

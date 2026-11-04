@@ -174,3 +174,47 @@ export function buaKeTiep(
   );
   return ngayThucDon.bua.find((b) => !buaDaGhi.has(b.bua)) ?? null;
 }
+
+// ─────────────────────────────────────────────
+// Lịch sử các ngày trước (chỉ để xem)
+// ─────────────────────────────────────────────
+export interface NgayLichSu {
+  ngay: string; // "YYYY-MM-DD"
+  tong: DinhDuong;
+  nuoc: number;
+  mon: MonDaAn[];
+}
+
+/**
+ * Các ngày TRƯỚC hôm nay có ghi chép (có món hoặc có nước), mới nhất ở trên,
+ * xét trong `soNgay` ngày gần nhất. Ngày trống thì bỏ qua.
+ */
+export function lichSuNgay(
+  nhatKy: NhatKy,
+  homNay: string,
+  soNgay: number,
+): NgayLichSu[] {
+  const kq: NgayLichSu[] = [];
+  for (let k = 1; k <= soNgay; k++) {
+    const ngay = congNgay(homNay, -k);
+    const n = nhatKy[ngay];
+    if (!n || (n.mon.length === 0 && n.nuoc === 0)) continue;
+    kq.push({ ngay, tong: tongNgay(n), nuoc: n.nuoc, mon: n.mon });
+  }
+  return kq;
+}
+
+/** Calo đã ăn của `soNgay` ngày gần nhất (kể cả hôm nay), cũ → mới, ngày không ghi = 0 — cho biểu đồ cột. */
+export function caloCacNgayGanNhat(
+  nhatKy: NhatKy,
+  homNay: string,
+  soNgay: number,
+): { ngay: string; kcal: number; coGhi: boolean }[] {
+  const kq = [];
+  for (let k = soNgay - 1; k >= 0; k--) {
+    const ngay = congNgay(homNay, -k);
+    const n = nhatKy[ngay];
+    kq.push({ ngay, kcal: tongNgay(n).kcal, coGhi: !!n && n.mon.length > 0 });
+  }
+  return kq;
+}

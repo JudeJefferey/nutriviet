@@ -22,3 +22,9 @@ body {
     Arial,
     sans-serif;
 }
+
+/* Viền nổi khi dùng bàn phím (Tab) — giúp biết đang ở nút nào; chuột/chạm thì không hiện */
+:focus-visible {
+  outline: 3px solid #059669;
+  outline-offset: 2px;
+}

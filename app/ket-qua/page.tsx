@@ -175,7 +175,7 @@ function KetQua({ hoSo }: { hoSo: HoSo }) {
                   onChange={(e) =>
                     luuHoSo({ ...hoSo, tiLeDieuChinh: Number(e.target.value) })
                   }
-                  className="mt-2 w-full accent-emerald-600"
+                  className="mt-1 h-11 w-full cursor-pointer accent-emerald-600"
                 />
                 <div className="flex justify-between text-xs text-gray-500">
                   <span>{so(gioiHan.toiThieu * 100)}%</span>

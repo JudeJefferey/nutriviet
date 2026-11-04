@@ -63,7 +63,7 @@ function QuayLai() {
   return (
     <Link
       href={ngay !== null ? `/thuc-don?ngay=${ngay}` : "/thuc-don"}
-      className="-mb-2 text-sm text-gray-600"
+      className="-mb-2 inline-flex min-h-11 items-center self-start text-sm text-gray-600"
     >
       ← Thực đơn
     </Link>

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ChonHoSoMau } from "@/components/ChonHoSoMau";
+import { XoaDuLieu } from "@/components/XoaDuLieu";
 import { DangTai, KhungTrang, NutLienKet } from "@/components/ui";
 import { DANH_SACH_DI_UNG } from "@/lib/config";
 import { so } from "@/lib/engine/explain";
@@ -137,6 +138,7 @@ function NoiDungHoSo({ h }: { h: HoSo }) {
           Xem kết quả
         </NutLienKet>
         <ChonHoSoMau coHoSo />
+        <XoaDuLieu />
       </div>
     </KhungTrang>
   );
@@ -164,11 +166,15 @@ function CongTacDonGian({ hoSo }: { hoSo: HoSo }) {
         aria-label="Chế độ Đơn giản"
         disabled={doAnToan}
         onClick={() => luuCaiDat({ cheDoDonGian: !cheDoDonGian })}
-        className={`relative h-7 w-12 shrink-0 rounded-full transition ${bat ? "bg-emerald-600" : "bg-gray-300"} disabled:opacity-60`}
+        className="group flex h-11 w-14 shrink-0 items-center justify-center rounded-full disabled:opacity-60"
       >
         <span
-          className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${bat ? "left-[1.375rem]" : "left-0.5"}`}
-        />
+          className={`relative h-7 w-12 rounded-full transition ${bat ? "bg-emerald-600" : "bg-gray-300"}`}
+        >
+          <span
+            className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${bat ? "left-[1.375rem]" : "left-0.5"}`}
+          />
+        </span>
       </button>
     </section>
   );

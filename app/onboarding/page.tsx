@@ -102,7 +102,7 @@ function FormOnboarding({ hoSoCu }: { hoSoCu: HoSo | null }) {
           <button
             type="button"
             onClick={() => chuyenBuoc(buoc - 1)}
-            className="shrink-0 rounded-full px-2 py-1 text-lg text-gray-600"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg text-gray-600"
             aria-label="Quay lại"
           >
             ←
@@ -111,7 +111,7 @@ function FormOnboarding({ hoSoCu }: { hoSoCu: HoSo | null }) {
           <button
             type="button"
             onClick={() => router.push(hoSoCu ? "/ket-qua" : "/")}
-            className="shrink-0 rounded-full px-2 py-1 text-lg text-gray-600"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg text-gray-600"
             aria-label="Quay lại"
           >
             ←

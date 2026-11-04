@@ -210,3 +210,72 @@ test("Hồ sơ tiểu đường: có ghi chú bác sĩ ở trang Thực đơn", 
     page.getByText("không thay thế chỉ định của bác sĩ"),
   ).toBeVisible();
 });
+
+test("Lịch sử: hiện các ngày trước có ghi chép, ẩn số calo khi bật chế độ Đơn giản", async ({
+  page,
+}) => {
+  await datHoSo(page, hoSoMau("giam-mo"));
+  // Ghi sẵn nhật ký hôm qua
+  await page.evaluate(() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    const homQua = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    localStorage.setItem(
+      "nutriviet.nhatKy",
+      JSON.stringify({
+        [homQua]: {
+          mon: [
+            {
+              id: "a",
+              monId: "pho-bo",
+              khauPhan: "vua",
+              bua: "sang",
+              ngoaiKeHoach: false,
+              dinhDuong: { kcal: 450, protein: 25, carb: 60, fat: 12 },
+            },
+          ],
+          nuoc: 5,
+        },
+      }),
+    );
+  });
+  await page.goto("/hom-nay");
+  await page.getByRole("link", { name: "Xem các ngày trước" }).click();
+  await expect(page).toHaveURL(/lich-su/);
+  await expect(page.locator("main:visible")).toContainText(
+    "450 kcal · 1 món · 5 ly nước",
+  );
+  await page.locator("main:visible details summary").first().click();
+  await expect(page.locator("main:visible")).toContainText("Phở bò");
+
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "nutriviet.caiDat",
+      JSON.stringify({ cheDoDonGian: true }),
+    ),
+  );
+  await page.reload();
+  await expect(page.locator("main:visible")).toContainText("1 món · 5 ly nước");
+  await expect(page.locator("main:visible")).not.toContainText("kcal");
+});
+
+test("Xóa toàn bộ dữ liệu: phải xác nhận, xóa xong về trang chủ", async ({
+  page,
+}) => {
+  await datHoSo(page, hoSoMau("giam-mo"));
+  await page.goto("/ho-so");
+  await nut(page, "Xóa toàn bộ dữ liệu").click();
+  await nut(page, "Hủy").click(); // bấm Hủy thì chưa xóa gì
+  expect(
+    await page.evaluate(() => localStorage.getItem("nutriviet.hoSo")),
+  ).not.toBeNull();
+
+  await nut(page, "Xóa toàn bộ dữ liệu").click();
+  await nut(page, "Xóa hết").click();
+  await expect(page.getByRole("link", { name: "Bắt đầu" })).toBeVisible();
+  expect(
+    await page.evaluate(() =>
+      Object.keys(localStorage).filter((k) => k.startsWith("nutriviet.")),
+    ),
+  ).toEqual([]);
+});

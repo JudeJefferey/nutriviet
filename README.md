@@ -55,7 +55,7 @@ Tạo thư mục `out/` chứa app dạng HTML tĩnh, kèm file mở nhanh `Mo N
 
 ### Xóa dữ liệu để làm lại từ đầu
 
-Dữ liệu nằm trong trình duyệt: F12 → **Application** → **Local Storage** → `http://localhost:3000` → xóa các mục bắt đầu bằng `nutriviet.`
+Vào trang **Hồ sơ** → **"Xóa toàn bộ dữ liệu"** → **"Xóa hết"**. (Hoặc F12 → **Application** → **Local Storage** → xóa các mục bắt đầu bằng `nutriviet.`)
 
 ---
 
@@ -69,7 +69,8 @@ app/                  các trang + API routes
   thuc-don/           thực đơn 7 ngày, 3 phong cách
   mon/[id]/           chi tiết món, Đổi món, "Vì sao chọn món này?"
   hom-nay/            calo còn lại, nước, ghi món, "Lỡ ăn rồi", Nhập nhanh
-  ho-so/              xem/sửa hồ sơ, chế độ Đơn giản, hồ sơ mẫu
+  lich-su/            xem lại các ngày trước (chỉ xem)
+  ho-so/              xem/sửa hồ sơ, chế độ Đơn giản, hồ sơ mẫu, xóa toàn bộ dữ liệu
   api/ai/             3 API route gọi AI (chạy ở máy chủ)
 components/           giao diện dùng lại
 lib/

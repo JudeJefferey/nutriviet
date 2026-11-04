@@ -19,7 +19,8 @@ export function ThanhDieuHuong() {
         {MUC.map((m) => {
           const dangO =
             duongDan.startsWith(m.href) ||
-            (m.href === "/thuc-don" && duongDan.startsWith("/mon"));
+            (m.href === "/thuc-don" && duongDan.startsWith("/mon")) ||
+            (m.href === "/hom-nay" && duongDan.startsWith("/lich-su"));
           return (
             <li key={m.href} className="flex-1">
               <Link

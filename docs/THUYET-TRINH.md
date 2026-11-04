@@ -11,7 +11,7 @@ NutriViet giúp sinh viên **ăn lành mạnh bằng món Việt với ngân sá
 1. Hỏi 5 bước (an toàn → cơ thể → vận động → mục tiêu → thói quen ăn).
 2. **Tính** lượng năng lượng và dinh dưỡng cần mỗi ngày, có giải thích từng bước.
 3. Gợi ý **thực đơn 7 ngày** từ danh sách món Việt, theo 3 phong cách: Cân bằng / High-protein / Tiết kiệm.
-4. Trang **Hôm nay**: ghi món đã ăn, đếm nước, "Lỡ ăn rồi" mà không phán xét.
+4. Trang **Hôm nay**: ghi món đã ăn, đếm nước, "Lỡ ăn rồi" mà không phán xét; xem lại **các ngày trước**.
 5. **AI** giúp nhập món bằng câu tự nhiên, giải thích vì sao chọn món, và làm thực đơn đa dạng hơn.
 
 ## 2. Ba nguyên tắc thiết kế (điểm nhấn khi thuyết trình)
@@ -118,8 +118,8 @@ Hiện là **số ước lượng** (đánh dấu `verified: false` và có ghi 
 Chỉ trong trình duyệt của người dùng (`localStorage`), không có tài khoản hay database máy chủ.
 
 **Làm sao biết app đúng?**
-- **217 unit test** (Vitest) cho toàn bộ engine, AI và lưu trữ, gồm các ca tính tay: `npm test`.
-- **8 test trình duyệt** (Playwright) bấm như người dùng thật trên màn hình điện thoại: `npm run test:e2e`.
+- **221 unit test** (Vitest) cho toàn bộ engine, AI và lưu trữ, gồm các ca tính tay: `npm test`.
+- **10 test trình duyệt** (Playwright) bấm như người dùng thật trên màn hình điện thoại: `npm run test:e2e`.
 
 **Vì sao người dưới 18 tuổi / mang thai không thấy số calo?**
 Công thức BMR được xây cho người lớn; khi mang thai cơ thể cần nhiều hơn TDEE; và với người có vấn đề ăn uống, việc đếm calo có thể gây hại. Theo nguyên tắc "an toàn thắng mục tiêu", app chỉ gợi ý ăn cân bằng và khuyên gặp chuyên gia.

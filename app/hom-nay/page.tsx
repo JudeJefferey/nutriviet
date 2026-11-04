@@ -333,7 +333,7 @@ function HomNay({ hoSo }: { hoSo: HoSo }) {
                     <button
                       type="button"
                       onClick={() => xoaMonDaAn(homNay, m.id)}
-                      className="text-sm text-gray-500 underline"
+                      className="-mr-2 min-h-11 min-w-11 px-2 text-sm text-gray-500 underline"
                       aria-label={`Xóa ${timMon(m.monId)?.name ?? "món"}`}
                     >
                       Xóa
@@ -343,6 +343,12 @@ function HomNay({ hoSo }: { hoSo: HoSo }) {
               </ul>
             )}
           </section>
+          <Link
+            href="/lich-su"
+            className="flex min-h-11 items-center justify-center text-sm font-medium text-emerald-700 underline"
+          >
+            Xem các ngày trước
+          </Link>
         </div>
       </div>
     </KhungTrang>

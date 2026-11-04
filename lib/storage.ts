@@ -293,3 +293,17 @@ export function coThucDonDaDoi(raw: string | null, hoSo: HoSo): boolean {
   const t = phanTichThucDonDaLuu(raw, hoSo);
   return !!t && Object.keys(t.theoPhongCach).length > 0;
 }
+
+/** Xóa TOÀN BỘ dữ liệu NutriViet trên máy này (chỉ các khóa "nutriviet.", không đụng trang khác). */
+export function xoaToanBoDuLieu(kho: KhoLuuTru | null = khoMacDinh()): void {
+  if (!kho) return;
+  for (const khoa of [
+    KHOA_HO_SO,
+    KHOA_THUC_DON,
+    KHOA_PHONG_CACH,
+    KHOA_NHAT_KY,
+    KHOA_CAI_DAT,
+  ])
+    kho.removeItem(khoa);
+  baoThayDoi();
+}

@@ -195,3 +195,7 @@ export const SO_MON_GAN_TEN = 3; // AI không nhận ra món → hiện 3 món g
 // Vượt giới hạn → vẫn trả kết quả bằng phương án dự phòng, chỉ không gọi AI.
 export const AI_GIOI_HAN_SO_LAN = 20; // tối đa 20 lần gọi AI...
 export const AI_GIOI_HAN_CUA_SO_MS = 10 * 60 * 1000; // ...trong mỗi 10 phút
+
+// Trang "Lịch sử"
+export const SO_NGAY_LICH_SU = 30; // hiện tối đa 30 ngày gần nhất có ghi chép
+export const SO_NGAY_BIEU_DO = 7; // biểu đồ cột: 7 ngày gần nhất

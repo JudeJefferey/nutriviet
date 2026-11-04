@@ -245,3 +245,36 @@ describe("buaKeTiep", () => {
     expect(buaKeTiep(undefined, [])).toBeNull();
   });
 });
+
+import { caloCacNgayGanNhat, lichSuNgay } from "./tracking";
+
+describe("lichSuNgay / caloCacNgayGanNhat", () => {
+  const nk: NhatKy = {
+    "2026-11-04": ngay(500), // hôm nay — không thuộc lịch sử
+    "2026-11-03": ngay(600, 700),
+    "2026-11-02": { mon: [], nuoc: 0 }, // ngày trống → bỏ qua
+    "2026-11-01": { mon: [], nuoc: 4 }, // chỉ uống nước → vẫn hiện
+    "2026-09-01": ngay(900), // quá xa
+  };
+
+  it("chỉ các ngày trước hôm nay có ghi chép, mới nhất ở trên", () => {
+    const ls = lichSuNgay(nk, "2026-11-04", 30);
+    expect(ls.map((x) => x.ngay)).toEqual(["2026-11-03", "2026-11-01"]);
+    expect(ls[0].tong.kcal).toBe(1300);
+    expect(ls[1].nuoc).toBe(4);
+  });
+
+  it("giới hạn số ngày xét", () => {
+    expect(lichSuNgay(nk, "2026-11-04", 1).map((x) => x.ngay)).toEqual([
+      "2026-11-03",
+    ]);
+  });
+
+  it("biểu đồ 3 ngày: cũ → mới, có hôm nay, ngày không ghi = 0", () => {
+    expect(caloCacNgayGanNhat(nk, "2026-11-04", 3)).toEqual([
+      { ngay: "2026-11-02", kcal: 0, coGhi: false },
+      { ngay: "2026-11-03", kcal: 1300, coGhi: true },
+      { ngay: "2026-11-04", kcal: 500, coGhi: true },
+    ]);
+  });
+});

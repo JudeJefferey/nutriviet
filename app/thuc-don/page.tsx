@@ -128,7 +128,7 @@ function ThucDon({ hoSo }: { hoSo: HoSo }) {
             aria-selected={i === ngayChon}
             aria-label={NHAN_THU[i]}
             onClick={() => setNgayChon(i)}
-            className={`rounded-lg py-2 text-sm font-medium ${
+            className={`min-h-11 rounded-lg py-2 text-sm font-medium ${
               i === ngayChon
                 ? "bg-emerald-600 text-white"
                 : "bg-gray-100 text-gray-700"
