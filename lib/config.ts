@@ -199,3 +199,10 @@ export const AI_GIOI_HAN_CUA_SO_MS = 10 * 60 * 1000; // ...trong mỗi 10 phút
 // Trang "Lịch sử"
 export const SO_NGAY_LICH_SU = 30; // hiện tối đa 30 ngày gần nhất có ghi chép
 export const SO_NGAY_BIEU_DO = 7; // biểu đồ cột: 7 ngày gần nhất
+
+// ─────────────────────────────────────────────
+// Nhập số liệu món từ file CSV (npm run nhap-mon)
+// ─────────────────────────────────────────────
+export const SO_MON_TOI_THIEU = 10; // SPEC mục 5: 10–15 món
+export const SO_MON_TOI_DA = 15;
+export const LECH_KCAL_TOI_DA = 0.1; // 4×đạm + 4×tinh bột + 9×béo được lệch tối đa 10% so với kcal ghi

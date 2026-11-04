@@ -143,12 +143,11 @@ function ThongTinMon({ mon, anSo }: { mon: Mon; anSo: boolean }) {
               })}
             </tbody>
           </table>
-          {!mon.verified && (
-            <p className="px-4 py-3 text-xs text-gray-500">
-              Số liệu ước lượng, đang được nhóm kiểm tra lại theo Bảng thành
-              phần thực phẩm Việt Nam.
-            </p>
-          )}
+          <p className="px-4 py-3 text-xs text-gray-500">
+            {mon.verified
+              ? `Số liệu đã được nhóm kiểm tra · Nguồn: ${mon.source}`
+              : "Số liệu ước lượng, đang được nhóm kiểm tra lại theo Bảng thành phần thực phẩm Việt Nam."}
+          </p>
         </section>
       )}
     </>

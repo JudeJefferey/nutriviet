@@ -58,6 +58,8 @@ function ThucDon({ hoSo }: { hoSo: HoSo }) {
   const { anSo } = useAnSoLieu(hoSo); // chế độ Đơn giản hoặc tầng 1: ẩn số liệu
 
   // Gợi ý nới bộ lọc khi có ngày chưa đủ món: lấy lý do loại nhiều món nhất (trừ lý do an toàn)
+  // Số món còn dùng số liệu ước lượng (chưa được nhóm kiểm tra)
+  const soMonUocLuong = DANH_SACH_MON.filter((m) => !m.verified).length;
   const soNgayThieu = thucDon.ngay.filter((n) => n.bua.length === 0).length;
   const dem = demLyDoLoai(DANH_SACH_MON, boLoc);
   const lyDoChinh = (Object.entries(dem) as [LyDoLoai, number][])
@@ -257,8 +259,9 @@ function ThucDon({ hoSo }: { hoSo: HoSo }) {
       )}
 
       <p className="text-xs text-gray-500">
-        Bấm vào món để xem chi tiết hoặc đổi món. Số liệu dinh dưỡng đang được
-        nhóm kiểm tra lại theo Bảng thành phần thực phẩm Việt Nam.
+        Bấm vào món để xem chi tiết hoặc đổi món.
+        {soMonUocLuong > 0 &&
+          ` Có ${soMonUocLuong}/${DANH_SACH_MON.length} món đang dùng số liệu ước lượng, nhóm đang kiểm tra lại theo Bảng thành phần thực phẩm Việt Nam.`}
       </p>
     </KhungTrang>
   );

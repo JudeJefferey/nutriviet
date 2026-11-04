@@ -34,7 +34,8 @@ describe("data/dishes.json — đúng schema SPEC mục 5", () => {
   it.each(DANH_SACH_MON.map((m) => [m.id, m] as [string, Mon]))(
     "%s đúng schema",
     (_, m) => {
-      expect(m.verified).toBe(false); // số liệu mẫu, nhóm sẽ kiểm tra lại
+      // Món đã kiểm tra (verified: true) bắt buộc phải ghi nguồn số liệu
+      if (m.verified) expect(m.source?.trim()).toBeTruthy();
       expect(m.meal.length).toBeGreaterThan(0);
       m.meal.forEach((b) =>
         expect(["sang", "trua", "toi", "phu"]).toContain(b),

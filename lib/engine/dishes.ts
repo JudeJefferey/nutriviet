@@ -30,6 +30,8 @@ export interface Mon {
   style_tags: ("high_protein" | "tiet_kiem" | "nhanh_15p")[];
   ingredients: string[];
   verified: boolean;
+  /** Nguồn số liệu khi đã kiểm tra, vd "Bảng thành phần thực phẩm VN 2007 + công thức nhóm" */
+  source?: string;
 }
 
 /** Dinh dưỡng của món theo khẩu phần = số liệu phần "vừa" × hệ số khẩu phần (làm tròn). */

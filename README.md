@@ -29,6 +29,8 @@ Mở http://localhost:3000 (bật chế độ xem điện thoại trong trình d
 | `npm run test:e2e` | Chạy test trình duyệt (Playwright) — cần `npm run build` trước. Máy mới cài trình duyệt một lần: `npx playwright install chromium` |
 | `npm run build` | Build bản chính thức (Vercel cũng chạy lệnh này) |
 | `npm run lint` | Kiểm tra lỗi viết code |
+| `npm run nhap-mon` | Nhập số liệu món từ `data/mon-an.csv` vào database, có kiểm tra lỗi (xem [`docs/HUONG-DAN-NHAP-SO-LIEU.md`](docs/HUONG-DAN-NHAP-SO-LIEU.md)) — cần Node.js 22.18 trở lên |
+| `npm run xuat-csv` | Tạo lại `data/mon-an.csv` từ database hiện tại |
 | `npm run xuat-html` | Xuất app thành thư mục HTML tĩnh `out/` (xem bên dưới) |
 
 ### Bật tính năng AI (không bắt buộc)
@@ -80,7 +82,8 @@ lib/
   storage.ts          đọc/ghi localStorage
   profile.ts          hồ sơ người dùng, kiểm tra từng bước onboarding
   hoSoMau.ts          3 hồ sơ mẫu để demo
-data/dishes.json      database 15 món Việt mẫu
+data/dishes.json      database 15 món Việt mẫu (đọc bởi app)
+data/mon-an.csv       cùng dữ liệu dạng bảng — nhóm sửa bằng Excel rồi chạy npm run nhap-mon
 e2e/                  test trình duyệt (Playwright)
 docs/THUYET-TRINH.md  tài liệu chuẩn bị thuyết trình
 ```
@@ -156,7 +159,7 @@ Mỗi địa chỉ mạng gọi AI tối đa 20 lần / 10 phút (`lib/ai/gioiHa
 
 ## Giới hạn hiện tại
 
-- **Số liệu món là ước lượng** (`"verified": false`). Nhóm sẽ thay bằng số liệu theo Bảng thành phần thực phẩm Việt Nam.
+- **Số liệu món là ước lượng** (`"verified": false`). Nhóm sẽ thay bằng số liệu theo Bảng thành phần thực phẩm Việt Nam — làm theo [`docs/HUONG-DAN-NHAP-SO-LIEU.md`](docs/HUONG-DAN-NHAP-SO-LIEU.md).
 - **Chỉ có 15 món mẫu** nên:
   - Người cần nhiều calo (khoảng trên 2.200 kcal/ngày) có thể thấy vài ngày "chưa đủ món phù hợp".
   - Người dị ứng nước mắm hoặc ăn chay với ngân sách thấp có ít lựa chọn.

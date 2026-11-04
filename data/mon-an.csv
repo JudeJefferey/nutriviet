@@ -1,0 +1,16 @@
+﻿id,ten_mon,bua,kcal,dam_g,tinh_bot_g,beo_g,he_so_it,he_so_vua,he_so_nhieu,gia_vnd,phut_nau,an_ngoai,che_do,di_ung,nhan_suc_khoe,nhan_phong_cach,nguyen_lieu,nguon_so_lieu,verified
+pho-bo,Phở bò,sang|trua,450,25,60,12,0.7,1,1.3,40000,0,true,,nuoc_mam,nhieu_muoi|nhieu_purine,,"bánh phở|thịt bò|nước dùng xương bò|hành, rau thơm|nước mắm",,false
+banh-mi-trung,Bánh mì trứng,sang|phu,380,15,45,15,0.7,1,1.3,15000,10,true,khong_heo,gluten|trung|dau_nanh,,tiet_kiem|nhanh_15p,bánh mì|trứng gà|dưa leo|nước tương,,false
+xoi-dau-xanh,Xôi đậu xanh,sang,400,10,75,7,0.7,1,1.3,12000,0,true,chay|khong_heo,,,tiet_kiem,gạo nếp|đậu xanh|hành phi|muối,,false
+khoai-lang-luoc,Khoai lang luộc,sang|phu,200,3,46,0,0.7,1,1.3,10000,25,false,chay|khong_heo,,gi_thap,tiet_kiem,khoai lang,,false
+bun-bo-hue,Bún bò Huế,sang|trua,550,28,65,18,0.7,1,1.3,40000,0,true,,mam_tom|nuoc_mam,nhieu_muoi|nhieu_purine,,bún|thịt bò|giò heo|mắm ruốc|sả|nước mắm,,false
+com-tam-suon,Cơm tấm sườn,sang|trua|toi,600,30,75,20,0.7,1,1.3,35000,0,true,,nuoc_mam,nhieu_muoi,,cơm tấm|sườn heo nướng|đồ chua|nước mắm,,false
+com-ga-luoc,Cơm gà luộc,trua|toi,520,35,65,12,0.7,1,1.3,30000,40,false,khong_heo,nuoc_mam,,high_protein,cơm trắng|ức gà luộc|rau răm|nước mắm gừng,,false
+com-ca-kho-to,Cơm cá kho tộ,trua|toi,550,30,70,15,0.7,1,1.3,30000,45,false,khong_heo,ca|nuoc_mam,nhieu_muoi|nhieu_duong,high_protein,cơm trắng|cá basa|nước mắm|đường thắng|tiêu|canh rau,,false
+com-gao-lut-dau-hu,Cơm gạo lứt đậu hũ sốt cà,trua|toi,480,20,65,15,0.7,1,1.3,20000,20,false,chay|khong_heo,dau_nanh,gi_thap,tiet_kiem,cơm gạo lứt|đậu hũ|cà chua|hành lá|dầu ăn,,false
+com-rau-cu-xao-nam,Cơm rau củ xào nấm,trua|toi,450,12,70,13,0.7,1,1.3,18000,15,false,chay|khong_heo,dau_nanh,,tiet_kiem|nhanh_15p,cơm trắng|nấm rơm|cà rốt|bông cải|nước tương,,false
+bun-thit-nuong,Bún thịt nướng,trua|toi,500,25,65,15,0.7,1,1.3,35000,0,true,,nuoc_mam|dau_phong,nhieu_muoi|nhieu_duong,,bún|thịt heo nướng|rau sống|đậu phộng rang|nước mắm chua ngọt,,false
+goi-ga-bap-cai,Gỏi gà bắp cải,trua|toi,350,30,20,15,0.7,1,1.3,35000,20,false,khong_heo,nuoc_mam|dau_phong,gi_thap,high_protein,ức gà|bắp cải|cà rốt|rau răm|đậu phộng|nước mắm chua ngọt,,false
+com-trung-chien-rau-luoc,"Cơm trứng chiên, rau luộc",trua|toi,500,18,70,16,0.7,1,1.3,15000,15,false,khong_heo,trung|nuoc_mam,,tiet_kiem|nhanh_15p,cơm trắng|trứng gà|rau muống luộc|nước mắm,,false
+sua-chua-khong-duong,Sữa chua không đường,phu,90,5,8,4,0.7,1,1.3,8000,0,false,chay|khong_heo,sua,gi_thap,tiet_kiem|nhanh_15p,sữa chua không đường,,false
+chuoi,Chuối,sang|phu,110,1,27,0,0.7,1,1.3,5000,0,false,chay|khong_heo,,,tiet_kiem|nhanh_15p,chuối,,false

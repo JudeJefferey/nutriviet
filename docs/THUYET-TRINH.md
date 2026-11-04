@@ -109,7 +109,7 @@ Không thể. AI chỉ được thấy danh sách món **đã qua bộ lọc d�
 App vẫn chạy đủ. Mỗi tính năng AI đều có phương án dự phòng không cần AI. Nhãn trên giao diện cho biết đang dùng AI hay tự động.
 
 **Số liệu dinh dưỡng của món lấy ở đâu?**
-Hiện là **số ước lượng** (đánh dấu `verified: false` và có ghi chú trên giao diện). Nhóm sẽ thay bằng số liệu theo **Bảng thành phần thực phẩm Việt Nam**. Code có test tự kiểm tra: 4 × đạm + 4 × tinh bột + 9 × béo phải gần đúng tổng calo của món.
+Hiện là **số ước lượng** (đánh dấu `verified: false` và có ghi chú trên giao diện). Nhóm sẽ thay bằng số liệu theo **Bảng thành phần thực phẩm Việt Nam**. Nhóm nhập số liệu qua file Excel/CSV bằng lệnh `npm run nhap-mon`; công cụ tự kiểm tra 4 × đạm + 4 × tinh bột + 9 × béo phải gần đúng tổng calo, và bắt buộc khai dị ứng khi nguyên liệu có nước mắm, mắm tôm, đậu phộng. Món đã kiểm tra hiện nguồn số liệu ngay trên giao diện.
 
 **Sao có ngày báo "chưa đủ món"?**
 Đó là chủ ý: thay vì ép thực đơn sai mục tiêu, app nói thật. Với 15 món mẫu, người cần nhiều calo (> 2.200 kcal) hoặc có nhiều hạn chế sẽ gặp điều này. Hướng phát triển: bổ sung món.
@@ -118,7 +118,7 @@ Hiện là **số ước lượng** (đánh dấu `verified: false` và có ghi 
 Chỉ trong trình duyệt của người dùng (`localStorage`), không có tài khoản hay database máy chủ.
 
 **Làm sao biết app đúng?**
-- **221 unit test** (Vitest) cho toàn bộ engine, AI và lưu trữ, gồm các ca tính tay: `npm test`.
+- **239 unit test** (Vitest) cho toàn bộ engine, AI và lưu trữ, gồm các ca tính tay: `npm test`.
 - **10 test trình duyệt** (Playwright) bấm như người dùng thật trên màn hình điện thoại: `npm run test:e2e`.
 
 **Vì sao người dưới 18 tuổi / mang thai không thấy số calo?**
